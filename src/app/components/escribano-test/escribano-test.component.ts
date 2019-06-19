@@ -23,6 +23,7 @@ export class EscribanoTestComponent implements OnInit {
     this.escribanias = new Array<Escribania>();
     this.escribanos = new Array<Escribano>();
     this.obtenerEscribanias();
+    console.log(this.escribanias);
     this.mostrarHistoricos();
     console.log(this.escribanos);
    }
@@ -32,14 +33,14 @@ export class EscribanoTestComponent implements OnInit {
 
 
   public obtenerEscribanias() {
-    
+
     this.escribanoService.getEscribanias().subscribe(
       results => {
-        console.log(this.escribanos);
-        console.log("Resul  - "+results['escribanias']);
-        this.escribanias = results['escribanias'];
+        //console.log(this.escribanos);
+        this.escribanias = results;
+          console.log(this.escribanias);
         //this.escribanias = JSON.parse(results['escribanias']);
-        console.log(this.escribanias);
+        //console.log(this.escribanias);
       }
     );
   }

@@ -1,7 +1,7 @@
 <div class="row form-group">
   <label>Empresa Destino:</label>
   <select name="empresa" id="empresa" class="form-control" [(ngModel)]="escribano.escribania">
-    <option *ngFor="let empresa of escribanias" [ngValue]="empresa">{{escribania.nombre}}</option>
+    <option *ngFor="let escribania of escribanias" [ngValue]="escribania">{{escribania.nombre}}</option>
   </select>
 </div>
 
