@@ -1,0 +1,29 @@
+h1 {
+    font-size: 45px;
+}
+
+.resaltado {
+    color: #adc0ca;
+}
+
+
+/*Para agregar la linea.*/
+
+.cabecera {
+    border-bottom: #bec2c4 8px solid;
+}
+
+
+/*Efecto de sombra del texto.*/
+
+header {
+    text-shadow: 2px 2px 5px #000;
+}
+
+.menu {
+    text-shadow: 2px 2px 4px #000000;
+    /*Bordes redondeado a toda la botonera*/
+    -webkit-border-radius: 15px;
+    -moz-border-radius: 15px;
+    border-radius: 15px;
+}
