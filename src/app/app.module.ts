@@ -7,6 +7,12 @@ import { HeaderComponent } from './components/header/header.component';
 import { FooterComponent } from './components/footer/footer.component';
 import { HomeComponent } from './components/home/home.component';
 import { LoginComponent } from './components/login/login.component';
+//
+import {HttpClientModule} from '@angular/common/http';
+//
+import { LoginService } from './services/login.service';
+//Cuando se quiere trabajar con ngModel
+import { FormsModule } from '@angular/forms';
 
 @NgModule({
   declarations: [
@@ -18,9 +24,11 @@ import { LoginComponent } from './components/login/login.component';
   ],
   imports: [
     BrowserModule,
-    AppRoutingModule
+    AppRoutingModule,
+    FormsModule,
+    HttpClientModule
   ],
-  providers: [],
+  providers: [ LoginService ],
   bootstrap: [AppComponent]
 })
 export class AppModule { }

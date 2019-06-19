@@ -21,6 +21,7 @@ header {
 }
 
 .menu {
+    background-color: #adc0ca;
     text-shadow: 2px 2px 4px #000000;
     /*Bordes redondeado a toda la botonera*/
     -webkit-border-radius: 15px;
