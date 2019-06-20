@@ -8,13 +8,15 @@ import { EscribanoTestComponent } from './components/escribano-test/escribano-te
 import {DataTableModule} from "angular-6-datatable";
 import {HttpClientModule} from '@angular/common/http';
 import { FormsModule } from "@angular/forms";
+import { PerfilTestComponent } from './components/perfil-test/perfil-test.component';
 
 
 
 @NgModule({
   declarations: [
     AppComponent,
-    EscribanoTestComponent
+    EscribanoTestComponent,
+    PerfilTestComponent
   ],
   imports: [
     BrowserModule,
