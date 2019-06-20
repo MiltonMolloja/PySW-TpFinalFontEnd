@@ -9,9 +9,8 @@
 <form>
     <div>
       <div class="row form-group">
-        <textarea class="form-control" rows="5"
-         name="txtTexto" [(ngModel)]="escribano.matricula">
-        </textarea>
+        <input type="number"class="form-control" rows="5"
+        name="txtnumber" [(ngModel)]="escribano.matricula">
       </div>
       <div class="row form-group">
         <button type="button" class="btn btn-primary" (click)="enviarEscribano()">Enviar</button>
@@ -47,7 +46,7 @@
         <button type="button" class="btn btn-primary" (click)="elegirEscribano(item)">Sel</button>
       </td>
       <td>
-        <button type="button " class="btn btn-default" (click)="borrarEscribano(item.id)">Del</button>
+        <button type="button " class="btn btn-danger" (click)="borrarEscribano(item.id)">Del</button>
       </td>
     </tr>
   </tbody>

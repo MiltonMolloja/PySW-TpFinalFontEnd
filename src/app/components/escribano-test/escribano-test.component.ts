@@ -23,9 +23,7 @@ export class EscribanoTestComponent implements OnInit {
     this.escribanias = new Array<Escribania>();
     this.escribanos = new Array<Escribano>();
     this.obtenerEscribanias();
-    console.log(this.escribanias);
     this.mostrarHistoricos();
-    console.log(this.escribanos);
    }
 
   ngOnInit() {
@@ -91,6 +89,12 @@ export class EscribanoTestComponent implements OnInit {
   public elegirEscribano(escribano: Escribano) {
     //Creo una copia del mensaje recibido como parametro para NO modificarlo
     //ya que el parametro esta mostrandose por el binding en el datatable
+    
+
+
+    console.log("slet this" + this.escribano.escribania);
+    console.log("slet this" + this.escribano);
+    console.log("Selec - " + escribano);
     this.escribano = Object.assign(this.escribano, escribano);
     //se asigna a la propiedad mensaje.empresa el correspondiente en el
     //array de empresas, ya que este array es fuente de datos del <select>
