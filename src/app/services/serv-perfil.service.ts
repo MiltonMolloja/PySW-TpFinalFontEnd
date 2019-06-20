@@ -1,21 +1,16 @@
 import { Injectable } from '@angular/core';
 import { HttpClient, HttpHeaders } from '@angular/common/http';
 import { Observable } from 'rxjs';
-import { Usuario } from './../models/usuario';
+import { Perfil } from './../models/perfil' ;
 
 @Injectable({
   providedIn: 'root'
 })
-export class ServUsuarioService {
+export class ServPerfilService {
 
   constructor( private _http:HttpClient ) { }
 
-  public obtenerUsuarios():Observable<any>
-  {
-    return this._http.get('http://localhost/PySW-TpFinal/public/index.php/usuario');
-  }
-
-  public enviarUsuario( usuario:Usuario )
+  public enviarPerfil( perfil:Perfil )
   {
     const httpOption = {
       headers: new HttpHeaders
@@ -23,11 +18,11 @@ export class ServUsuarioService {
       'Content-Type': 'application/json'
       })
     }
-    let body = JSON.stringify(usuario);
+    let body = JSON.stringify(perfil);
     return this._http.post('http://localhost/PySW-TpFinal/public/index.php/usuario/new', body, httpOption);
   }
 
-  public modificarUsuario(usuario:Usuario)
+  public modificarPerfil(perfil:Perfil)
   {
     const httpOption = {
     headers: new HttpHeaders
@@ -35,12 +30,12 @@ export class ServUsuarioService {
       'Content-Type': 'application/json'
     })
     };
-    let body = JSON.stringify(usuario);
+    let body = JSON.stringify(perfil);
     //envio en el body el mensaje transformado en un JSON
-    return this._http.post('http://localhost/PySW-TpFinal/public/index.php/usuario/'+usuario.id+'/edit',body, httpOption);
+    return this._http.post('http://localhost/PySW-TpFinal/public/index.php/usuario/'+perfil.id+'/edit',body, httpOption);
   }
 
-  public borrarUsuario(usuario:Usuario)
+  public borrarPerfil(perfil:Perfil)
   {
     const httpOption = {
     headers: new HttpHeaders
@@ -48,9 +43,10 @@ export class ServUsuarioService {
       'Content-Type': 'application/json'
     })
     };
-    let body = JSON.stringify(usuario);
+    let body = JSON.stringify(perfil);
     //envio en el body el mensaje transformado en un JSON
-    return this._http.post('http://localhost/PySW-TpFinal/public/index.php/usuario/'+usuario.id+'/borrado',body, httpOption);
-  }
+    return this._http.post('http://localhost/PySW-TpFinal/public/index.php/usuario/'+perfil.id+'/borrado',body, httpOption);
+  } 
+  
 
 }
