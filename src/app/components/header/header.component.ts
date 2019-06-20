@@ -9,6 +9,8 @@ import { LoginService } from './../../services/login.service';
 })
 export class HeaderComponent implements OnInit {
 
+  tipos:Array<string> = [ "socio", "administrativo", "administrador", "gerente" ];
+
   constructor(public loginService: LoginService) { }
 
   ngOnInit() {

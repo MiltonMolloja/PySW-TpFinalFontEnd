@@ -15,15 +15,14 @@
                     </tr>
                 </thead>
                 <tbody>
-                    <tr>
-                        <th></th>
-                        <td></td>
-                        <td></td>
-                        <td></td>
-                        <th></th>
-                        <td></td>
-                        <td></td>
-                        <td></td>
+                    <tr *ngFor="let usuario of usuarios">
+                        <th> {{ usuario.id }} </th>
+                        <td> {{ usuario.username }} </td>
+                        <td> {{ usuario.email }} </td>
+                        <td> {{ usuario.tipo }} </td>
+                        <th> {{ usuario.perfil.nombres }} </th>
+                        <td> {{ usuario.perfil.apellidos }} </td>
+                        <td> {{ usuario.perfil.dni }} </td>
                     </tr>
                 </tbody>
             </table>

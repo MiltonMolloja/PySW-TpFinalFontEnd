@@ -23,6 +23,11 @@
                         {{loginService.userLogged.username}} (logout)
                         </a>
                     </li>
+                    <li class="nav-item" routerLinkActive="active">
+                        <a *ngIf="loginService.userLoggedIn && loginService.userLogged.tipo == tipos[3]  " [routerLink]="['administrador']" (click)="logout()">
+                        Administrador
+                        </a>
+                    </li>
                 </ul>
             </div>
         </nav>
