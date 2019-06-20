@@ -16,6 +16,12 @@ export class PerfilTestComponent implements OnInit {
     this.perfil = new Perfil();
     this.perfiles = new Array<Perfil>();
     this.mostrarHistoricos();
+    this.perfil.apellidos ="HOLA";
+    this.perfil.nombres = "Mundo";
+    this.perfil.fecha_Nac = new Date;
+    this.perfil.sexo = "XX";
+    this.perfil.estado = true;
+    console.log(this.perfil);
    }
 
   ngOnInit() {
@@ -66,14 +72,14 @@ export class PerfilTestComponent implements OnInit {
   }
 
   public enviarPerfil() {
-    this.perfil = new Perfil();
+    //this.perfil = new Perfil();
     this.perfil.apellidos ="HOLA";
     this.perfil.nombres = "Mundo";
+    //this.perfil.dni = 110;
     this.perfil.fecha_Nac = new Date;
     this.perfil.sexo = "XX";
     this.perfil.estado = true;
-
-     console.log("perfil enviar  " + this.perfil);
+////     console.log("perfil enviar  " + this.perfil);
     this.perfilService.sendPerfil(this.perfil)
       .subscribe(
         result => {
@@ -82,6 +88,9 @@ export class PerfilTestComponent implements OnInit {
         error => {
           alert("Error en el envio.");
         });
+    this.mostrarHistoricos();
+    //console.log("agregado correctamente.");
+    this.mostrarHistoricos();
   }
 
   public elegirPerfil(perfil: Perfil) {
