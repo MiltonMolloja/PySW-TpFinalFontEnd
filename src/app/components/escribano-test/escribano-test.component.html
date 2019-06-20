@@ -1,0 +1,59 @@
+<div class="row form-group">
+  <label>Empresa Destino:</label>
+  <select name="empresa" id="empresa" class="form-control" [(ngModel)]="escribano.escribania">
+    <option *ngFor="let escribania of escribanias" [ngValue]="escribania">{{escribania.nombre}}</option>
+  </select>
+</div>
+
+
+<form>
+    <div>
+      <div class="row form-group">
+        <input type="number"class="form-control" rows="5"
+        name="txtnumber" [(ngModel)]="escribano.matricula">
+      </div>
+      <div class="row form-group">
+        <button type="button" class="btn btn-primary" (click)="enviarEscribano()">Enviar</button>
+        <button type="button" class="btn btn-primary" (click)="actualizarEscribano()">Actualizar</button>
+      </div>
+    </div>
+  </form>
+
+<table class="table table-striped" [mfData]="escribanos" #mf="mfDataTable" [mfRowsOnPage]="5">
+  <thead>
+    <tr>
+      <th>
+        <mfDefaultSorter by="id">Id</mfDefaultSorter>
+      </th>
+      <th>
+        <mfDefaultSorter by="matricula">Matricula</mfDefaultSorter>
+      </th>
+      <th>
+        <mfDefaultSorter by="escribania.nombre">Universidad</mfDefaultSorter>
+      </th>
+      <th>
+        <mfDefaultSorter by="estado">estado</mfDefaultSorter>
+      </th>
+    </tr>
+  </thead>
+  <tbody>
+    <tr *ngFor="let item of mf.data">
+      <td>{{item.id}}</td>
+      <td>{{item.matricula}}</td>
+      <td>{{item.escribania.nombre}}</td>
+      <td>{{item.estado}}</td>
+      <td>
+        <button type="button" class="btn btn-primary" (click)="elegirEscribano(item)">Sel</button>
+      </td>
+      <td>
+        <button type="button " class="btn btn-danger" (click)="borrarEscribano(item.id)">Del</button>
+      </td>
+    </tr>
+  </tbody>
+  <tfoot>
+    <tr>
+      <td colspan="4">
+        <mfBootstrapPaginator [rowsOnPageSet]="[5,10,25]"></mfBootstrapPaginator>
+      </td>
+    </tr>
+  </tfoot>

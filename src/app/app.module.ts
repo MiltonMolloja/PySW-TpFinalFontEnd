@@ -9,11 +9,14 @@ import { HomeComponent } from './components/home/home.component';
 import { LoginComponent } from './components/login/login.component';
 //
 import {HttpClientModule} from '@angular/common/http';
+import {DataTableModule} from "angular-6-datatable";
 //
 import { LoginService } from './services/login.service';
 //Cuando se quiere trabajar con ngModel
 import { FormsModule } from '@angular/forms';
 import { AdministradorComponent } from './components/administrador/administrador.component';
+import { EscribanoTestComponent } from './components/escribano-test/escribano-test.component';
+import { PerfilTestComponent } from './components/perfil-test/perfil-test.component';
 
 @NgModule({
   declarations: [
@@ -22,13 +25,16 @@ import { AdministradorComponent } from './components/administrador/administrador
     FooterComponent,
     HomeComponent,
     LoginComponent,
-    AdministradorComponent
+    AdministradorComponent,
+    EscribanoTestComponent,
+    PerfilTestComponent
   ],
   imports: [
     BrowserModule,
+    HttpClientModule,
     AppRoutingModule,
     FormsModule,
-    HttpClientModule
+    DataTableModule
   ],
   providers: [ LoginService ],
   bootstrap: [AppComponent]
