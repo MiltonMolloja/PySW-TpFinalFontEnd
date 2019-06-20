@@ -1,0 +1,30 @@
+<div class="row bg-dark text-center d-flex justify-content-center align-items-center py-2 cabecera">
+    <div class="col-12 col-sm-12 col-md-12 col-lg-4 col-xl-5">
+        <header>
+            <h1 class="font-weight-bold"><span class="resaltado">Colegio de Escribanos</span><small class="text-white"> de Jujuy</small></h1>
+        </header>
+    </div>
+    <div class="col-12 col-sm-12 col-md-12 col-lg-8 col-xl-7 ">
+        <nav class="navbar navbar-dark navbar-expand-sm font-weight-bolder menu">
+            <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarsExample03" aria-controls="navbarsExample03" aria-expanded="false" aria-label="Toggle navigation">
+            <span class="navbar-toggler-icon"></span>
+          </button>
+
+            <div class="collapse navbar-collapse " id="navbarsExample03">
+                <ul class="navbar-nav mx-auto  ">
+                    <li class="nav-item" routerLinkActive="active">
+                        <a class="nav-link" [routerLink]="['home']">Inicio</a>
+                    </li>
+                    <li class="nav-item" routerLinkActive="active">
+                        <a *ngIf="!loginService.userLoggedIn" [routerLink]="['login']">(Login)</a>
+                    </li>
+                    <li class="nav-item" routerLinkActive="active">
+                        <a *ngIf="loginService.userLoggedIn" [routerLink]="['login']" (click)="logout()">
+                        {{loginService.userLogged.username}} (logout)
+                        </a>
+                    </li>
+                </ul>
+            </div>
+        </nav>
+    </div>
+</div>

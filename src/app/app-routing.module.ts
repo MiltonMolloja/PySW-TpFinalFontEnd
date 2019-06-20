@@ -1,10 +1,14 @@
 import { NgModule } from '@angular/core';
 import { Routes, RouterModule } from '@angular/router';
-import { EscribanoTestComponent } from './components/escribano-test/escribano-test.component';
+//Agregando componentes
+import { HomeComponent } from './components/home/home.component' ;
+import { LoginComponent } from './components/login/login.component' ;
 
-const routes: Routes = [
-  {path: 'escribano', component: EscribanoTestComponent},
-  {path: '**', component: EscribanoTestComponent}
+const routes: Routes = 
+[
+  { path: '', component: HomeComponent },
+  { path: 'home', component: HomeComponent },
+  { path: 'login', component: LoginComponent }
 ];
 
 @NgModule({
