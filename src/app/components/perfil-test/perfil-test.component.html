@@ -1,3 +1,61 @@
-<p>
-  perfil-test works!
-</p>
+<br><br><br>
+<form>
+    <div>
+      <div class="row form-group">
+        <input type="number"class="form-control" rows="5"
+        name="txtnumber" [(ngModel)]="perfil.dni">
+      </div>
+      <div class="row form-group">
+        <button type="button" class="btn btn-primary" (click)="enviarPerfil()">Enviar</button>
+        <button type="button" class="btn btn-primary" (click)="actualizarPerfil()">Actualizar</button>
+      </div>
+    </div>
+  </form>
+
+<table class="table table-striped" [mfData]="perfiles" #mf="mfDataTable" [mfRowsOnPage]="5">
+  <thead>
+    <tr>
+      <th>
+        <mfDefaultSorter by="id">Id</mfDefaultSorter>
+      </th>
+      <th>
+        <mfDefaultSorter by="nombres">Nombres</mfDefaultSorter>
+      </th>
+      <th>
+        <mfDefaultSorter by="apellidos">apellidos</mfDefaultSorter>
+      </th>
+      <th>
+        <mfDefaultSorter by="dni">dni</mfDefaultSorter>
+      </th>
+      <th>
+        <mfDefaultSorter by="sexo">sexo</mfDefaultSorter>
+      </th>
+      <th>
+        <mfDefaultSorter by="estado">Estado</mfDefaultSorter>
+      </th>
+    </tr>
+  </thead>
+  <tbody>
+    <tr *ngFor="let item of mf.data">
+      <td>{{item.id}}</td>
+      <td>{{item.nombres}}</td>
+      <td>{{item.apellidos}}</td>
+      <td>{{item.dni}}</td>
+      <td>{{item.sexo}}</td>
+      <td>{{item.estado}}</td>
+
+      <td>
+        <button type="button" class="btn btn-primary" (click)="elegirPerfil(item)">Sel</button>
+      </td>
+      <td>
+        <button type="button " class="btn btn-danger" (click)="borrarPerfil(item.id)">Del</button>
+      </td>
+    </tr>
+  </tbody>
+  <tfoot>
+    <tr>
+      <td colspan="4">
+        <mfBootstrapPaginator [rowsOnPageSet]="[5,10,25]"></mfBootstrapPaginator>
+      </td>
+    </tr>
+  </tfoot>
