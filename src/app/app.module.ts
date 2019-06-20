@@ -13,6 +13,7 @@ import {HttpClientModule} from '@angular/common/http';
 import { LoginService } from './services/login.service';
 //Cuando se quiere trabajar con ngModel
 import { FormsModule } from '@angular/forms';
+import { AdministradorComponent } from './components/administrador/administrador.component';
 
 @NgModule({
   declarations: [
@@ -20,7 +21,8 @@ import { FormsModule } from '@angular/forms';
     HeaderComponent,
     FooterComponent,
     HomeComponent,
-    LoginComponent
+    LoginComponent,
+    AdministradorComponent
   ],
   imports: [
     BrowserModule,
