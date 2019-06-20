@@ -8,7 +8,7 @@ export class Perfil {
   estado: boolean;
 
   Perfil(id?: number, nombres?: string, apellidos?: string, dni?: number, fecha_Nac?: Date, sexo?: string, estado?: boolean) {
-    this.id = ;
+    this.id = id;
     this.nombres = nombres;
     this.apellidos = apellidos;
     this.dni = dni;

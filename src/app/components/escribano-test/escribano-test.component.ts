@@ -89,9 +89,6 @@ export class EscribanoTestComponent implements OnInit {
   public elegirEscribano(escribano: Escribano) {
     //Creo una copia del mensaje recibido como parametro para NO modificarlo
     //ya que el parametro esta mostrandose por el binding en el datatable
-
-
-
     console.log("slet this" + this.escribano.escribania);
     console.log("slet this" + this.escribano);
     console.log("Selec - " + escribano);
