@@ -1,4 +1,10 @@
 import { Component, OnInit } from '@angular/core';
+import { Usuario } from './../../models/usuario';
+import { Perfil } from './../../models/perfil';
+import { Escribano } from './../../models/escribano';
+import { Escribania } from './../../models/escribania' ;
+import { ServUsuarioService } from './../../services/serv-usuario.service';
+
 
 @Component({
   selector: 'app-administrador',
@@ -7,7 +13,11 @@ import { Component, OnInit } from '@angular/core';
 })
 export class AdministradorComponent implements OnInit {
 
-  constructor() { }
+
+  constructor( private usuarioService:ServUsuarioService ) 
+  {
+
+  }
 
   ngOnInit() {
   }
