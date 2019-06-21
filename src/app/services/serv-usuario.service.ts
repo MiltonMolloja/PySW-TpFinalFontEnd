@@ -15,8 +15,9 @@ export class ServUsuarioService {
     return this._http.get('http://localhost/PySW-TpFinal/public/index.php/usuario');
   }
 
-  public enviarUsuario( usuario )
+  public enviarUsuario( usuario:Usuario )
   {
+    console.log("Contenido del Usuario: " + usuario );
     const httpOption = {
       headers: new HttpHeaders
       ({
@@ -24,6 +25,7 @@ export class ServUsuarioService {
       })
     }
     let body = JSON.stringify(usuario);
+    console.log("Contenido del body: " + body);
     return this._http.post('http://localhost/PySW-TpFinal/public/index.php/usuario/new', body, httpOption);
   }
 

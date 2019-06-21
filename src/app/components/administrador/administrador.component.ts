@@ -19,13 +19,14 @@ export class AdministradorComponent implements OnInit {
   usuarios:Array<Usuario>;
   escribania:Escribania;
   escribanias:Array<Escribania>;
-
+  perfiles:Array<Perfil>;
   //
   tipos:Array<string> = [ "socio", "administrativo", "administrador", "gerente" ];
 
   //
   usuario:Usuario;
-
+  //
+  btnCopiar=false;
   constructor( private usuarioService:ServUsuarioService, private perfilService:ServPerfilService, private escribanoService:ServEscribanoService  ) 
   {
     //
@@ -34,9 +35,11 @@ export class AdministradorComponent implements OnInit {
     this.escribania = new Escribania();
     this.usuarios = new Array<Usuario>() ;
     this.escribanias = new Array<Escribania>() ;
+    this.perfiles = new Array<Perfil>() ;
 
     this.obtenerUsuarios();
     this.obtenerEscribanias();
+    this.obtenerPerfiles();
   }
 
   ngOnInit() {
@@ -66,6 +69,22 @@ export class AdministradorComponent implements OnInit {
       }
     );
   }///
+
+  //Obtiene los perfiles de la base de datos
+  obtenerPerfiles()
+  {
+    this.perfilService.obtenerPerfiles().subscribe
+    (
+      (resultados:any) =>
+      {
+        this.perfiles = resultados['perfiles'];
+      },
+      error =>
+      {
+        console.log("Error al recuperar perfiles.");
+      }     
+    );
+  }
 
   //Obtiene las escribanias registradas
   obtenerEscribanias()
@@ -115,7 +134,6 @@ export class AdministradorComponent implements OnInit {
   {
     if( form.valid == true )
     {
-      console.log(this.usuario.perfil.fecha_nac)
       this.usuario.estado=true;
       this.usuario.perfil.estado=true;
       if(this.usuario.tipo == "socio" )
@@ -130,6 +148,10 @@ export class AdministradorComponent implements OnInit {
           error=>
           { console.log("Error al enviar escribano"); } 
         );
+      }
+      else
+      {
+        this.usuario.escribano = null ;
       }
 
       this.perfilService.enviarPerfil(this.usuario.perfil).subscribe
@@ -152,10 +174,74 @@ export class AdministradorComponent implements OnInit {
         error =>
         { console.log("Error al enviar usuario"); }
       );
-
     }
-
   }//
 
+  //Copia el usuario seleccionado a los campos
+  copiarUser( usuario:Usuario )
+  {
+    this.btnCopiar = true;
+    this.inicializarUsuario();
+    this.usuario = Object.assign(this.usuario, usuario);
+    this.usuario.perfil = this.perfiles.find(function(item: Perfil) {
+      return item.id === usuario.perfil.id;
+      });  
+  }
+
+  //Aplica los cambios sobre el usuario
+  realizarCambios( form:NgForm)
+  {
+    if( form.valid == true )
+    {
+      if(this.usuario.tipo == "socio" )
+      {
+        this.escribanoService.modificarEscribano(this.usuario.escribano).subscribe
+        (
+          data1 => {
+            console.log("modificado correctamente escribano.")
+            return true;
+        },
+        error => 
+        {
+          console.error("Error al modificar escribano.");
+          console.log(error);
+          return false;
+        }
+        );
+      }
+
+      this.perfilService.modificarPerfil(this.usuario.perfil).subscribe
+      (
+        data2 => {
+          console.log("modificado correctamente perfil.")
+          return true;
+      },
+      error => 
+      {
+        console.error("Error al modificar perfil.");
+        console.log(error);
+        return false;
+      }
+      );
+
+      this.usuarioService.modificarUsuario(this.usuario).subscribe
+      (
+        data3 => {
+          console.log("modificado correctamente usuario.")
+          
+          this.obtenerUsuarios();
+          this.btnCopiar = false ;
+          this.inicializarUsuario();
+          return true;
+      },
+      error => 
+      {
+        console.error("Error al modificar usuario.");
+        console.log(error);
+        return false;
+      }
+      );
+    }
+  }//
 
 }

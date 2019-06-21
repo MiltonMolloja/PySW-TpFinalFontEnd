@@ -10,6 +10,11 @@ export class ServPerfilService {
 
   constructor( private _http:HttpClient ) { }
 
+  public obtenerPerfiles():Observable<any>
+  {
+    return this._http.get('http://localhost/PySW-TpFinal/public/index.php/perfil');
+  }
+
   public enviarPerfil( perfil:Perfil )
   {
     const httpOption = {

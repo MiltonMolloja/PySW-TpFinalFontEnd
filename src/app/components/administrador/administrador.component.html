@@ -110,7 +110,10 @@
                     </div>
                 </div>
             </div>
-            <button type="button" class="btn btn-success" (click)="enviarUsuario( formUsuario );">Prueba</button>
+            <div class="d-flex justify-content-center">
+                <button *ngIf="btnCopiar == false" type="button" class="btn btn-success" (click)="enviarUsuario( formUsuario );">Crear</button>
+                <button *ngIf="btnCopiar == true" type="button" class="btn btn-primary" (click)="realizarCambios( formUsuario );">Modificar</button>
+            </div>
         </form>
     </div>
 </div>
@@ -130,6 +133,7 @@
                         <th>Nombres</th>
                         <th>Apellidos</th>
                         <th>Doc</th>
+                        <th>Mod</th>
                     </tr>
                 </thead>
                 <tbody>
@@ -141,6 +145,7 @@
                         <th> {{ usuario.perfil.nombres }} </th>
                         <td> {{ usuario.perfil.apellidos }} </td>
                         <td> {{ usuario.perfil.dni }} </td>
+                        <td> <button class="btn btn-danger btn-sm" (click)="copiarUser( usuario );">Mod</button> </td>
                     </tr>
                 </tbody>
             </table>
