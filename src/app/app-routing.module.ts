@@ -5,6 +5,7 @@ import { HomeComponent } from './components/home/home.component' ;
 import { LoginComponent } from './components/login/login.component' ;
 import { EscribanoTestComponent } from './components/escribano-test/escribano-test.component';
 import { PerfilTestComponent } from './components/perfil-test/perfil-test.component';
+import { NavbarTipoTestComponent } from './components/navbar-tipo-test/navbar-tipo-test.component';
 
 const routes: Routes =
 [
@@ -13,6 +14,7 @@ const routes: Routes =
   { path: 'login', component: LoginComponent },
   { path: 'escribano', component: EscribanoTestComponent},
   { path: 'perfil', component: PerfilTestComponent},
+  { path: 'navbarTipo', component: NavbarTipoTestComponent},
   {path: '**', component: HomeComponent}
 ];
 

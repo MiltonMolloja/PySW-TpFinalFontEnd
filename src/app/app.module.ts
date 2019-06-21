@@ -17,6 +17,7 @@ import { FormsModule } from '@angular/forms';
 import { AdministradorComponent } from './components/administrador/administrador.component';
 import { EscribanoTestComponent } from './components/escribano-test/escribano-test.component';
 import { PerfilTestComponent } from './components/perfil-test/perfil-test.component';
+import { NavbarTipoTestComponent } from './components/navbar-tipo-test/navbar-tipo-test.component';
 
 @NgModule({
   declarations: [
@@ -27,7 +28,8 @@ import { PerfilTestComponent } from './components/perfil-test/perfil-test.compon
     LoginComponent,
     AdministradorComponent,
     EscribanoTestComponent,
-    PerfilTestComponent
+    PerfilTestComponent,
+    NavbarTipoTestComponent
   ],
   imports: [
     BrowserModule,
