@@ -12,12 +12,12 @@ export class PerfilService {
   constructor(private _http: HttpClient) { }
 
   getPerfiles(): Observable<any> {
-    return this._http.get('http://localhost:8080/PySW-TpFinal/public/index.php/perfil/');
+    return this._http.get('http://localhost/PySW-TpFinal/public/index.php/perfil/');
   }
 
   borrarPerfil(id: number){
     //utilizo el metodo delete de http que es el configurado en el deleteAction de Symfony
-    return this._http.delete(('http://localhost:8080/PySW-TpFinal/public/index.php/perfil/'+id));
+    return this._http.delete(('http://localhost/PySW-TpFinal/public/index.php/perfil/'+id));
   }
 
   public sendPerfil(perfil){
@@ -29,7 +29,7 @@ export class PerfilService {
       })
     }
     let body = JSON.stringify(perfil);
-    return this._http.post('http://localhost:8080/PySW-TpFinal/public/index.php/perfil/new', body,
+    return this._http.post('http://localhost/PySW-TpFinal/public/index.php/perfil/new', body,
     httpOption);
   }
 

@@ -14,16 +14,16 @@ export class EscribanoService {
   constructor(private _http: HttpClient) { }
 
   getEscribanias(): Observable<any> {
-    return this._http.get('http://localhost:8080/PySW-TpFinal/public/index.php/escribania/');
+    return this._http.get('http://localhost/PySW-TpFinal/public/index.php/escribania/');
   }
 
   getEscribanos(): Observable<any> {
-    return this._http.get('http://localhost:8080/PySW-TpFinal/public/index.php/escribano/');
+    return this._http.get('http://localhost/PySW-TpFinal/public/index.php/escribano/');
   }
 
   borrarEscribano(id: number){
     //utilizo el metodo delete de http que es el configurado en el deleteAction de Symfony
-    return this._http.delete(('http://localhost:8080/PySW-TpFinal/public/index.php/escribano/'+id));
+    return this._http.delete(('http://localhost/PySW-TpFinal/public/index.php/escribano/'+id));
   }
 
   public sendEscribano(escribano){
@@ -35,7 +35,7 @@ export class EscribanoService {
       })
     }
     let body = JSON.stringify(escribano);
-    return this._http.post('http://localhost:8080/PySW-TpFinal/public/index.php/escribano/new', body,
+    return this._http.post('http://localhost/PySW-TpFinal/public/index.php/escribano/new', body,
     httpOption);
   }
 
@@ -48,7 +48,7 @@ export class EscribanoService {
 
     let body = JSON.stringify(escribano);
     //envio en el body el moneda transformado en un JSON
-    return this._http.post('http://localhost:8080/PySW-TpFinal/public/index.php/escribano/'+escribano.id+'/edit',
+    return this._http.post('http://localhost/PySW-TpFinal/public/index.php/escribano/'+escribano.id+'/edit',
     body, httpOption);
   }
 }
