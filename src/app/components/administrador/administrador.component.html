@@ -1,5 +1,86 @@
 <div class="row">
     <div class="col-12">
+        <form>
+            <div class="form-group">
+                <label>Elija tipo de Usuario</label>
+                <select [(ngModel)]="usuario.tipo" name="tipo" class="form-control">
+                    <option value='' select >Elija uno</option>
+                    <option  *ngFor="let tipo of tipos" [ngValue]="tipo" >  {{ tipo }} </option>
+                </select>
+            </div>
+            <div *ngIf="usuario.tipo != '' ">
+                <fieldset>
+                    <legend>Datos de Usuario</legend>
+                    <div class="form-group">
+                        <label>Nombre de Usuario:</label>
+                        <input type="text">
+                    </div>
+                    <div class="form-group">
+                        <label>Password:</label>
+                        <input type="text">
+                    </div>
+                    <div class="form-group">
+                        <label>email:</label>
+                        <input type="text">
+                    </div>
+                </fieldset>
+                <fieldset>
+                    <legend>Datos de Perfil</legend>
+                    <div class="form-group">
+                        <label>Nombres:</label>
+                        <input type="text">
+                    </div>
+                    <div class="form-group">
+                        <label>Apellidos:</label>
+                        <input type="text">
+                    </div>
+                    <div class="form-group">
+                        <label>DNI:</label>
+                        <input type="text">
+                    </div>
+                    <div class="form-group">
+                        <label>Fecha de Nacimiento:</label>
+                        <input type="date">
+                    </div>
+                    <div class="form-group">
+                        <label>Sexo:</label>
+                        <select class="form-control">
+                            <option value='' select >Elija uno</option>
+                            <option value="femenino" >Femenino</option>
+                            <option value="masculino" >Masculino</option>
+                        </select>
+                    </div>
+                </fieldset>
+                <div *ngIf="usuario.tipo == 'socio' ">
+                    <fieldset>
+                        <legend>Datos Socio</legend>
+                        <div class="form-group">
+                            <label>Matricula:</label>
+                            <input type="text">
+                        </div>
+                        <div class="form-group">
+                            <label>Universidad de Egreso:</label>
+                            <input type="text">
+                        </div>
+                        <div class="form-group">
+                            <label>Escribania:</label>
+                            <select [(ngModel)]="usuario.escribano.escribania" name="escribania" id="id_escribania" class="form-control">
+                                <option value='' select >Seleccione...</option>
+                            </select>
+                        </div>
+                    </fieldset>
+                    <div class="d-flex justify-content-center">
+                        <button type="submit" class="btn btn-secondary">Enviar formulario</button>
+                    </div>
+                </div>
+            </div>
+        </form>
+    </div>
+</div>
+
+
+<div class="row">
+    <div class="col-12">
         <h5 class="text-center">Tabla de Usuarios</h5>
         <form>
             <table class="table table-striped">

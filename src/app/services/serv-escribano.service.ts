@@ -11,11 +11,11 @@ export class ServEscribanoService {
   constructor(private _http: HttpClient) { }
 
   getEscribanias(): Observable<any> {
-    return this._http.get('http://localhost:8080/PySW-TpFinal/public/index.php/escribania/');
+    return this._http.get('http://localhost/PySW-TpFinal/public/index.php/escribania/');
   }
 
   getEscribanos(): Observable<any> {
-    return this._http.get('http://localhost:8080/PySW-TpFinal/public/index.php/escribano/');
+    return this._http.get('http://localhost/PySW-TpFinal/public/index.php/escribano/');
   }
 
   public enviarEscribano(escribano:Escribano){
@@ -27,7 +27,7 @@ export class ServEscribanoService {
       })
     }
     let body = JSON.stringify(escribano);
-    return this._http.post('http://localhost:8080/PySW-TpFinal/public/index.php/escribano/new', body,
+    return this._http.post('http://localhost/PySW-TpFinal/public/index.php/escribano/new', body,
     httpOption);
   }
 
@@ -40,7 +40,7 @@ export class ServEscribanoService {
 
     let body = JSON.stringify(escribano);
     //envio en el body el moneda transformado en un JSON
-    return this._http.post('http://localhost:8080/PySW-TpFinal/public/index.php/escribano/'+escribano.id+'/edit',
+    return this._http.post('http://localhost/PySW-TpFinal/public/index.php/escribano/'+escribano.id+'/edit',
     body, httpOption);
   }
 

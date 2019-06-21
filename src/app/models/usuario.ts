@@ -1,7 +1,6 @@
 import { Perfil } from './perfil';
 import { Escribano } from './escribano';
 
-
 export class Usuario
 {
     id:number;
@@ -11,8 +10,8 @@ export class Usuario
     tipo:string;
     imagen:string;
     estado:boolean;
-    perfil:Perfil;
-    escribano:Escribano;
+    perfil:Perfil = new Perfil() ;
+    escribano:Escribano = new Escribano() ;
 
     constructor(id?:number, username?:string, password?:string, email?:string, tipo?:string, imagen?:string, estado?:boolean, perfil?:Perfil, escribano?:Escribano)
     {

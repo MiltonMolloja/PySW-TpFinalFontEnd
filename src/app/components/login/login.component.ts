@@ -37,6 +37,7 @@ export class LoginComponent implements OnInit {
       //vbles para mostrar-ocultar cosas en el header
       this.loginService.userLoggedIn = true;
       this.loginService.userLogged = user;
+      console.log("El tipo es: " + this.loginService.userLogged.tipo );
       //localstorage usado para mostrar o no un componente
       //localStorage.setItem('currentUser', JSON.stringify(user));
       this.router.navigateByUrl(this.returnUrl);
