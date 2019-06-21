@@ -11,6 +11,7 @@ export class Escribano
     constructor(id?:number, escribania?:Escribania, matricula?:number, universidad?:string, estado?:boolean)
     {
         this.id = id;
+        this.escribania = new Escribania();
         this.escribania = escribania;
         this.matricula = matricula;
         this.universidad = universidad;

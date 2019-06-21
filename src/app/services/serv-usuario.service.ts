@@ -15,7 +15,7 @@ export class ServUsuarioService {
     return this._http.get('http://localhost/PySW-TpFinal/public/index.php/usuario');
   }
 
-  public enviarUsuario( usuario:Usuario )
+  public enviarUsuario( usuario )
   {
     const httpOption = {
       headers: new HttpHeaders

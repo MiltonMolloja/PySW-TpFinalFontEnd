@@ -19,7 +19,7 @@ export class ServPerfilService {
       })
     }
     let body = JSON.stringify(perfil);
-    return this._http.post('http://localhost/PySW-TpFinal/public/index.php/usuario/new', body, httpOption);
+    return this._http.post('http://localhost/PySW-TpFinal/public/index.php/perfil/new', body, httpOption);
   }
 
   public modificarPerfil(perfil:Perfil)
@@ -32,7 +32,7 @@ export class ServPerfilService {
     };
     let body = JSON.stringify(perfil);
     //envio en el body el mensaje transformado en un JSON
-    return this._http.post('http://localhost/PySW-TpFinal/public/index.php/usuario/'+perfil.id+'/edit',body, httpOption);
+    return this._http.post('http://localhost/PySW-TpFinal/public/index.php/perfil/'+perfil.id+'/edit',body, httpOption);
   }
 
   public borrarPerfil(perfil:Perfil)
@@ -45,7 +45,7 @@ export class ServPerfilService {
     };
     let body = JSON.stringify(perfil);
     //envio en el body el mensaje transformado en un JSON
-    return this._http.post('http://localhost/PySW-TpFinal/public/index.php/usuario/'+perfil.id+'/borrado',body, httpOption);
+    return this._http.post('http://localhost/PySW-TpFinal/public/index.php/perfil/'+perfil.id+'/borrado',body, httpOption);
   } 
   
 

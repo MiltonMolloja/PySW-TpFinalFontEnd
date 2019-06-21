@@ -22,7 +22,9 @@ export class Usuario
         this.tipo = tipo;
         this.imagen = imagen;
         this.estado = estado;
+        this.perfil = new Perfil();
         this.perfil = perfil;
+        this.escribano = new Escribano();
         this.escribano = escribano;
     }
 }
