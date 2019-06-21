@@ -27,31 +27,36 @@ export class LoginComponent implements OnInit {
     this.returnUrl = this.route.snapshot.queryParams['returnUrl'] || '/home';
   }
 
-  login() {
-    this.loginService.login(this.userform.username, this.userform.password)
-    .subscribe(
-    data => {
-    var user = data;
-    console.log(user);
-    if (user.username != ''){
-      //vbles para mostrar-ocultar cosas en el header
-      this.loginService.userLoggedIn = true;
-      this.loginService.userLogged = user;
-      console.log("El tipo es: " + this.loginService.userLogged.tipo );
-      //localstorage usado para mostrar o no un componente
-      //localStorage.setItem('currentUser', JSON.stringify(user));
-      this.router.navigateByUrl(this.returnUrl);
-    } 
-    else
-      {
-    //usuario no encontrado muestro mensaje en la vista
-      this.msglogin="Credenciales incorrectas..";
-      }
-    },
-    error => {
-    console.log("error...");
-    console.log(error);
-    });
+  login( form:NgForm ) 
+  {
+    if( form.valid == true )
+    {
+      this.loginService.login(this.userform.username, this.userform.password)
+      .subscribe(
+      data => {
+      var user = data;
+      console.log(user);
+      if (user.username != ''){
+        //vbles para mostrar-ocultar cosas en el header
+        this.loginService.userLoggedIn = true;
+        this.loginService.userLogged = user;
+        console.log("El tipo es: " + this.loginService.userLogged.tipo );
+        //localstorage usado para mostrar o no un componente
+        //localStorage.setItem('currentUser', JSON.stringify(user));
+        this.router.navigateByUrl(this.returnUrl);
+      } 
+      else
+        {
+      //usuario no encontrado muestro mensaje en la vista
+        this.msglogin="Credenciales incorrectas..";
+        }
+      },
+      error => {
+      console.log("error...");
+      console.log(error);
+      });      
+    }
+
   }///
 
 
