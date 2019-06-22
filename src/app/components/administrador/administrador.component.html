@@ -1,4 +1,47 @@
-<div class="row mt-2">
+<div class="row mt-3" *ngIf="formCreacionEscribano">
+    <div class="col-12 col-sm-12 col-md-12 d-flex">
+
+    </div>
+</div>
+
+<div class="row mt-3" *ngIf="formCreacionPerfil">
+    <div class="col-12 col-sm-12 col-md-12 d-flex">
+
+    </div>
+</div>
+
+<div class="row mt-3" *ngIf="formCreacionUsuario">
+    <div class="col-12 col-sm-12 col-md-12 d-flex">
+
+    </div>
+</div>
+
+
+<!--Formulario de Creacion-->
+<div class="row mt-3" *ngIf="formCreacion">
+    <div class="col-12 col-sm-12 col-md-12 d-flex justify-content-center">
+        <form class="rounded shadow-sm border border-secondary">
+            <h6>Elija un tipo de usuario para crear:</h6>
+            <div class="form-group">
+                <label class="font-weight-bold" for="tipo">Elija tipo de Usuario</label>
+                <select [(ngModel)]="usuario.tipo" ngModel class="form-control selectpicker font-weight-bold text-dark bg-light" name="tipo" id="id_tipo" #v_tipo="ngModel" required>
+                        <option  value="" select >Seleccione</option>
+                        <option  *ngFor="let tipo of tipos" [ngValue]="tipo"> {{ tipo }} </option>
+                </select>
+                <div *ngIf="v_tipo.touched && v_tipo.invalid">
+                    <div class="text-danger font-weight-bolder text-center" *ngIf="v_tipo.errors.required">Tipo de usuario requerido.</div>
+                </div>
+                <p class="text-center font-weight-bold text-primary">Considere que durante la creaccion no podra cambiar el tipo elegido.</p>
+                <div class="d-flex justify-content-center ">
+                    <button type="button" class="btn btn-outline-success">Crear</button>
+                </div>
+            </div>
+        </form>
+    </div>
+</div>
+
+<!---Esto se ocultara-->
+<div class="row mt-2" *ngIf="false">
     <div class="col-12 col-sm-12 col-md-12 d-flex justify-content-center">
         <button type="button" class="btn btn-success" (click)="probarEnviodeUsuario();"></button>
         <form id="idFormAdministrador" name="FormAdministrador" class="p-1 m-auto text-center mt-2 shadow rounded" #formUsuario="ngForm" action="">
@@ -119,8 +162,7 @@
     </div>
 </div>
 
-
-<div class="row">
+<div class="row" *ngIf="tablaUsuarios">
     <div class="col-12">
         <h5 class="text-center">Tabla de Usuarios</h5>
         <form>

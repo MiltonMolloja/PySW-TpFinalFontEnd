@@ -15,24 +15,37 @@ import { NgForm } from '@angular/forms';
   styleUrls: ['./administrador.component.css']
 })
 export class AdministradorComponent implements OnInit {
-  //Necesarias para recuperar datos
+  //Se necesitan 4 arreglos para recuperar datos
   usuarios:Array<Usuario>;
-  escribania:Escribania;
   escribanias:Array<Escribania>;
+  escribanos:Array<Escribano>;
   perfiles:Array<Perfil>;
-  //
+
+  //Se usara este arreglos para recuperar los tipos.
   tipos:Array<string> = [ "socio", "administrativo", "administrador", "gerente" ];
 
   //
-  usuario:Usuario;
-  //
+  usuario:Usuario; //Se manejara la creacion de Usuario
+  perfil:Perfil; //Se manejara la creacion de perfil
+  escribano:Escribano; //Se manejara la cracion de escribano/socio 
+  
+  //Efectos visuales
+  tablaUsuarios:boolean = true; //Se manejan a la vez
+  formCreacion:boolean = true; //Se manejan a la vez
+
+  //Son los formularios
+  formCreacionEscribano:boolean = false;
+  formCreacionPerfil:boolean = false;
+  formCreacionUsuario:boolean = false;
+
   btnCopiar=false;
   constructor( private usuarioService:ServUsuarioService, private perfilService:ServPerfilService, private escribanoService:ServEscribanoService  ) 
   {
     //
     this.inicializarUsuario();
+    this.inicializarPerfil();
+    this.inicializarEscribano();
     //
-    this.escribania = new Escribania();
     this.usuarios = new Array<Usuario>() ;
     this.escribanias = new Array<Escribania>() ;
     this.perfiles = new Array<Perfil>() ;
@@ -40,6 +53,7 @@ export class AdministradorComponent implements OnInit {
     this.obtenerUsuarios();
     this.obtenerEscribanias();
     this.obtenerPerfiles();
+    this.obtenerEscribanos();
   }
 
   ngOnInit() {
@@ -54,14 +68,56 @@ export class AdministradorComponent implements OnInit {
     this.usuario.escribano.escribania = new Escribania();
   }///
 
-  //Los usuarios cargados en la base de datos
+  //Inicializa el perfil
+  inicializarPerfil()
+  {
+    this.perfil = new Perfil();
+  }
+
+  //Inicializa el escribano
+  inicializarEscribano()
+  {
+    this.escribano = new Escribano();
+    this.escribano.escribania = new Escribania();
+  }
+
+  //Ocultar ventanas de inicio
+  ocultarInicio()
+  {
+    this.tablaUsuarios = true;
+    this.formCreacion = true;
+  }
+
+  //Restaura las ventanas de inicio
+  mostrarInicio()
+  {
+    this.tablaUsuarios = false;
+    this.formCreacion = false;
+  }
+
+
+  //Los usuarios cargados y validos en la base de datos
   obtenerUsuarios()
   {
+    let usuario:Usuario;
     this.usuarioService.obtenerUsuarios().subscribe
     (
-      (resultados:any) => 
+      (resultados) => 
       {
-        this.usuarios = resultados['usuarios'];
+        this.usuarios = new Array<Usuario>();
+        resultados['usuarios'].forEach
+        (
+          elemento => 
+          {
+            usuario = new Usuario();
+            Object.assign(usuario, elemento);
+            //Solo se cargaran los que tengan estado valido.
+            if(usuario.estado == true )
+            {
+              this.usuarios.push(usuario);
+            }
+          }
+        );
       },
       error =>
       {
@@ -73,11 +129,25 @@ export class AdministradorComponent implements OnInit {
   //Obtiene los perfiles de la base de datos
   obtenerPerfiles()
   {
+    let perfil:Perfil;
     this.perfilService.obtenerPerfiles().subscribe
     (
-      (resultados:any) =>
+      (resultados) =>
       {
-        this.perfiles = resultados['perfiles'];
+        this.perfiles = new Array<Perfil>();
+        resultados['perfiles'].forEach
+        (
+          elemento =>
+          {
+            perfil = new Perfil();
+            Object.assign(perfil, elemento);
+            //Solo se cargaran los que tengan estado valido.
+            if( perfil.estado == true  )
+            {
+              this.perfiles.push(perfil);
+            }
+          }
+        );
       },
       error =>
       {
@@ -89,21 +159,24 @@ export class AdministradorComponent implements OnInit {
   //Obtiene las escribanias registradas
   obtenerEscribanias()
   {
+    let escribania:Escribania;
     this.escribanoService.getEscribanias().subscribe
     (
       (resultados) =>
       {
         this.escribanias = new Array<Escribania>();
-        resultados.forEach
+        resultados['escribanias'].forEach
         (
           elemento =>
           {
-            this.escribania = new Escribania();
-            Object.assign(this.escribania, elemento)
-            this.escribanias.push(this.escribania);
+            escribania = new Escribania();
+            Object.assign(escribania, elemento);
+            if(escribania.estado == true)
+            {
+              this.escribanias.push(escribania);  
+            }
           }
         );
-        //this.escribanias = resultados ;
         console.log( this.escribanias );
       },
       error =>
@@ -113,20 +186,34 @@ export class AdministradorComponent implements OnInit {
     );
   }///
 
-  //Prueba de muestra los campos
-  prueba( form: NgForm )
+  //Recupera los escribanos de la base de datos
+  obtenerEscribanos()
   {
-    if( form.valid == true )
-    {
-      console.log("Nombre de Usuario:" + this.usuario.username );
-      console.log("Password: " + this.usuario.password  );
-      console.log("Nombres:" + this.usuario.perfil.nombres );
-      console.log("Apellidos" + this.usuario.perfil.apellidos );
-      console.log("Matricula: " + this.usuario.escribano.matricula );
-      console.log("Universidad: " +  this.usuario.escribano.universidad );
-      console.log("Nombre de escribania" + this.usuario.escribano.escribania.nombre );
-    }
-  }///
+    let escribano:Escribano;
+    this.escribanoService.getEscribanos().subscribe
+    (
+      (resultados) =>
+      {
+        this.escribanos = new Array<Escribano>();
+        resultados['escribanos'].forEach
+        (
+          elemento =>
+          {
+            escribano = new Escribano();
+            Object.assign(escribano, elemento);
+            if(escribano.estado == true )
+            {
+              this.escribanos.push(escribano);
+            }
+          }
+        ); 
+      },
+      error =>
+      {
+        console.log("Error al recuperar escribanos.");
+      }
+    );
+  }
 
   //Envia un usuario a la base de datos
   //Primero se cargara el escribano, luego el perfil y por ultimo el usuario
