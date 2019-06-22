@@ -4,14 +4,14 @@
         <form name="form" #formLogin="ngForm">
             <div class="form-group d-flex justify-content-center">
                 <label class="font-weight-bolder mr-1" for="username">Username: </label>
-                <input type="text" class="formcontrol rounded text-center" name="username" [(ngModel)]="userform.username" ngModel #v_user="ngModel" required />
+                <input type="text" class="formcontrol rounded" name="username" [(ngModel)]="userform.username" ngModel #v_user="ngModel" required />
             </div>
             <div *ngIf="v_user.touched && v_user.invalid">
                 <div class="text-danger font-weight-bolder text-center msg" *ngIf="v_user.errors.required">Nombre de usuario requerido.</div>
             </div>
             <div class="form-group d-flex justify-content-center">
                 <label for="password" class="font-weight-bolder mr-1">Password: </label>
-                <input type="password" class="formcontrol rounded text-center" name="password" [(ngModel)]="userform.password" ngModel #v_pass="ngModel" required />
+                <input type="password" class="formcontrol rounded" name="password" [(ngModel)]="userform.password" ngModel #v_pass="ngModel" required />
             </div>
             <div *ngIf="v_pass.touched && v_pass.invalid">
                 <div class="text-danger font-weight-bolder text-center msg" *ngIf="v_pass.errors.required">Contraseña requerida.</div>

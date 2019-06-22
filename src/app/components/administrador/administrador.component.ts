@@ -159,11 +159,13 @@ export class AdministradorComponent implements OnInit {
         resultado2 => 
         {
           console.log("Perfil subido.");
+          this.llamarCrearUsuario();
         },
         error => 
         { console.log("Error al enviar perfil.") }
       );
 
+      /*
       console.log("Username: " + this.usuario.username);
       this.usuarioService.enviarUsuario(this.usuario).subscribe
       (
@@ -174,6 +176,7 @@ export class AdministradorComponent implements OnInit {
         error =>
         { console.log("Error al enviar usuario"); }
       );
+      */
     }
   }//
 
@@ -182,10 +185,7 @@ export class AdministradorComponent implements OnInit {
   {
     this.btnCopiar = true;
     this.inicializarUsuario();
-    this.usuario = Object.assign(this.usuario, usuario);
-    this.usuario.perfil = this.perfiles.find(function(item: Perfil) {
-      return item.id === usuario.perfil.id;
-      });  
+    this.usuario = Object.assign(this.usuario, usuario); 
   }
 
   //Aplica los cambios sobre el usuario
@@ -243,5 +243,35 @@ export class AdministradorComponent implements OnInit {
       );
     }
   }//
+
+  //
+  probarEnviodeUsuario()
+  { let perfil1 = new Perfil();
+    let usuario1 = new Usuario(20,"antonio","antonio","antoni@gmail.com","administrador","pendiente",true,null);
+    this.usuarioService.enviarUsuario(usuario1).subscribe
+    (
+      resultado3 =>
+      {
+        console.log("Usuario subido.");
+      },
+      error =>
+      { console.log("Error al enviar usuario"); }
+    );
+  }
+
+  //Crear Usuario
+  llamarCrearUsuario()
+  {
+    console.log("Username: " + this.usuario.username);
+    this.usuarioService.enviarUsuario(this.usuario).subscribe
+    (
+      resultado3 =>
+      {
+        console.log("Usuario subido.");
+      },
+      error =>
+      { console.log("Error al enviar usuario"); }
+    );
+  }///
 
 }
