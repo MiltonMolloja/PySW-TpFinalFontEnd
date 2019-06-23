@@ -1,91 +1,46 @@
-<div class="row mt-3" *ngIf="formCreacionEscribano">
+<!--Ventana Creacion/Modificacion de Escribano-->
+<div class="row mt-3" *ngIf=" ventana == 'escribano' ">
     <div class="col-12 col-sm-12 col-md-12 d-flex">
-
-    </div>
-</div>
-
-<div class="row mt-3" *ngIf="formCreacionPerfil">
-    <div class="col-12 col-sm-12 col-md-12 d-flex">
-
-    </div>
-</div>
-
-<div class="row mt-3" *ngIf="formCreacionUsuario">
-    <div class="col-12 col-sm-12 col-md-12 d-flex">
-
-    </div>
-</div>
-
-
-<!--Formulario de Creacion-->
-<div class="row mt-3" *ngIf="formCreacion">
-    <div class="col-12 col-sm-12 col-md-12 d-flex justify-content-center">
-        <form class="rounded shadow-sm border border-secondary">
-            <h6>Elija un tipo de usuario para crear:</h6>
+        <form id="formEscribano" #formEscribano="ngForm">
+            <h6 class="lead text-center">Datos del Socio/Escribano</h6>
             <div class="form-group">
-                <label class="font-weight-bold" for="tipo">Elija tipo de Usuario</label>
-                <select [(ngModel)]="usuario.tipo" ngModel class="form-control selectpicker font-weight-bold text-dark bg-light" name="tipo" id="id_tipo" #v_tipo="ngModel" required>
-                        <option  value="" select >Seleccione</option>
-                        <option  *ngFor="let tipo of tipos" [ngValue]="tipo"> {{ tipo }} </option>
-                </select>
-                <div *ngIf="v_tipo.touched && v_tipo.invalid">
-                    <div class="text-danger font-weight-bolder text-center" *ngIf="v_tipo.errors.required">Tipo de usuario requerido.</div>
+                <label class="font-weight-bold" for="escribania_op">Elija una escribania</label>
+                <select [(ngModel)]="usuario.escribano.escribania" ngModel class="form-control selectpicker font-weight-bold text-dark bg-light" name="escribania_op" id="id_escribania_op" #v_escribania="ngModel" required>
+                            <option value="" select >Seleccione</option>
+                            <option *ngFor="let escribania of escribanias" [ngValue]="escribania" > {{ escribania.nombre }} </option>    
+                        </select>
+                <div *ngIf="v_escribania.touched && v_escribania.invalid">
+                    <div class="text-danger font-weight-bolder text-center" *ngIf="v_escribania.errors.required">Escribania requerido.</div>
                 </div>
-                <p class="text-center font-weight-bold text-primary">Considere que durante la creaccion no podra cambiar el tipo elegido.</p>
-                <div class="d-flex justify-content-center ">
-                    <button type="button" class="btn btn-outline-success">Crear</button>
+            </div>
+            <div class="form-group">
+                <label class="font-weight-bold" for="matricula">Numero de Matricula</label>
+                <input type="number" [(ngModel)]="usuario.escribano.matricula" ngModel placeholder="Ingrese..." class="form-control rounded font-weight-bold text-center" name="matricula" id="id_matricula" #v_matricula="ngModel" min="1" max="20000" maxlength="5" required>
+                <div *ngIf="v_matricula.touched && v_matricula.invalid">
+                    <div class="text-danger font-weight-bolder text-center" *ngIf="v_dni.errors.required">Matricula requerida.</div>
                 </div>
+            </div>
+            <div class="form-group">
+                <label class="font-weight-bold" for="universidad">Universidad de Egreso</label>
+                <input type="text" [(ngModel)]="usuario.escribano.universidad" ngModel placeholder="Ingrese..." class="form-control rounded font-weight-bold text-center" name="universidad" id="id_universidad" #v_universidad="ngModel" required>
+                <div *ngIf="v_universidad.touched && v_universidad.invalid">
+                    <div class="text-danger font-weight-bolder text-center" *ngIf="v_universidad">Universidad requerida.</div>
+                </div>
+            </div>
+            <div class="d-flex justify-content-center">
+                <button type="button" (click)="crearEscribano( formEscribano ) ;" class="btn btn-success">Crear Socio</button>
             </div>
         </form>
     </div>
 </div>
 
-<!---Esto se ocultara-->
-<div class="row mt-2" *ngIf="false">
-    <div class="col-12 col-sm-12 col-md-12 d-flex justify-content-center">
-        <button type="button" class="btn btn-success" (click)="probarEnviodeUsuario();"></button>
-        <form id="idFormAdministrador" name="FormAdministrador" class="p-1 m-auto text-center mt-2 shadow rounded" #formUsuario="ngForm" action="">
-            <!--Aqui comienzan los datos de usuario-->
-            <h6 class="lead">Formularios de Usuario</h6>
-            <div class="form-group">
-                <label class="font-weight-bold" for="tipo">Elija tipo de Usuario</label>
-                <select [(ngModel)]="usuario.tipo" ngModel class="form-control selectpicker font-weight-bold text-dark bg-light" name="tipo" id="id_tipo" #v_tipo="ngModel" required>
-                        <option  value="" select >Seleccione</option>
-                        <option  *ngFor="let tipo of tipos" [ngValue]="tipo"> {{ tipo }} </option>
-                </select>
-                <div *ngIf="v_tipo.touched && v_tipo.invalid">
-                    <div class="text-danger font-weight-bolder text-center" *ngIf="v_tipo.errors.required">Tipo de usuario requerido.</div>
-                </div>
-            </div>
-            <div class="form-group d-flex justify-content-center">
-                <label><img src='{{ usuario.imagen }}' width="30px" height="30px"> </label>
-                <textarea [(ngModel)]="usuario.imagen" ngModel class="form-control" name="imagen" id="id_imagen"></textarea>
-            </div>
-
-            <div class="form-group">
-                <label class="font-weight-bold" for="username">Nombre de Usuario</label>
-                <input type="text" [(ngModel)]="usuario.username" ngModel placeholder="Ingrese..." class="form-control rounded font-weight-bold text-center" name="username" id="id_username" #v_username="ngModel" required>
-                <div *ngIf="v_username.touched && v_username.invalid">
-                    <div class="text-danger font-weight-bolder text-center" *ngIf="v_username.errors.required">Nombre de usuario requerido.</div>
-                </div>
-            </div>
-
-            <div class="form-group">
-                <label class="font-weight-bold" for="password">Contraseña</label>
-                <input type="text" [(ngModel)]="usuario.password" ngModel placeholder="Ingrese..." class="form-control rounded font-weight-bold text-center" name="password" id="id_password" #v_password="ngModel" required>
-                <div *ngIf="v_password.touched && v_password.invalid">
-                    <div class="text-danger font-weight-bolder text-center" *ngIf="v_password.errors.required">Contraseña requerida.</div>
-                </div>
-            </div>
-            <div class="form-group">
-                <label class="font-weight-bold" for="email">Email</label>
-                <input type="text" [(ngModel)]="usuario.email" ngModel placeholder="Ingrese..." class="form-control rounded font-weight-bold text-center" name="email" id="id_email" #v_email="ngModel" required>
-                <div *ngIf="v_email.touched && v_email.invalid">
-                    <div class="text-danger font-weight-bolder text-center" *ngIf="v_email.errors.required">Email requerido.</div>
-                </div>
-            </div>
-            <!--Aqui comienzan los datos de Perfil-->
-            <h6 class="lead">Datos del Perfil</h6>
+<!--De creacion de Perfil-->
+<div class="row mt-3" *ngIf=" ventana == 'perfil' ">
+    <div class="col-12 col-sm-12 col-md-12 d-flex">
+        <form id="formPerfil" #formPerfil="ngForm">
+            <p class="lead font-weight-bold text-primary text-center" *ngIf=" usuario.escribano != null"> ID: {{ usuario.escribano.id }} - Matricula: {{ usuario.escribano.matricula }} </p>
+            <h6 class="lead font-weight-bold text-primary text-center">ID: {{ usuario.perfil.id }} - DNI: {{ usuario.perfil.dni }} </h6>
+            <h6 class="lead text-center">Datos del Perfil</h6>
             <div class="form-group">
                 <label class="font-weight-bold" for="nombres">Nombres</label>
                 <input type="text" [(ngModel)]="usuario.perfil.nombres" ngModel placeholder="Ingrese..." class="form-control rounded font-weight-bold text-center" name="nombres" id="id_nombres" #v_nombres="ngModel" required>
@@ -118,45 +73,90 @@
             <div class="form-group">
                 <label class="font-weight-bold" for="sexo">Elija sexo</label>
                 <select [(ngModel)]="usuario.perfil.sexo" ngModel class="form-control selectpicker font-weight-bold bg-light" name="sexo" id="id_sexo" #v_sexo="ngModel" required>
-                            <option  value="" select >Seleccione</option>
-                            <option  value="femenino">Femenino</option>
-                            <option  value="masculino">Masculino</option>
-                    </select>
+                                <option  value="" select >Seleccione</option>
+                                <option  value="femenino">Femenino</option>
+                                <option  value="masculino">Masculino</option>
+                        </select>
                 <div *ngIf="v_sexo.touched && v_sexo.invalid">
                     <div class="text-danger font-weight-bolder text-center" *ngIf="v_sexo.errors.required">Elija una opcion.</div>
                 </div>
             </div>
-            <div *ngIf="usuario.tipo == 'socio'">
-                <!--Aqui comienzan los datos de Escribano-->
-                <h6 class="lead">Datos del Socio</h6>
-                <div class="form-group">
-                    <label class="font-weight-bold" for="escribania_op">Elija tipo de Usuario</label>
-                    <select [(ngModel)]="usuario.escribano.escribania" ngModel class="form-control selectpicker font-weight-bold text-dark bg-light" name="escribania_op" id="id_escribania_op" #v_escribania="ngModel" required>
-                            <option value="" select >Seleccione</option>
-                            <option *ngFor="let escribania of escribanias" [ngValue]="escribania" > {{ escribania.nombre }} </option>    
-                        </select>
-                    <div *ngIf="v_escribania.touched && v_escribania.invalid">
-                        <div class="text-danger font-weight-bolder text-center" *ngIf="v_escribania.errors.required">Escribania requerido.</div>
-                    </div>
+            <div class="d-flex justify-content-center">
+                <button type="button" class="btn btn-success" (click)="crearPerfil( formPerfil );">Crear Perfil</button>
+            </div>
+        </form>
+    </div>
+</div>
+
+<!--Ventana de Creacion de Usuario-->
+<div class="row mt-3" *ngIf=" ventana == 'usuario' ">
+    <div class="col-12 col-sm-12 col-md-12 d-flex">
+        <form id="formUsuario" #formUsuario="ngForm">
+            <h6 class="lead font-weight-bold text-primary text-center">ID: {{ usuario.perfil.id }} - DNI: {{ usuario.perfil.dni }} </h6>
+            <h6 class="lead text-center">Formularios de Usuario</h6>
+            <div class="form-group">
+                <label class="font-weight-bold" for="tipo">Elija tipo de Usuario</label>
+                <select [(ngModel)]="usuario.tipo" ngModel class="form-control selectpicker font-weight-bold text-dark bg-light" name="tipo" id="id_tipo" #v_tipo="ngModel" required disabled> 
+                            <option  value="" select >Seleccione</option>
+                            <option  *ngFor="let tipo of tipos" [ngValue]="tipo"> {{ tipo }} </option>
+                    </select>
+                <div *ngIf="v_tipo.touched && v_tipo.invalid">
+                    <div class="text-danger font-weight-bolder text-center" *ngIf="v_tipo.errors.required">Tipo de usuario requerido.</div>
                 </div>
-                <div class="form-group">
-                    <label class="font-weight-bold" for="matricula">Numero de Matricula</label>
-                    <input type="number" [(ngModel)]="usuario.escribano.matricula" ngModel placeholder="Ingrese..." class="form-control rounded font-weight-bold text-center" name="matricula" id="id_matricula" #v_matricula="ngModel" min="1" max="20000" maxlength="5" required>
-                    <div *ngIf="v_matricula.touched && v_matricula.invalid">
-                        <div class="text-danger font-weight-bolder text-center" *ngIf="v_dni.errors.required">Matricula requerida.</div>
-                    </div>
+            </div>
+            <div class="form-group d-flex justify-content-center">
+                <label><img src='{{ usuario.imagen }}' width="30px" height="30px"> </label>
+                <textarea [(ngModel)]="usuario.imagen" ngModel class="form-control" name="imagen" id="id_imagen"></textarea>
+            </div>
+
+            <div class="form-group">
+                <label class="font-weight-bold" for="username">Nombre de Usuario</label>
+                <input type="text" [(ngModel)]="usuario.username" ngModel placeholder="Ingrese..." class="form-control rounded font-weight-bold text-center" name="username" id="id_username" #v_username="ngModel" required>
+                <div *ngIf="v_username.touched && v_username.invalid">
+                    <div class="text-danger font-weight-bolder text-center" *ngIf="v_username.errors.required">Nombre de usuario requerido.</div>
                 </div>
-                <div class="form-group">
-                    <label class="font-weight-bold" for="universidad">Universidad de Egreso</label>
-                    <input type="text" [(ngModel)]="usuario.escribano.universidad" ngModel placeholder="Ingrese..." class="form-control rounded font-weight-bold text-center" name="universidad" id="id_universidad" #v_universidad="ngModel" required>
-                    <div *ngIf="v_universidad.touched && v_universidad.invalid">
-                        <div class="text-danger font-weight-bolder text-center" *ngIf="v_universidad">Universidad requerida.</div>
-                    </div>
+            </div>
+
+            <div class="form-group">
+                <label class="font-weight-bold" for="password">Contraseña</label>
+                <input type="text" [(ngModel)]="usuario.password" ngModel placeholder="Ingrese..." class="form-control rounded font-weight-bold text-center" name="password" id="id_password" #v_password="ngModel" required>
+                <div *ngIf="v_password.touched && v_password.invalid">
+                    <div class="text-danger font-weight-bolder text-center" *ngIf="v_password.errors.required">Contraseña requerida.</div>
+                </div>
+            </div>
+            <div class="form-group">
+                <label class="font-weight-bold" for="email">Email</label>
+                <input type="text" [(ngModel)]="usuario.email" ngModel placeholder="Ingrese..." class="form-control rounded font-weight-bold text-center" name="email" id="id_email" #v_email="ngModel" required>
+                <div *ngIf="v_email.touched && v_email.invalid">
+                    <div class="text-danger font-weight-bolder text-center" *ngIf="v_email.errors.required">Email requerido.</div>
                 </div>
             </div>
             <div class="d-flex justify-content-center">
-                <button *ngIf="btnCopiar == false" type="button" class="btn btn-success" (click)="enviarUsuario( formUsuario );">Crear</button>
-                <button *ngIf="btnCopiar == true" type="button" class="btn btn-primary" (click)="realizarCambios( formUsuario );">Modificar</button>
+                <button type="button" class="btn btn-success" (click)="crearUsuario( formUsuario );">Crear Usuario</button>
+            </div>
+        </form>
+    </div>
+</div>
+
+
+<!--Formulario de Creacion-->
+<div class="row mt-3" *ngIf="formCreacion">
+    <div class="col-12 col-sm-12 col-md-12 d-flex justify-content-center">
+        <form class="rounded shadow-sm border border-secondary" id="formCreacion" #formCreacion="ngForm">
+            <h6>Elija un tipo de usuario para crear:</h6>
+            <div class="form-group">
+                <label class="font-weight-bold" for="tipo">Elija tipo de Usuario</label>
+                <select [(ngModel)]="usuario.tipo" ngModel class="form-control selectpicker font-weight-bold text-dark bg-light" name="tipo" id="id_tipo" #v_tipo="ngModel" required>
+                        <option  value="" select >Seleccione</option>
+                        <option  *ngFor="let tipo of tipos" [ngValue]="tipo"> {{ tipo }} </option>
+                </select>
+                <div *ngIf="v_tipo.touched && v_tipo.invalid">
+                    <div class="text-danger font-weight-bolder text-center" *ngIf="v_tipo.errors.required">Tipo de usuario requerido.</div>
+                </div>
+                <p class="text-center font-weight-bold text-primary">Considere que durante la creaccion no podra cambiar el tipo elegido.</p>
+                <div class="d-flex justify-content-center ">
+                    <button type="button" class="btn btn-outline-success" (click)="comenzarLaCreacion( formCreacion );">Crear</button>
+                </div>
             </div>
         </form>
     </div>
@@ -181,17 +181,38 @@
                 </thead>
                 <tbody>
                     <tr *ngFor="let usuario of usuarios">
-                        <th> {{ usuario.id }} </th>
+                        <td> {{ usuario.id }} </td>
                         <td> {{ usuario.username }} </td>
                         <td> {{ usuario.email }} </td>
                         <td> {{ usuario.tipo }} </td>
                         <th> {{ usuario.perfil.nombres }} </th>
                         <td> {{ usuario.perfil.apellidos }} </td>
                         <td> {{ usuario.perfil.dni }} </td>
-                        <td> <button class="btn btn-danger btn-sm" (click)="copiarUser( usuario );">Mod</button> </td>
+                        <td> <button type="button" class="btn btn-danger btn-sm" data-toggle="modal" data-target="#Eliminacion" (click)="prepararBorrado( usuario );">Eliminar</button> </td>
                     </tr>
                 </tbody>
             </table>
         </form>
+    </div>
+</div>
+
+<!-- Modal de Eliminacion -->
+<div class="modal fade" id="Eliminacion" tabindex="-1" role="dialog" aria-labelledby="Eliminacion" aria-hidden="true">
+    <div class="modal-dialog modal-dialog-centered" role="document">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h5 class="modal-title" id="exampleModalCenterTitle">Eliminacion de Usuario</h5>
+                <button type="button" class="close" data-dismiss="modal" aria-label="Close" (click)="cancelarborrado();">
+                <span aria-hidden="true">&times;</span>
+              </button>
+            </div>
+            <div class="modal-body">
+                <p class="text-center text-warning font-weight-bold">¿Realmente quier borrar el usuario?</p>
+            </div>
+            <div class="modal-footer d-flex justify-content-center ">
+                <button type="button" class="btn btn-success" data-dismiss="modal" (click)="realizarborrado();">Confirmar</button>
+                <button type="button" class="btn btn-danger" data-dismiss="modal" (click)="cancelarborrado();">Cancelar</button>
+            </div>
+        </div>
     </div>
 </div>

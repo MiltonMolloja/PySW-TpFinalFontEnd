@@ -40,8 +40,19 @@ export class ServEscribanoService {
 
     let body = JSON.stringify(escribano);
     //envio en el body el moneda transformado en un JSON
-    return this._http.post('http://localhost/PySW-TpFinal/public/index.php/escribano/'+escribano.id+'/edit',
-    body, httpOption);
+    return this._http.post('http://localhost/PySW-TpFinal/public/index.php/escribano/'+escribano.id+'/edit',body, httpOption);
   }
+ 
+  borrarEscribano(escribano:Escribano){
+    const httpOption = {
+      headers: new HttpHeaders({
+        'Content-Type': 'application/json'
+      })
+    };
+
+    let body = JSON.stringify(escribano);
+    //envio en el body el moneda transformado en un JSON
+    return this._http.post('http://localhost/PySW-TpFinal/public/index.php/escribano/'+escribano.id+'/edit',body, httpOption);
+  } 
 
 }

@@ -26,25 +26,20 @@ export class AdministradorComponent implements OnInit {
 
   //
   usuario:Usuario; //Se manejara la creacion de Usuario
-  perfil:Perfil; //Se manejara la creacion de perfil
-  escribano:Escribano; //Se manejara la cracion de escribano/socio 
+  copiaUsuario:Usuario;
   
   //Efectos visuales
   tablaUsuarios:boolean = true; //Se manejan a la vez
   formCreacion:boolean = true; //Se manejan a la vez
 
-  //Son los formularios
-  formCreacionEscribano:boolean = false;
-  formCreacionPerfil:boolean = false;
-  formCreacionUsuario:boolean = false;
+  //Se usa para mostrar Escribano, Perfil y Usuario
+  ventana:string = "";
 
   btnCopiar=false;
   constructor( private usuarioService:ServUsuarioService, private perfilService:ServPerfilService, private escribanoService:ServEscribanoService  ) 
   {
     //
     this.inicializarUsuario();
-    this.inicializarPerfil();
-    this.inicializarEscribano();
     //
     this.usuarios = new Array<Usuario>() ;
     this.escribanias = new Array<Escribania>() ;
@@ -59,6 +54,8 @@ export class AdministradorComponent implements OnInit {
   ngOnInit() {
   }
 
+  /*Manejan los efectos visuales e inicializan los objetos */
+
   //Inicializa todos los campos objetos de un usuario
   inicializarUsuario()
   {
@@ -66,35 +63,30 @@ export class AdministradorComponent implements OnInit {
     this.usuario.perfil = new Perfil();//
     this.usuario.escribano = new Escribano();
     this.usuario.escribano.escribania = new Escribania();
-  }///
-
-  //Inicializa el perfil
-  inicializarPerfil()
-  {
-    this.perfil = new Perfil();
-  }
-
-  //Inicializa el escribano
-  inicializarEscribano()
-  {
-    this.escribano = new Escribano();
-    this.escribano.escribania = new Escribania();
-  }
+  }/////
 
   //Ocultar ventanas de inicio
   ocultarInicio()
   {
-    this.tablaUsuarios = true;
-    this.formCreacion = true;
-  }
+    this.tablaUsuarios = false;
+    this.formCreacion = false;
+  }////
 
   //Restaura las ventanas de inicio
   mostrarInicio()
   {
-    this.tablaUsuarios = false;
-    this.formCreacion = false;
-  }
+    this.tablaUsuarios = true;
+    this.formCreacion = true;
+  }////
 
+  //Cambiar la ventana a mostrar para escribano, perfil y usuario
+  cambiarVentana( nombreVentana:string )
+  {
+    this.ventana = nombreVentana;
+  }////
+
+
+  /*Obtiene los usuarios, perfiles, escribanias y escribanos de la base de datos*/
 
   //Los usuarios cargados y validos en la base de datos
   obtenerUsuarios()
@@ -154,7 +146,7 @@ export class AdministradorComponent implements OnInit {
         console.log("Error al recuperar perfiles.");
       }     
     );
-  }
+  }///
 
   //Obtiene las escribanias registradas
   obtenerEscribanias()
@@ -213,59 +205,257 @@ export class AdministradorComponent implements OnInit {
         console.log("Error al recuperar escribanos.");
       }
     );
-  }
+  }///
 
-  //Envia un usuario a la base de datos
-  //Primero se cargara el escribano, luego el perfil y por ultimo el usuario
-  enviarUsuario( form: NgForm )
+  /*Metodos usados para la Creacion */
+
+  //Llama a las ventana de creaccion
+  comenzarLaCreacion()
   {
+    this.ocultarInicio();
+    if( this.usuario.tipo == "socio" )
+    {
+      this.cambiarVentana("escribano");
+    }
+    else
+    {
+      this.usuario.escribano = null;
+      this.cambiarVentana("perfil");
+    }
+  }////
+
+  //Crea un escribano con los datos de usuario 
+  crearEscribano( form:NgForm )
+  { 
+    //Se pregunta si el formulario es valido
     if( form.valid == true )
     {
-      this.usuario.estado=true;
-      this.usuario.perfil.estado=true;
-      if(this.usuario.tipo == "socio" )
-      {
-        this.usuario.escribano.estado = true;
-        this.escribanoService.enviarEscribano(this.usuario.escribano).subscribe
-        (
-          resultado1 =>
-          {
-            console.log("Escribano enviado.");
-          },
-          error=>
-          { console.log("Error al enviar escribano"); } 
-        );
-      }
-      else
-      {
-        this.usuario.escribano = null ;
-      }
+      this.usuario.escribano.estado = true;
+      this.escribanoService.enviarEscribano(this.usuario.escribano).subscribe
+      (
+        resultado1 =>
+        {
+          console.log("Escribano enviado.");
+          this.cargarEscribanosyAsignarAlUsuario();
+        },
+        error=>
+        { 
+          console.log("Error al enviar escribano");
+        } 
+      );
+    }
+   }///
 
+   //Cargas los escribanos y busca el creado para asignarlo al usuario
+   cargarEscribanosyAsignarAlUsuario()
+   {
+    let escribano:Escribano;
+    this.escribanoService.getEscribanos().subscribe
+    (
+      (resultados) =>
+      {
+        this.escribanos = new Array<Escribano>();
+        resultados['escribanos'].forEach
+        (
+          elemento =>
+          {
+            escribano = new Escribano();
+            Object.assign(escribano, elemento);
+            if(escribano.estado == true )
+            {
+              this.escribanos.push(escribano);
+              if( escribano.matricula === this.usuario.escribano.matricula && escribano.universidad === this.usuario.escribano.universidad )
+              {
+                this.usuario.escribano = escribano ;
+              }
+            }
+          }
+        );
+        this.cambiarVentana("perfil"); 
+      },
+      error =>
+      {
+        console.log("Error al recuperar escribanos.");
+      }
+    );     
+   }///
+
+   //Crea un perfil
+   crearPerfil( form:NgForm )
+   {
+    //Se pregunta si el formulario es valido
+    if( form.valid == true )
+    {
+      this.usuario.perfil.estado = true ;
       this.perfilService.enviarPerfil(this.usuario.perfil).subscribe
       (
         resultado2 => 
-        {
+        { 
           console.log("Perfil subido.");
-          this.llamarCrearUsuario();
+          this.cargarPerfilesyAsignarAlUsuario();
         },
         error => 
-        { console.log("Error al enviar perfil.") }
-      );
+        { 
+          console.log("Error al enviar perfil."); 
+        }
+      );  
+    }     
+   }///
 
-      /*
-      console.log("Username: " + this.usuario.username);
+   //Pracedimiento que carga los perfiles de la base de datos actuales y asigna el perfil cargado
+   cargarPerfilesyAsignarAlUsuario()
+   {
+    let perfil:Perfil;
+    this.perfilService.obtenerPerfiles().subscribe
+    (
+      (resultados) =>
+      {
+        this.perfiles = new Array<Perfil>();
+        resultados['perfiles'].forEach
+        (
+          elemento =>
+          {
+            perfil = new Perfil();
+            Object.assign(perfil, elemento);
+            //Solo se cargaran los que tengan estado valido.
+            if( perfil.estado == true  )
+            {
+              this.perfiles.push(perfil);
+              if( perfil.dni === this.usuario.perfil.dni && perfil.apellidos === this.usuario.perfil.apellidos && perfil.nombres === this.usuario.perfil.nombres )
+              {
+                this.usuario.perfil = perfil;
+              }
+            }
+          }
+        );
+        this.cambiarVentana("usuario");
+      },
+      error =>
+      {
+        console.log("Error al recuperar perfiles.");
+      }    
+    );
+  }///
+
+   ///Finalmente crea el usuario
+   crearUsuario( form:NgForm )
+   {
+    //Se pregunta si el formulario es valido
+    if( form.valid == true )
+    {
+      this.usuario.estado = true ;
       this.usuarioService.enviarUsuario(this.usuario).subscribe
       (
         resultado3 =>
         {
           console.log("Usuario subido.");
+          this.obtenerUsuarios();
+          //se cambia a la siguiente ventana
+          this.cambiarVentana("");
+          this.inicializarUsuario();
+          this.mostrarInicio();
         },
         error =>
         { console.log("Error al enviar usuario"); }
       );
-      */
+    }               
+   }///
+
+   //simula borrar un perfil
+   simulacionBorradoPerfil()
+   {
+      let perfil:Perfil = new Perfil() ;
+      perfil = this.perfiles.find( per => per.id === 52 );
+      console.log(perfil);
+      this.perfilService.borrarPerfil(perfil).subscribe
+      (
+        resultado => {
+          console.log("eliminado correctamente perfil.")
+          return true;
+      },
+      error => 
+      {
+        console.error("eliminado al modificar perfil.");
+        console.log(error);
+        return false;
+      }
+      );
+   }
+
+   //Inicializa la copia de usuario
+   inicializarCopia()
+   {
+     this.copiaUsuario = new Usuario();
+     this.copiaUsuario.perfil = new Perfil();
+     this.copiaUsuario.escribano = new Escribano();
+     this.copiaUsuario.escribano.escribania = new Escribania();
+   }
+
+  //Cuando se presiona el boton llama a la ventana modal. 
+  prepararBorrado(user:Usuario)
+  {
+    this.inicializarCopia();//inicializa la copia usuario
+    this.usuario = user;
+  }
+
+  //Si se oprime cancelar o se cierra el modal se descarta la copia
+  cancelarborrado()
+  {
+    this.inicializarCopia();
+  }
+
+  //Realiza el borrado del usuario seleccionado.
+  realizarborrado()
+  {
+    //borra escribano si existe
+    if(this.usuario.tipo == "socio" )
+    {
+      this.escribanoService.borrarEscribano(this.usuario.escribano).subscribe
+      (
+        resultado => {
+          console.log("eliminado correctamente escribano.")
+          return true;
+      },
+      error => 
+      {
+        console.error("error al borrar escribano.");
+        console.log(error);
+        return false;
+      }
+      );
     }
-  }//
+    //borra perfil
+    this.perfilService.borrarPerfil(this.usuario.perfil).subscribe
+    (
+      resultado => {
+        console.log("eliminado correctamente perfil.")
+        return true;
+      },
+      error => 
+      {
+      console.error("error al borrar perfil.");
+      console.log(error);
+      return false;
+     }
+    );
+    //borra el usuario
+    this.usuarioService.borrarUsuario(this.usuario).subscribe
+    (
+      resultado => {
+        console.log("eliminado correctamente Usuario.")
+        this.obtenerUsuarios();
+        //this.inicializarCopia();
+        return true;
+      },
+      error => 
+      {
+      console.error("error al borrar Usuario.");
+      console.log(error);
+      return false;
+      }
+    );
+
+  }///
 
   //Copia el usuario seleccionado a los campos
   copiarUser( usuario:Usuario )
@@ -329,36 +519,6 @@ export class AdministradorComponent implements OnInit {
       }
       );
     }
-  }//
-
-  //
-  probarEnviodeUsuario()
-  { let perfil1 = new Perfil();
-    let usuario1 = new Usuario(20,"antonio","antonio","antoni@gmail.com","administrador","pendiente",true,null);
-    this.usuarioService.enviarUsuario(usuario1).subscribe
-    (
-      resultado3 =>
-      {
-        console.log("Usuario subido.");
-      },
-      error =>
-      { console.log("Error al enviar usuario"); }
-    );
   }
-
-  //Crear Usuario
-  llamarCrearUsuario()
-  {
-    console.log("Username: " + this.usuario.username);
-    this.usuarioService.enviarUsuario(this.usuario).subscribe
-    (
-      resultado3 =>
-      {
-        console.log("Usuario subido.");
-      },
-      error =>
-      { console.log("Error al enviar usuario"); }
-    );
-  }///
 
 }
