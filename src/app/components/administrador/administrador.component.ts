@@ -27,19 +27,22 @@ export class AdministradorComponent implements OnInit {
   //
   usuario:Usuario; //Se manejara la creacion de Usuario
   copiaUsuario:Usuario;
-  
+  tipoDeDestino:string;
+
   //Efectos visuales
   tablaUsuarios:boolean = true; //Se manejan a la vez
   formCreacion:boolean = true; //Se manejan a la vez
+  botonesDeModificacion:boolean = false; // Se usa para mostrar los modificar y ocultar los de crear.
+  respuesta:string="";
 
   //Se usa para mostrar Escribano, Perfil y Usuario
   ventana:string = "";
 
-  btnCopiar=false;
   constructor( private usuarioService:ServUsuarioService, private perfilService:ServPerfilService, private escribanoService:ServEscribanoService  ) 
   {
     //
     this.inicializarUsuario();
+    this.inicializarCopia();
     //
     this.usuarios = new Array<Usuario>() ;
     this.escribanias = new Array<Escribania>() ;
@@ -387,6 +390,7 @@ export class AdministradorComponent implements OnInit {
    {
      this.copiaUsuario = new Usuario();
      this.copiaUsuario.perfil = new Perfil();
+     this.copiaUsuario.perfil.fecha_nac = new Date();
      this.copiaUsuario.escribano = new Escribano();
      this.copiaUsuario.escribano.escribania = new Escribania();
    }
@@ -413,7 +417,7 @@ export class AdministradorComponent implements OnInit {
       this.escribanoService.borrarEscribano(this.usuario.escribano).subscribe
       (
         resultado => {
-          console.log("eliminado correctamente escribano.")
+          console.log("eliminado correctamente escribano.");
           return true;
       },
       error => 
@@ -428,7 +432,7 @@ export class AdministradorComponent implements OnInit {
     this.perfilService.borrarPerfil(this.usuario.perfil).subscribe
     (
       resultado => {
-        console.log("eliminado correctamente perfil.")
+        console.log("eliminado correctamente perfil.");
         return true;
       },
       error => 
@@ -442,7 +446,7 @@ export class AdministradorComponent implements OnInit {
     this.usuarioService.borrarUsuario(this.usuario).subscribe
     (
       resultado => {
-        console.log("eliminado correctamente Usuario.")
+        console.log("eliminado correctamente Usuario.");
         this.obtenerUsuarios();
         //this.inicializarCopia();
         return true;
@@ -457,68 +461,150 @@ export class AdministradorComponent implements OnInit {
 
   }///
 
-  //Copia el usuario seleccionado a los campos
-  copiarUser( usuario:Usuario )
+  //Activa los botones de modificar
+  activarBotonesDeModificacion()
   {
-    this.btnCopiar = true;
+    this.botonesDeModificacion = true;
+  }
+
+  //Desactiva los botones de modificacion
+  desactivarBotonesDeModificacion()
+  {
+    this.botonesDeModificacion = false;
+  }
+
+  //Prepara el modificado de usuario
+  prepararModificado( usuario:Usuario )
+  {
     this.inicializarUsuario();
-    this.usuario = Object.assign(this.usuario, usuario); 
-  }
+    this.usuario = Object.assign(this.usuario, usuario);
+    this.tipoDeDestino = this.usuario.tipo;
+  }///
 
-  //Aplica los cambios sobre el usuario
-  realizarCambios( form:NgForm)
+  //Cancela la modificacion
+  cancelarModificado()
   {
-    if( form.valid == true )
+    this.inicializarUsuario();
+  }///
+
+  //ComenzarModificacion
+  comenzarModifiacion()
+  {
+    //Se pregunta si el origen es de tipo socio
+    if( this.usuario.tipo == "socio" )
     {
-      if(this.usuario.tipo == "socio" )
+      this.usuario.tipo == this.tipoDeDestino;
+      //Se pregunta si el destino sigue siendo socio o no
+      if( this.tipoDeDestino == "socio" )
       {
-        this.escribanoService.modificarEscribano(this.usuario.escribano).subscribe
+        this.ocultarInicio();
+        this.activarBotonesDeModificacion();
+        this.cambiarVentana("escribano");
+      }
+      else
+      {
+        //Si el socio cambia se debe eliminar el escribano asignado, asignar null al escribano de usuario y
+        //pasar al perfil directamente
+        this.escribanoService.borrarEscribano(this.usuario.escribano).subscribe
         (
-          data1 => {
-            console.log("modificado correctamente escribano.")
+          resultado => {
+            console.log("eliminado correctamente escribano.");
+            this.ocultarInicio();
+            this.activarBotonesDeModificacion();
+            this.usuario.escribano = null;
+            this.cambiarVentana("perfil");
             return true;
-        },
-        error => 
-        {
-          console.error("Error al modificar escribano.");
-          console.log(error);
-          return false;
-        }
-        );
+          },
+          error => 
+          {
+            console.error("error al borrar escribano.");
+            console.log(error);
+            return false;
+          }
+        ); 
       }
-
-      this.perfilService.modificarPerfil(this.usuario.perfil).subscribe
-      (
-        data2 => {
-          console.log("modificado correctamente perfil.")
-          return true;
-      },
-      error => 
-      {
-        console.error("Error al modificar perfil.");
-        console.log(error);
-        return false;
-      }
-      );
-
-      this.usuarioService.modificarUsuario(this.usuario).subscribe
-      (
-        data3 => {
-          console.log("modificado correctamente usuario.")
-          
-          this.obtenerUsuarios();
-          this.btnCopiar = false ;
-          this.inicializarUsuario();
-          return true;
-      },
-      error => 
-      {
-        console.error("Error al modificar usuario.");
-        console.log(error);
-        return false;
-      }
-      );
     }
-  }
+    //Si tipo de origen no era socio se entra aqui
+    else
+    {
+      this.usuario.tipo == this.tipoDeDestino;
+      //Se pregunta sigue siendo distinto de socio
+      if( this.tipoDeDestino != "socio" )
+      {
+        this.ocultarInicio();
+        this.activarBotonesDeModificacion();
+        this.cambiarVentana("perfil");
+      }
+      else
+      {
+        //Si cambia a socio se necesitara que se cree un escribano
+        this.usuario.escribano = new Escribano();
+        this.usuario.escribano.escribania = new Escribania();
+        this.activarBotonesDeModificacion();
+        this.ocultarInicio();
+        this.respuesta="si";
+        this.cambiarVentana("escribano");
+      }
+    }
+  }///
+
+  //Modifica el escribano
+  modificarEscribano()
+  {
+    this.escribanoService.modificarEscribano(this.usuario.escribano).subscribe
+    (
+      resultados => {
+        console.log("modificado correctamente escribano.")
+        this.cambiarVentana("perfil");
+        return true;
+        },
+        error => {
+        console.error("error al modificar escribano.");
+        console.log(error);
+        return false;
+        }
+    );
+  }///
+
+  //Modifica el perfil
+  modificarPerfil()
+  {
+    this.perfilService.modificarPerfil(this.usuario.perfil).subscribe
+    (
+      resultados => {
+        console.log("modificado correctamente perfil.")
+        this.cambiarVentana("usuario");
+        return true;
+        },
+        error => {
+        console.error("error al modificar perfil.");
+        console.log(error);
+        return false;
+        }      
+    );
+  }///
+
+  //Modificar el usuario
+  modificarUsuario()
+  {
+    this.usuarioService.modificarUsuario(this.usuario).subscribe
+    (
+      resultados => {
+        console.log("modificado correctamente usuario.")
+        this.desactivarBotonesDeModificacion();
+        this.respuesta="";
+        this.cambiarVentana("");
+        this.inicializarUsuario();
+        this.mostrarInicio();
+        this.obtenerUsuarios();
+        return true;
+        },
+        error => {
+        console.error("error al modificar usuario.");
+        console.log(error);
+        return false;
+        }
+    );
+  }///
 
 }

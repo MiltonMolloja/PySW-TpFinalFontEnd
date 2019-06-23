@@ -27,8 +27,11 @@
                     <div class="text-danger font-weight-bolder text-center" *ngIf="v_universidad">Universidad requerida.</div>
                 </div>
             </div>
-            <div class="d-flex justify-content-center">
+            <div class="d-flex justify-content-center" *ngIf="botonesDeModificacion == false || respuesta == 'si' ">
                 <button type="button" (click)="crearEscribano( formEscribano ) ;" class="btn btn-success">Crear Socio</button>
+            </div>
+            <div class="d-flex justify-content-center" *ngIf="botonesDeModificacion == true && respuesta == '' ">
+                <button type="button" (click)="modificarEscribano() ;" class="btn btn-primary">Modificar Socio</button>
             </div>
         </form>
     </div>
@@ -65,7 +68,7 @@
             </div>
             <div class="form-group">
                 <label class="font-weight-bold" for="fechanac">Fecha de Nacimiento</label>
-                <input type="date" [(ngModel)]="usuario.perfil.fecha_nac" ngModel placeholder="dd/mm/aaaa" class="form-control-sm rounded font-weight-bold text-center" name="fechanac" id="id_fechanac" #v_fecha="ngModel" required>
+                <input type="date" [(ngModel)]="usuario.perfil.fecha_nac" ngModel class="form-control-sm rounded font-weight-bold text-center" name="fechanac" id="id_fechanac" #v_fecha="ngModel" required>
                 <div *ngIf="v_fecha.touched && v_fecha.invalid">
                     <div class="text-danger font-weight-bolder" *ngIf="v_fecha.errors.required">Fecha requerida.</div>
                 </div>
@@ -81,8 +84,11 @@
                     <div class="text-danger font-weight-bolder text-center" *ngIf="v_sexo.errors.required">Elija una opcion.</div>
                 </div>
             </div>
-            <div class="d-flex justify-content-center">
+            <div class="d-flex justify-content-center" *ngIf="botonesDeModificacion == false">
                 <button type="button" class="btn btn-success" (click)="crearPerfil( formPerfil );">Crear Perfil</button>
+            </div>
+            <div class="d-flex justify-content-center" *ngIf="botonesDeModificacion == true">
+                <button type="button" class="btn btn-primary" (click)="modificarPerfil() ;">Modificar Perfil</button>
             </div>
         </form>
     </div>
@@ -131,8 +137,11 @@
                     <div class="text-danger font-weight-bolder text-center" *ngIf="v_email.errors.required">Email requerido.</div>
                 </div>
             </div>
-            <div class="d-flex justify-content-center">
+            <div class="d-flex justify-content-center" *ngIf="botonesDeModificacion == false">
                 <button type="button" class="btn btn-success" (click)="crearUsuario( formUsuario );">Crear Usuario</button>
+            </div>
+            <div class="d-flex justify-content-center" *ngIf="botonesDeModificacion == true">
+                <button type="button" class="btn btn-success" (click)="modificarUsuario() ;">Modificar Usuario</button>
             </div>
         </form>
     </div>
@@ -176,7 +185,8 @@
                         <th>Nombres</th>
                         <th>Apellidos</th>
                         <th>Doc</th>
-                        <th>Mod</th>
+                        <th></th>
+                        <th></th>
                     </tr>
                 </thead>
                 <tbody>
@@ -189,6 +199,7 @@
                         <td> {{ usuario.perfil.apellidos }} </td>
                         <td> {{ usuario.perfil.dni }} </td>
                         <td> <button type="button" class="btn btn-danger btn-sm" data-toggle="modal" data-target="#Eliminacion" (click)="prepararBorrado( usuario );">Eliminar</button> </td>
+                        <td> <button type="button" class="btn btn-warning btn-sm" data-toggle="modal" data-target="#Modificacion" (click)="prepararModificado( usuario );">Modificar</button> </td>
                     </tr>
                 </tbody>
             </table>
@@ -207,12 +218,43 @@
               </button>
             </div>
             <div class="modal-body">
-                <p class="text-center text-warning font-weight-bold">¿Realmente quier borrar el usuario?</p>
+                <p class="text-center font-weight-bold">¿Realmente quier borrar el usuario?</p>
             </div>
             <div class="modal-footer d-flex justify-content-center ">
                 <button type="button" class="btn btn-success" data-dismiss="modal" (click)="realizarborrado();">Confirmar</button>
                 <button type="button" class="btn btn-danger" data-dismiss="modal" (click)="cancelarborrado();">Cancelar</button>
             </div>
+        </div>
+    </div>
+</div>
+
+<!-- Modal de Eliminacion -->
+<div class="modal fade" id="Modificacion" tabindex="-1" role="dialog" aria-labelledby="Modificacion" aria-hidden="true">
+    <div class="modal-dialog modal-dialog-centered" role="document">
+        <div class="modal-content">
+            <form>
+                <div class="modal-header">
+                    <h5 class="modal-title" id="exampleModalCenterTitle">Elija tipo de Usuario</h5>
+                    <button type="button" class="close" data-dismiss="modal" aria-label="Close" (click)="cancelarModificado();"><span aria-hidden="true">&times;</span></button>
+                </div>
+                <div class="modal-body">
+                    <div class="form-group">
+                        <label class="font-weight-bold" for="tipo">Elija tipo de Usuario</label>
+                        <select [(ngModel)]="tipoDeDestino" ngModel class="form-control selectpicker font-weight-bold text-dark bg-light" name="tipoD" id="id_tipoD" #v_tipoD="ngModel" required>
+                                        <option  value="" select >Seleccione</option>
+                                        <option  *ngFor="let tipo of tipos" [ngValue]="tipo"> {{ tipo }} </option>
+                                </select>
+                        <div *ngIf="v_tipoD.touched && v_tipoD.invalid">
+                            <div class="text-danger font-weight-bolder text-center" *ngIf="v_tipoD.errors.required">Tipo de usuario requerido.</div>
+                        </div>
+                        <p class="text-center">Si cambio un usuario de tipo socioa a otro tipo se borraran los datos de su escribano. Si cambio gerente, administrador o administrativo a socio se le pedira que cree un escribano</p>
+                    </div>
+                </div>
+                <div class="modal-footer d-flex justify-content-center ">
+                    <button type="button" class="btn btn-success" data-dismiss="modal" (click)="comenzarModifiacion();">Confirmar</button>
+                    <button type="button" class="btn btn-danger" data-dismiss="modal" (click)="cancelarModificado();">Cancelar</button>
+                </div>
+            </form>
         </div>
     </div>
 </div>
