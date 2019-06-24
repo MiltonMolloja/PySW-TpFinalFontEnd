@@ -15,8 +15,6 @@ export class EscribanoTestComponent implements OnInit {
   escribania: Escribania;
   escribanias: Array<Escribania>;
 
-
-
   constructor(private escribanoService: EscribanoService) {
     this.escribano = new Escribano();
     this.escribania = new Escribania();
@@ -29,9 +27,7 @@ export class EscribanoTestComponent implements OnInit {
   ngOnInit() {
   }
 
-
   public obtenerEscribanias() {
-
     this.escribanoService.getEscribanias().subscribe(
       results => {
         //console.log(this.escribanos);
