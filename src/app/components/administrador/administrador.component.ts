@@ -462,7 +462,7 @@ export class AdministradorComponent implements OnInit {
 
   //ComenzarModificacion
   comenzarModifiacion( form:NgForm )
-  {
+  { 
     //Se pregunta si es valido
     if(form.valid)
     {
@@ -473,6 +473,7 @@ export class AdministradorComponent implements OnInit {
         //Se pregunta si el destino sigue siendo socio o no
         if( this.tipoDeDestino == "socio" )
         {
+          this.usuario.escribano.escribania = this.escribanias.find( escribania => escribania.id === this.usuario.escribano.escribania.id  );          
           this.ocultarInicio();
           this.activarBotonesDeModificacion();
           this.cambiarVentana("escribano");
