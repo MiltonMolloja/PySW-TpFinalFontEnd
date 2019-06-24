@@ -14,6 +14,8 @@ import { LoginService } from './services/login.service';
 //Cuando se quiere trabajar con ngModel
 import { FormsModule } from '@angular/forms';
 import { AdministradorComponent } from './components/administrador/administrador.component';
+import {DataTableModule} from "angular-6-datatable";
+import { AlifeFileToBase64Module } from 'alife-file-to-base64';
 
 @NgModule({
   declarations: [
@@ -28,7 +30,9 @@ import { AdministradorComponent } from './components/administrador/administrador
     BrowserModule,
     AppRoutingModule,
     FormsModule,
-    HttpClientModule
+    HttpClientModule,
+    AlifeFileToBase64Module,
+    DataTableModule
   ],
   providers: [ LoginService ],
   bootstrap: [AppComponent]
