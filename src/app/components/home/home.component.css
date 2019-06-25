@@ -1,0 +1,27 @@
+/*Mensaje de la Imagen*/
+
+#mensaje {
+    text-shadow: 2px 2px 5px #000;
+}
+
+
+/*Imagenes de las tarjetas*/
+
+.miniatura {
+    width: 50px;
+    height: 70px;
+}
+
+
+/*Para centrar el texto en la imagen*/
+
+.thumbnail {
+    position: relative;
+}
+
+.caption {
+    position: absolute;
+    top: 45%;
+    left: 0;
+    width: 100%;
+}
