@@ -38,7 +38,17 @@ import { GerenteComponent } from './components/gerente/gerente.component';
     LoginComponent,
     AdministradorComponent,
     EscribanoTestComponent,
-    PerfilTestComponent
+    PerfilTestComponent,
+    NavbarTipoTestComponent,
+    GerenteComponent,
+    NovedadComponent,
+    EscribaniaComponent,
+    EscribanoComponent,
+    UsuarioComponent,
+    PerfilComponent,
+    GestionNovedadComponent,
+    GestionEscribaniasComponent
+
   ],
   imports: [
     BrowserModule,

@@ -12,6 +12,8 @@ import { EscribaniaComponent } from './components/escribania/escribania.componen
 import { EscribanoComponent } from './components/escribano/escribano.component';
 import { NovedadComponent } from './components/novedad/novedad.component';
 import { GerenteComponent } from './components/gerente/gerente.component';
+import { GestionEscribaniasComponent } from './components/gestion-escribania/gestion-escribania.component';
+import { GestionNovedadComponent } from './components/gestion-novedad/gestion-novedad.component';
 
 const routes: Routes =
 [
@@ -27,7 +29,8 @@ const routes: Routes =
   { path: 'escribano', component: EscribanoComponent},
   { path: 'novedad', component: NovedadComponent},
   { path: 'gerente', component: GerenteComponent},
-
+  { path: 'novedad', component: GestionNovedadComponent},
+  { path: 'escribanias', component: GestionEscribaniasComponent},
   {path: '**', component: HomeComponent}
 ];
 
