@@ -21,6 +21,8 @@ export class GerenteComponent implements OnInit {
   totalPagosEscribano: number;
   totalPagosDosFechas: number;
   totalPagosDosFechasMasEscribano: number;
+  mes:number;
+  anio:number;
 
   fechaInicio: Date;
   fechaFin: Date;
@@ -37,6 +39,8 @@ export class GerenteComponent implements OnInit {
     this.totalPagosEscribano = 0;
     this.totalPagosDosFechas = 0;
     this.totalPagosDosFechasMasEscribano = 0;
+    this.mes = 0;
+    this.anio = 0;
     this.fechaInicio = new Date();
     this.fechaFin = new Date();
     this.fechaActual = new Date();
@@ -233,6 +237,29 @@ export class GerenteComponent implements OnInit {
   addDays(date: Date, days: number): Date {
     date.setDate(date.getDate() + days);
     return date;
+  }
+
+  removeDays(date: Date, days: number): Date {
+    date.setDate(date.getDate() - days);
+    return date;
+  }
+
+
+  public formarFechaMes(){
+    console.log("0"+(this.mes-1+2));
+
+    this.fechaInicio = new Date(this.anio+"/"+this.mes+"/01");
+    this.fechaFin = this.removeDays(new Date(this.anio+"/"+("0"+(this.mes-1+2))+"/01"),1);
+    ///this.fechaFin = new Date(anio+"/"+mes+"/01");
+    this.obtenerTotalPagosDosFechas(this.fechaInicio,this.fechaFin);
+  }
+
+
+  public formarFechaAnio(){
+    this.fechaInicio = new Date(this.anio+"/01/01");
+    this.fechaFin = new Date(this.anio+"/12/01");
+    ///this.fechaFin = new Date(anio+"/"+mes+"/01");
+    this.obtenerTotalPagosDosFechas(this.fechaInicio,this.fechaFin);
   }
 
 

@@ -50,7 +50,7 @@
           <a class="nav-link" data-toggle="tab" href="#mes">Mes</a>
         </li>
         <li class="nav-item">
-          <a class="nav-link" data-toggle="tab" href="#anio">Año</a>
+          <a class="nav-link" data-toggle="tab" href="#year">Año</a>
         </li>
         <li class="nav-item">
             <a class="nav-link" data-toggle="tab" href="#personalizado">Personalizado</a>
@@ -84,46 +84,81 @@
           <h3>Mes</h3>
 
           <div class="row form-group">
+            <label>Elija Mes:</label>
+            <select name="anio" id="anio" class="form-control" [(ngModel)]="anio">
+              <option selected>Large Custom Select Menu</option>
+              <option value="2016">2016</option>
+              <option value="2017">2017</option>
+              <option value="2018">2018</option>
+              <option value="2019">2019</option>
+            </select>
+          </div>
+
+          <div class="row form-group">
               <label>Elija Mes:</label>
-              <select name="mes" id="mes" class="form-control" [(ngModel)]="fechaFin">
-                <option *ngFor="let usuario of usuarios" [ngValue]="usuario.escribano">{{usuario.perfil.apellidos}},
-                  {{usuario.perfil.nombres}}</option>
+              <select name="mes" id="mes" class="form-control" [(ngModel)]="mes">
+                <option selected>Large Custom Select Menu</option>
+                <option value="01">Enero</option>
+                <option value="02">Febrero</option>
+                <option value="03">Marzo</option>
+                <option value="04">Abril</option>
+                <option value="05">Mayo</option>
+                <option value="06">Junio</option>
+                <option value="07">Julio</option>
+                <option value="08">Agosto</option>
+                <option value="09">Septimbre</option>
+                <option value="10">Octubre</option>
+                <option value="11">Noviembre</option>
+                <option value="12">Diciembre</option>
               </select>
             </div>
 
+            <br>
+            <h2> {{mes}} / {{anio}}</h2>
+            <h3> fecha Inicio {{fechaInicio | date: 'dd/MM/yyyy'}}</h3>
+            <h3> fecha Fin {{fechaFin | date: 'dd/MM/yyyy'}}</h3>
+            <br>
 
           <br>
           <div>
             <button type="button " class="btn btn-danger"
-              (click)="obtenerTotalPagosDosFechas(fechaInicio,fechaFin)">Filtrar por Fecha</button>
+              (click)="formarFechaMes()">Filtrar por Fecha</button>
           </div>
           <div>
             <h3>total Pagos entre dos fechas {{totalPagosDosFechas}}</h3>
           </div>
         </div>
 
-        <div id="anio" class="container tab-pane fade"><br>
-            <h3>Año</h3>
-          <div class="md-form">
-            Fecha de Inicio:
-            <input type="date" max="{{fechaActual | date: 'dd/MM/yyyy'}}" min="2008-01-01" [(ngModel)]="fechaInicio">
-          </div>
-          <br>
-          <div class="md-form">
-            Fecha de Fin:
-            <input type="date" max="{{fechaActual | date: 'dd/MM/yyyy'}}" min="2008-01-01" [(ngModel)]="fechaFin">
-          </div>
-          <br>
-          <h3> fecha Inicio {{fechaInicio | date: 'dd/MM/yyyy'}}</h3>
-          <h3> fecha Fin {{fechaFin | date: 'dd/MM/yyyy'}}</h3>
-          <br>
-          <div>
-            <button type="button " class="btn btn-danger"
-              (click)="obtenerTotalPagosDosFechas(fechaInicio,fechaFin)">Filtrar por Fecha</button>
-          </div>
-          <div>
-            <h3>total Pagos entre dos fechas {{totalPagosDosFechas}}</h3>
-          </div>
+        <div id="year" class="container tab-pane fade"><br>
+            <h3>Año </h3>
+
+            <div class="row form-group">
+              <label>Elija Mes:</label>
+              <select name="anio" id="anio" class="form-control" [(ngModel)]="anio">
+                <option selected>Large Custom Select Menu</option>
+                <option value="2016">2016</option>
+                <option value="2017">2017</option>
+                <option value="2018">2018</option>
+                <option value="2019">2019</option>
+              </select>
+            </div>
+
+              <br>
+              <h2>  / {{anio}}</h2>
+              <h3> fecha Inicio {{fechaInicio | date: 'dd/MM/yyyy'}}</h3>
+              <h3> fecha Fin {{fechaFin | date: 'dd/MM/yyyy'}}</h3>
+              <br>
+
+            <br>
+            <div>
+              <button type="button " class="btn btn-danger"
+                (click)="formarFechaAnio()">Filtrar por Fecha</button>
+            </div>
+            <div>
+              <h3>total Pagos entre dos fechas {{totalPagosDosFechas}}</h3>
+            </div>
+
+
         </div>
 
         <div id="personalizado" class="container tab-pane fade"><br>
