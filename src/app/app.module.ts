@@ -16,6 +16,7 @@ import { FormsModule } from '@angular/forms';
 import { AdministradorComponent } from './components/administrador/administrador.component';
 import {DataTableModule} from "angular-6-datatable";
 import { AlifeFileToBase64Module } from 'alife-file-to-base64';
+import { ListadoComponent } from './components/listado/listado.component';
 
 @NgModule({
   declarations: [
@@ -24,7 +25,8 @@ import { AlifeFileToBase64Module } from 'alife-file-to-base64';
     FooterComponent,
     HomeComponent,
     LoginComponent,
-    AdministradorComponent
+    AdministradorComponent,
+    ListadoComponent
   ],
   imports: [
     BrowserModule,

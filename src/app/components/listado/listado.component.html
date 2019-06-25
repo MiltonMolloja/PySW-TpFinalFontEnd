@@ -1,0 +1,27 @@
+<div class="row">
+    <div class="col-12">
+        <h1 class="text-center">Google Maps - San Salvador de Jujuy </h1>
+    </div>
+</div>
+
+<div class="row">
+    <div class="col-12">
+        <h4 class="text-center">Escribania de Jujuy</h4>
+        <div class="card-columns mt-3">
+            <div *ngFor="let escribania of escribanias" class="card">
+                <img [src]="escribania.foto" class="card-img-top" width="120px" height="120px" alt="...">
+                <div class="card-body text-center">
+                    <h5 class="card-title"> {{ escribania.nombre }} </h5>
+                    <p class="card-text"> {{ escribania.direccion }} </p>
+                    <p class="card-text">(0388){{ escribania.telefono }} </p>
+                    <p class="card-text"> {{ escribania.email }} </p>
+                </div>
+                <div class="card-footer">
+                    <div class="d-flex justify-content-center">
+                        <button type="button" class="btn btn-outline-success">Ir a GoogleMaps</button>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
