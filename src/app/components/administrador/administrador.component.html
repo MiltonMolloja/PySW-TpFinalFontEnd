@@ -85,7 +85,7 @@
                     </div>
                     <div class="form-group">
                         <label class="font-weight-bold" for="fechanac">Fecha de Nacimiento</label>
-                        <input type="date" [(ngModel)]="usuario.perfil.fechaNac" value="usuario.perfil.fechaNac" ngModel class="form-control-sm rounded font-weight-bold text-center" name="fechanac" id="id_fechanac" #v_fecha="ngModel" required>
+                        <input type="date" [(ngModel)]="usuario.perfil.fechaNac" value="2019-06-07" ngModel class="form-control-sm rounded font-weight-bold text-center" name="fechanac" id="id_fechanac" #v_fecha="ngModel" required>
                         <div *ngIf="v_fecha.touched && v_fecha.invalid">
                             <div class="text-danger font-weight-bolder" *ngIf="v_fecha.errors.required">Fecha requerida.</div>
                         </div>
@@ -243,7 +243,7 @@
                             <td> {{ user.perfil.nombres }} </td>
                             <td> {{ user.perfil.apellidos }} </td>
                             <td> {{ user.perfil.dni }} </td>
-                            <td> {{ user.perfil.fechaNac }} </td>
+                            <td> {{ user.perfil.fechaNac | date: 'dd/MM/yyyy' }} </td>
                             <td> <button type="button" class="btn btn-danger btn-sm" data-toggle="modal" data-target="#Eliminacion" (click)="prepararBorrado( user );">Eliminar</button> </td>
                             <td> <button type="button" class="btn btn-warning btn-sm" data-toggle="modal" data-target="#Modificacion" (click)="prepararModificado( user );">Modificar</button> </td>
                         </tr>

@@ -115,6 +115,7 @@ export class AdministradorComponent implements OnInit {
             //Solo se cargaran los que tengan estado valido.
             if(usuario.estado == true )
             {
+              usuario.perfil.fechaNac = new Date( (elemento.perfil.fechaNac.timestamp + 11000 ) * 1000 );
               this.usuarios.push(usuario);
             }
           }
