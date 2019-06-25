@@ -3,6 +3,7 @@ import { LoginService } from 'src/app/services/login.service';
 import { PagoService } from 'src/app/services/pago.service';
 import { Pago } from 'src/app/models/pago';
 import { Escribano } from 'src/app/models/escribano';
+import { Usuario } from 'src/app/models/usuario';
 
 @Component({
   selector: 'app-gerente',
@@ -14,26 +15,35 @@ export class GerenteComponent implements OnInit {
   escribano: Escribano;
   pagos: Array<Pago>;
   escribanos: Array<Escribano>;
+  usuario: Usuario;
+  usuarios: Array<Usuario>;
   totalPagos: number;
   totalPagosEscribano: number;
   totalPagosDosFechas: number;
+  totalPagosDosFechasMasEscribano: number;
 
   fechaInicio: Date;
   fechaFin: Date;
+  fechaActual: Date = new Date();
 
   constructor(public loginService: LoginService, private pagoService: PagoService) {
     this.pago = new Pago();
     this.escribano = new Escribano();
     this.pagos = new Array<Pago>();
     this.escribanos = new Array<Escribano>();
+    this.usuario = new Usuario();
+    this.usuarios = new Array<Usuario>();
     this.totalPagos = 0;
     this.totalPagosEscribano = 0;
     this.totalPagosDosFechas = 0;
-    this.fechaInicio = new Date;
-    this.fechaFin = new Date;
+    this.totalPagosDosFechasMasEscribano = 0;
+    this.fechaInicio = new Date();
+    this.fechaFin = new Date();
+    this.fechaActual = new Date();
     this.mostrarHistoricos();
     this.obtenerEscribanos();
-    this.obtenerTotalPagosTodo();
+    this.obtenerUsuarios();
+    //this.obtenerTotalPagosTodo();
     this.obtenerTotalPagosEscribano(this.escribano);
     this.obtenerTotalPagosDosFechas(this.fechaInicio, this.fechaFin);
   }
@@ -54,8 +64,33 @@ export class GerenteComponent implements OnInit {
         //console.log(this.escribanos);
         //this.escribanias = JSON.parse(results['escribanias']);
         //console.log(this.escribanias);
-      }
-    );
+      },
+      error => {
+        alert("error en la peticion");
+      });
+      this.obtenerTotalPagosTodo();
+  }
+
+  public obtenerUsuarios() {
+    this.pagoService.getUsuarios().subscribe(
+      result => {
+        result.forEach(element => {
+          console.log(element.tipo);
+          if (element.tipo==="Socio") {
+            this.usuarios.push(element);
+            console.log(this.usuarios);
+          }
+
+        });
+
+
+        console.log(this.escribanos);
+
+      },
+      error => {
+        alert("error en la peticion");
+      });
+      this.obtenerTotalPagosTodo();
   }
 
   public mostrarHistoricos() {
@@ -67,17 +102,37 @@ export class GerenteComponent implements OnInit {
       error => {
         alert("error en la peticion");
       });
+      this.obtenerTotalPagosTodo();
+  }
+
+  public mostrarHistoricosEscribano(escribano:Escribano) {
+    this.pagoService.getPagos().subscribe(
+      result => {
+        this.pagos = new Array<Pago>();
+        result.forEach(element => {
+          if (element.escribano.id==escribano.id) {
+            this.pagos.push(element);
+            console.log(element);
+          }
+        });
+        //this.pagos = result;
+        console.log(this.pagos);
+      },
+      error => {
+        alert("error en la peticion");
+      });
   }
 
   public obtenerTotalPagosTodo() {
+    this.totalPagos = 0;
     this.pagoService.getPagos().subscribe(
       result => {
-        //this.pagos = result;
-    ///    console.log(result);
+        ///this.pagos = result;
+        ///console.log(result);
         result.forEach(element => {
           //console.log("ele " + element.importe);
           this.totalPagos += parseFloat(element.importe);
-    //      console.log("total pago despues " + this.totalPagos);
+          //console.log("total pago despues " + this.totalPagos);
         });
       },
       error => {
@@ -86,7 +141,9 @@ export class GerenteComponent implements OnInit {
   }
 
   public obtenerTotalPagosEscribano(escribano: Escribano) {
-    //escribano.id = 3;
+    //escribano.id = 1;
+    console.log(escribano);
+    this.totalPagosEscribano = 0;
     this.pagoService.getPagos().subscribe(
       result => {
         result.forEach(element => {
@@ -95,6 +152,7 @@ export class GerenteComponent implements OnInit {
           }
         });
         console.log("total pago Escribano " + this.totalPagosEscribano);
+        this.mostrarHistoricosEscribano(escribano);
       },
       error => {
         alert("error en la peticion");
@@ -115,69 +173,62 @@ export class GerenteComponent implements OnInit {
     }
   }
 
-  public obtenerTotalPagosDosFechas2(fechaInicio: Date, fechaFin: Date) {
-    fechaInicio = new Date("2019-03-20");
-    fechaFin = new Date("2019-08-25");
-    ///console.log("INICIO - " + fechaFin.toString());
-    //console.log("FIN  - " + fechaInicio.toString());
-    //console.log(fechaInicio <= new Date("2019-06-25") && fechaFin <=new Date("2019-06-25"));
-    //if (fechaInicio <= new Date("2019-05-25") && fechaFin >=new Date("2019-05-25")) {
-    //  console.log("Paso  - -------"  );
-    //}
-
+  public obtenerTotalPagosDosFechas(fechaInicio: Date, fechaFin: Date) {
+    //fechaInicio = new Date("2019-03-20");
+    //fechaFin = new Date("2019-08-25");
+    console.log("INICIO - " + fechaInicio.toString());
+    console.log("FIN  - " + fechaFin.toString());
     this.pagoService.getPagos().subscribe(
       result => {
-        console.log("fecha -------"  +  result);
-        this.pagos = result;
-        //result.forEach(element => {
-          this.pagos.forEach(element => {
-          console.log("fecha -------"  +  element.fecha.toString());
-          if (fechaInicio <= element.fecha && fechaFin >= element.fecha) {
-          this.totalPagosDosFechas+= element.importe - 1 + 1;
-          console.log("Paso -------"  +  element.importe);
+        this.totalPagosDosFechas=0;
+        this.pagos = new Array<Pago>();
+        //this.pagos = result;
+        //console.log(this.pagos);
+        result.forEach(element => {
+          console.log(  "--------------------------------");
+          ////console.log(new Date(element.fecha.timestamp * 1000 + 86400000).toString());
+          //console.log(new Date(element.fecha.timestamp * 1000 ));
+          //console.log(new Date(fechaInicio) <= new Date(element.fecha.timestamp * 1000 ) && new Date(fechaFin) >= new Date(element.fecha.timestamp * 1000 ));
+          if (new Date(fechaInicio) <= new Date(element.fecha.timestamp * 1000 ) && new Date(fechaFin) >= new Date(element.fecha.timestamp * 1000 )) {
+            this.totalPagosDosFechas+= element.importe - 1 + 1;
+            this.pagos.push(element);
+            //console.log(element);
           }
         });
-        console.log("total Dos Fechas " + this.totalPagosDosFechas );
+        console.log("Paso Total -------"  +  this.totalPagosDosFechas);
       },
       error => {
         alert("error en la peticion");
       });
   }
 
-  public obtenerTotalPagosDosFechas(fechaInicio: Date, fechaFin: Date) {
+
+  public obtenerTotalPagosDosFechasMasEscribano(fechaInicio: Date, fechaFin: Date, escribano: Escribano) {
     fechaInicio = new Date("2019-03-20");
     fechaFin = new Date("2019-08-25");
-    console.log("INICIO - " + fechaFin.toString());
-    console.log("FIN  - " + fechaInicio.toString());
+    console.log("INICIO - " + fechaInicio.toString());
+    console.log("FIN  - " + fechaFin.toString());
     this.pagoService.getPagos().subscribe(
       result => {
         this.pagos = result;
         console.log(this.pagos);
         result.forEach(element => {
-        ///this.pagos.forEach(element => {
           console.log(  "--------------------------------");
-          console.log( element.fecha.timestamp * 1000 );
-          //console.log(JSON.stringify(element.fecha.timestamp * 1000));
-
-          console.log(new Date(element.fecha.timestamp * 1000 + 86400000).toString());
-          console.log(element.fecha.timestamp * 1000 + 50000000);
-
-
-          //console.log(JSON.parse(JSON.stringify(new Date().setTime(1561248000).toString())));
-          //console.log(JSON.stringify(element.fecha));
-          //console.log(JSON.parse(JSON.stringify(element.fecha)));
-          console.log(fechaInicio <= element.fecha && fechaFin >= element.fecha);
-          if (fechaInicio <= element.fecha && fechaFin >= element.fecha) {
-          this.totalPagosDosFechas+= element.importe - 1 + 1;
-          console.log("Paso -------"  +  element.importe);
+          ////console.log(new Date(element.fecha.timestamp * 1000 + 86400000).toString());
+          console.log(new Date(element.fecha.timestamp * 1000 ).toString());
+          console.log(fechaInicio <= new Date(element.fecha.timestamp * 1000 ) && fechaFin >= new Date(element.fecha.timestamp * 1000 ));
+          if (fechaInicio <= new Date(element.fecha.timestamp * 1000 ) && fechaFin >= new Date(element.fecha.timestamp * 1000 )) {
+            if (element.escribano.id === escribano.id) {
+              this.totalPagosDosFechas+= element.importe - 1 + 1;
+            }
           }
         });
+        console.log("Paso -------"  +  this.totalPagosDosFechas);
       },
       error => {
         alert("error en la peticion");
       });
   }
-
 
   addDays(date: Date, days: number): Date {
     date.setDate(date.getDate() + days);

@@ -17,4 +17,8 @@ export class PagoService {
     return this._http.get('http://localhost/PySW-TpFinal/public/index.php/escribano/');
   }
 
+  getUsuarios(): Observable<any> {
+    return this._http.get('http://localhost/PySW-TpFinal/public/index.php/usuario/');
+  }
+
 }
