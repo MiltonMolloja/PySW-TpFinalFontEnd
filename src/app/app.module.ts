@@ -1,5 +1,7 @@
 import { BrowserModule } from '@angular/platform-browser';
 import { NgModule } from '@angular/core';
+import { AlifeFileToBase64Module } from 'alife-file-to-base64';
+import { AgmCoreModule } from '@agm/core';
 
 import { AppRoutingModule } from './app-routing.module';
 import { AppComponent } from './app.component';
@@ -17,6 +19,8 @@ import { FormsModule } from '@angular/forms';
 import { AdministradorComponent } from './components/administrador/administrador.component';
 import { EscribanoTestComponent } from './components/escribano-test/escribano-test.component';
 import { PerfilTestComponent } from './components/perfil-test/perfil-test.component';
+import { GestionEscribaniasComponent } from './components/gestion-escribania/gestion-escribania.component';
+import { GestionNovedadComponent } from './components/gestion-novedad/gestion-novedad.component';
 
 @NgModule({
   declarations: [
@@ -27,14 +31,20 @@ import { PerfilTestComponent } from './components/perfil-test/perfil-test.compon
     LoginComponent,
     AdministradorComponent,
     EscribanoTestComponent,
-    PerfilTestComponent
+    PerfilTestComponent,
+    GestionEscribaniasComponent,
+    GestionNovedadComponent,
   ],
   imports: [
     BrowserModule,
     HttpClientModule,
     AppRoutingModule,
     FormsModule,
-    DataTableModule
+    DataTableModule,
+    AlifeFileToBase64Module,
+    AgmCoreModule.forRoot({
+      apiKey: 'AIzaSyBbPusYwryniehTI37uSODwdKteRvcI0Qc'
+    })
   ],
   providers: [ LoginService ],
   bootstrap: [AppComponent]
