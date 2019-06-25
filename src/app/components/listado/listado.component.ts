@@ -11,6 +11,10 @@ export class ListadoComponent implements OnInit {
   escribaniaI:Escribania;
   escribanias:Array<Escribania>;
 
+  lat: number = -24.185777;
+  lng: number = -65.311159;
+  zoom: number = 16;  
+
   constructor( private escribanoService:ServEscribanoService ) 
   { 
     this.escribaniaI = new Escribania();

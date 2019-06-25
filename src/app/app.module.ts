@@ -18,6 +18,9 @@ import {DataTableModule} from "angular-6-datatable";
 import { AlifeFileToBase64Module } from 'alife-file-to-base64';
 import { ListadoComponent } from './components/listado/listado.component';
 
+//
+import { AgmCoreModule } from '@agm/core';
+
 @NgModule({
   declarations: [
     AppComponent,
@@ -34,7 +37,11 @@ import { ListadoComponent } from './components/listado/listado.component';
     FormsModule,
     HttpClientModule,
     AlifeFileToBase64Module,
-    DataTableModule
+    DataTableModule,
+    AgmCoreModule.forRoot({
+      apiKey: 'AIzaSyB2o_oaQi1qZaS7JHNN6HqKVqTLYVBPNWs'
+    })   
+
   ],
   providers: [ LoginService ],
   bootstrap: [AppComponent]
