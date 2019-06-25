@@ -1,0 +1,84 @@
+<div *ngIf="loginService.userLoggedIn">
+  <div>
+    <nav class="navbar navbar-expand-sm bg-dark navbar-dark">
+      <ul class="navbar-nav">
+        <li class="nav-item active">
+          <a class="nav-link"> De Tipo {{loginService.userLogged.tipo}} </a>
+        </li>
+        <div *ngIf="loginService.userLogged.tipo==='administrador'">
+          <li class="nav-item">
+            <a class="nav-link" [routerLink]="['/usuario']">Listado de Usuarios</a>
+          </li>
+          <li class="nav-item">
+            <a class="nav-link" [routerLink]="['/perfil']">Listado de Perfiless</a>
+          </li>
+        </div>
+        <div *ngIf="loginService.userLogged.tipo==='administrativo'">
+          <li class="nav-item">
+            <a class="nav-link" [routerLink]="['/escribano']">Listado de Escribano</a>
+          </li>
+          <li class="nav-item">
+            <a class="nav-link" [routerLink]="['/escribania']">Listado de Escribania</a>
+          </li>
+          <li class="nav-item">
+            <a class="nav-link" [routerLink]="['/novedad']">Listado de Novedades</a>
+          </li>
+        </div>
+        <div *ngIf="loginService.userLogged.tipo==='gerente'">
+          <li class="nav-item">
+            <a class="nav-link" [routerLink]="['/gerente']">Resumen</a>
+          </li>
+        </div>
+      </ul>
+    </nav>
+  </div>
+</div>
+
+
+<div *ngIf="loginService.userLogged.tipo==='administrador'">
+  <nav class="navbar navbar-expand-sm bg-dark navbar-dark">
+    <ul class="navbar-nav">
+      <li class="nav-item active">
+        <a class="nav-link"> {{loginService.userLogged.tipo}} </a>
+      </li>
+      <li class="nav-item">
+        <a class="nav-link" [routerLink]="['/usuario']">Listado de Usuarios</a>
+      </li>
+      <li class="nav-item">
+        <a class="nav-link" [routerLink]="['/perfil']">Listado de Perfiless</a>
+      </li>
+    </ul>
+  </nav>
+</div>
+
+<div *ngIf="loginService.userLogged.tipo==='administrativo'">
+  <nav class="navbar navbar-expand-sm bg-dark navbar-dark">
+    <ul class="navbar-nav">
+      <li class="nav-item active">
+        <a class="nav-link"> {{loginService.userLogged.tipo}} </a>
+      </li>
+      <li class="nav-item">
+        <a class="nav-link" [routerLink]="['/escribano']">Listado de Escribano</a>
+      </li>
+      <li class="nav-item">
+        <a class="nav-link" [routerLink]="['/escribania']">Listado de Escribania</a>
+      </li>
+      <li class="nav-item">
+        <a class="nav-link" [routerLink]="['/novedad']">Listado de Novedades</a>
+      </li>
+    </ul>
+  </nav>
+</div>
+
+<div *ngIf="loginService.userLogged.tipo==='gerente'">
+  <nav class="navbar navbar-expand-sm bg-dark navbar-dark">
+    <ul class="navbar-nav">
+      <li class="nav-item active">
+        <a class="nav-link"> {{loginService.userLogged.tipo}} </a>
+      </li>
+      <li class="nav-item">
+        <a class="nav-link" [routerLink]="['/gerente']">Resumen</a>
+      </li>
+    </ul>
+  </nav>
+</div>

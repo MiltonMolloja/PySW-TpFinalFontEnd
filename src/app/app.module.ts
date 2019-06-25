@@ -21,6 +21,13 @@ import { EscribanoTestComponent } from './components/escribano-test/escribano-te
 import { PerfilTestComponent } from './components/perfil-test/perfil-test.component';
 import { GestionEscribaniasComponent } from './components/gestion-escribania/gestion-escribania.component';
 import { GestionNovedadComponent } from './components/gestion-novedad/gestion-novedad.component';
+import { NavbarTipoTestComponent } from './components/navbar-tipo-test/navbar-tipo-test.component';
+import { UsuarioComponent } from './components/usuario/usuario.component';
+import { PerfilComponent } from './components/perfil/perfil.component';
+import { EscribanoComponent } from './components/escribano/escribano.component';
+import { EscribaniaComponent } from './components/escribania/escribania.component';
+import { NovedadComponent } from './components/novedad/novedad.component';
+import { GerenteComponent } from './components/gerente/gerente.component';
 
 @NgModule({
   declarations: [
@@ -31,9 +38,7 @@ import { GestionNovedadComponent } from './components/gestion-novedad/gestion-no
     LoginComponent,
     AdministradorComponent,
     EscribanoTestComponent,
-    PerfilTestComponent,
-    GestionEscribaniasComponent,
-    GestionNovedadComponent,
+    PerfilTestComponent
   ],
   imports: [
     BrowserModule,
