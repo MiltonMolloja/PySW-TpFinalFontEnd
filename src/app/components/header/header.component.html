@@ -13,15 +13,6 @@
             <div class="collapse navbar-collapse " id="navbarsExample03">
                 <ul class="navbar-nav mx-auto  ">
                     <li class="nav-item" routerLinkActive="active">
-                        <a class="nav-link" [routerLink]="['home']">Inicio</a>
-                    </li>
-                    <li class="nav-item" routerLinkActive="active"> 
-                        <a class="nav-link" [routerLink]="['escribanias']">Gestion Escribania</a> 
-                    </li> 
-                    <li class="nav-item" routerLinkActive="active"> 
-                        <a class="nav-link" [routerLink]="['novedad']">Gestion Novedad</a> 
-                    </li> 
-                    <li class="nav-item" routerLinkActive="active">
                         <a *ngIf="!loginService.userLoggedIn" [routerLink]="['login']">(Login)</a>
                     </li>
                     <li class="nav-item" routerLinkActive="active">
@@ -34,19 +25,3 @@
         </nav>
     </div>
 </div>
-
-<!-- Nav pills -->
-<ul class="nav nav-pills" role="tablist">
-  <li class="nav-item">
-    <a class="nav-link active" data-toggle="pill"[routerLink]="['/Home']">Home</a>
-  </li>
-  <li class="nav-item">
-    <a class="nav-link" data-toggle="pill" [routerLink]="['/tescribano']">escribano</a>
-  </li>
-  <li class="nav-item">
-    <a class="nav-link" data-toggle="pill" [routerLink]="['/tperfil']">perfil</a>
-  </li>
-  <li class="nav-item">
-    <a class="nav-link" data-toggle="pill" [routerLink]="['/gerente']">Gerente</a>
-  </li>
-</ul>

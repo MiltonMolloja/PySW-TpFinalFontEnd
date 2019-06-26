@@ -28,6 +28,7 @@ import { EscribanoComponent } from './components/escribano/escribano.component';
 import { EscribaniaComponent } from './components/escribania/escribania.component';
 import { NovedadComponent } from './components/novedad/novedad.component';
 import { GerenteComponent } from './components/gerente/gerente.component';
+import { NavigationBarComponent } from './components/navigation-bar/navigation-bar.component';
 
 @NgModule({
   declarations: [
@@ -47,7 +48,8 @@ import { GerenteComponent } from './components/gerente/gerente.component';
     UsuarioComponent,
     PerfilComponent,
     GestionNovedadComponent,
-    GestionEscribaniasComponent
+    GestionEscribaniasComponent,
+    NavigationBarComponent
 
   ],
   imports: [

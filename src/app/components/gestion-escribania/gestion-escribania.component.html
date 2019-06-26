@@ -5,79 +5,79 @@
           <label class="col-sm-12 col-md-4" for="nombre">Nombre</label>
           <input type="text" class="form-control col-sm-12 col-md-8" name="nombre" [(ngModel)]="escribania.nombre" #nombre="ngModel" required />
           <div *ngIf="nombre.invalid && (nombre.dirty || nombre.touched)" class="alert alert-danger">
-            <div *ngIf="nombre.errors.required">
+            <div *ngIf="nombre?.errors.required">
               Se requiere nombre de escribania.
             </div>
-          </div> 
+          </div>
       </div>
       <div class="form-group">
           <label class="col-sm-12 col-md-4" for="direccion">Direccion</label>
           <input type="text" class="form-control col-sm-12 col-md-8" name="direccion" [(ngModel)]="escribania.direccion" #direccion="ngModel" required />
           <div *ngIf="direccion.invalid && (direccion.dirty || direccion.touched)" class="alert alert-danger">
-            <div *ngIf="direccion.errors.required">
+            <div *ngIf="direccion?.errors.required">
               Se requiere direccion de escribania.
             </div>
-          </div> 
+          </div>
         </div>
       <div class="form-group">
           <label class="col-sm-12 col-md-4" for="telefono">Telefono</label>
           <input type="tel" class="form-control col-sm-12 col-md-8" name="telefono" [(ngModel)]="escribania.telefono" #telefono="ngModel" required />
           <div *ngIf="telefono.invalid && (telefono.dirty || telefono.touched)" class="alert alert-danger">
-            <div *ngIf="telefono.errors.required">
+            <div *ngIf="telefono?.errors.required">
               Se requiere telefono de escribania.
             </div>
-          </div> 
+          </div>
         </div>
       <div class="form-group">
           <label class="col-sm-12 col-md-4" for="email">Email</label>
           <input type="email" class="form-control col-sm-12 col-md-8" name="email" [(ngModel)]="escribania.email" #email="ngModel" required />
           <div *ngIf="email.invalid && (email.dirty || email.touched)" class="alert alert-danger">
-            <div *ngIf="email.errors.required">
+            <div *ngIf="email?.errors.required">
               Se requiere email de escribania.
             </div>
-          </div> 
+          </div>
         </div>
       <div class="form-group">
           <label class="col-sm-12 col-md-4" for="foto">Foto</label>
           <!--<input type="file" class="form-control col-sm-12 col-md-8" [(ngModel)]="escribania.foto" #foto="ngModel" required alife-file-to-base64 multiple (onFileChanged)="onFileChanges($event)" [(fileModel)]="files" [(rawFileModel)]="rawFiles" />-->
           <input type="text" class="form-control col-sm-12 col-md-8" name="foto" [(ngModel)]="escribania.foto" #foto="ngModel" required />
           <div *ngIf="foto.invalid && (foto.dirty || foto.touched)" class="alert alert-danger">
-            <div *ngIf="foto.errors.required">
+            <div *ngIf="foto?.errors.required">
               Se requiere foto de escribania.
             </div>
-          </div> 
+          </div>
         </div>
       <div class="form-group">
           <label class="col-sm-12 col-md-4" for="latitud">Latitud</label>
           <input type="text" class="form-control col-sm-12 col-md-8" name="latitud" [(ngModel)]="escribania.latitud" #latitud="ngModel" required />
           <div *ngIf="latitud.invalid && (latitud.dirty || latitud.touched)" class="alert alert-danger">
-            <div *ngIf="latitud.errors.required">
+            <div *ngIf="latitud?.errors.required">
               Se requiere latitud de escribania.
             </div>
-          </div> 
+          </div>
         </div>
       <div class="form-group">
           <label class="col-sm-12 col-md-4" for="longitud">Longitud</label>
           <input type="text" class="form-control col-sm-12 col-md-8" name="longitud" [(ngModel)]="escribania.longitud" #longitud="ngModel" required />
           <div *ngIf="longitud.invalid && (longitud.dirty || longitud.touched)" class="alert alert-danger">
-            <div *ngIf="longitud.errors.required">
+            <div *ngIf="longitud?.errors.required">
               Se requiere longitud de escribania.
             </div>
-          </div> 
+          </div>
         </div>
       <div class="form-group">
           <label class="col-sm-12 col-md-4" for="estado">Estado</label>
           <input type="" class="form-control col-sm-12 col-md-8" name="estado" [(ngModel)]="escribania.estado" #estado="ngModel" required />
           <div *ngIf="estado.invalid && (estado.dirty || estado.touched)" class="alert alert-danger">
-            <div *ngIf="estado.errors.required">
+            <div *ngIf="estado?.errors.required">
               Se requiere estado de escribania.
             </div>
-          </div> 
+          </div>
         </div>
       <div class="form-group">
           <button type="submit" class="btn btn-primary" (click)="addEscribania()" [disabled]="!escribaniaForm.form.valid" >AÑADIR</button>
           <button type="reset" class="btn btn-primary">NUEVO</button>
-          <button type="submit" class="btn btn-primary" (click)="editEscribania()" [disabled]="!escribaniaForm.form.valid">MODIFICAR</button> 
+          <button type="submit" class="btn btn-primary" (click)="editEscribania()" [disabled]="!escribaniaForm.form.valid">MODIFICAR</button>
       </div>
   </form>
 
@@ -86,7 +86,7 @@
 <br/>
 
 <table class="table table-striped" [mfData]="escribanias" #mf="mfDataTable" [mfRowsOnPage]="5">
-  
+
   <thead>
     <tr>
         <th><mfDefaultSorter by="id">Id</mfDefaultSorter></th>
@@ -97,7 +97,7 @@
         <th><mfDefaultSorter >Foto</mfDefaultSorter></th>
         <th><mfDefaultSorter >latitud</mfDefaultSorter></th>
         <th><mfDefaultSorter >longitud</mfDefaultSorter></th>
-        <th><mfDefaultSorter >estado</mfDefaultSorter></th>         
+        <th><mfDefaultSorter >estado</mfDefaultSorter></th>
     </tr>
   </thead>
   <tbody>
@@ -130,6 +130,7 @@
 <br/>
 <br/>
 
+<!--
 <div class="card" style="width: 18rem;">
     <img src="..." class="card-img-top" alt="...">
     <div class="card-body">
@@ -137,9 +138,9 @@
       <p class="card-text">Some quick example text to build on the card title and make up the bulk of the card's content.</p>
       <a href="#" class="btn btn-primary">Go somewhere</a>
       <agm-map [latitude]="lat" [longitude]="lng">
-        
+
       </agm-map>
     </div>
   </div>
-
+-->
 </div>
