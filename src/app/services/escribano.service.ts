@@ -26,7 +26,7 @@ export class EscribanoService {
     return this._http.delete(('http://localhost/PySW-TpFinal/public/index.php/escribano/'+id));
   }
 
-  public sendEscribano(escribano){
+  public sendEscribano(escribano:Escribano){
     //console.log("Send M" + moneda);
 
     const httpOption = {
@@ -51,4 +51,19 @@ export class EscribanoService {
     return this._http.post('http://localhost/PySW-TpFinal/public/index.php/escribano/'+escribano.id+'/edit',
     body, httpOption);
   }
+
+  
+  borradoDeEscribano(escribano:Escribano){
+    const httpOption = {
+      headers: new HttpHeaders({
+        'Content-Type': 'application/json'
+      })
+    };
+
+    let body = JSON.stringify(escribano);
+    //envio en el body el moneda transformado en un JSON
+    return this._http.post('http://localhost/PySW-TpFinal/public/index.php/escribano/'+escribano.id+'/borrado',
+    body, httpOption);
+  }
+
 }
