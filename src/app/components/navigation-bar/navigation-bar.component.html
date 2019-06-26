@@ -1,4 +1,4 @@
-<div *ngIf="loginService.userLoggedIn">
+<div class="row" *ngIf="loginService.userLoggedIn">
   <nav class="navbar navbar-expand-sm bg-dark navbar-dark">
     <ul class="navbar-nav">
       <li class="nav-item active">
@@ -33,11 +33,11 @@
 </div>
 
 <!-- Grey with black text -->
-<nav class="navbar navbar-expand-sm bg-dark navbar-dark">
+<nav class="row navbar navbar-expand-sm bg-dark navbar-dark">
   <ul class="navbar-nav">
-    <li class="nav-item">
+    <!--<li class="nav-item">
       <a class="nav-link active" data-toggle="pill"[routerLink]="['/Home']">Home</a>
-    </li>
+    </li>-->
     <li class="nav-item">
       <a class="nav-link" href="#">Link</a>
     </li>
