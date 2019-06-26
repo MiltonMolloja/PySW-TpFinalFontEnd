@@ -4,7 +4,7 @@ export class Perfil
     nombres:string;
     apellidos:string;
     dni:number;
-    fecha_Nac:Date;
+    fechaNac:Date;
     sexo:string;
     estado:boolean;
 
@@ -14,7 +14,7 @@ export class Perfil
         this.nombres = nombres;
         this.apellidos = apellidos;
         this.dni = dni;
-        this.fecha_Nac = fecha_Nac;
+        this.fechaNac = fecha_Nac;
         this.sexo = sexo;
         this.estado = estado;
     }

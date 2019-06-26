@@ -20,7 +20,7 @@ export class PerfilComponent implements OnInit {
     this.mostrarHistoricos();
     this.perfil.apellidos ="HOLA";
     this.perfil.nombres = "Mundo";
-    this.perfil.fecha_Nac = new Date;
+    this.perfil.fechaNac = new Date;
     this.perfil.sexo = "XX";
     this.perfil.estado = true;
     console.log(this.perfil);
@@ -83,7 +83,7 @@ export class PerfilComponent implements OnInit {
     this.perfil.apellidos ="HOLA";
     this.perfil.nombres = "Mundo";
     //this.perfil.dni = 110;
-    this.perfil.fecha_Nac = new Date;
+    this.perfil.fechaNac = new Date;
     this.perfil.sexo = "XX";
     this.perfil.estado = true;
 ////     console.log("perfil enviar  " + this.perfil);
