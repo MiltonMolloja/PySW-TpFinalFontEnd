@@ -58,6 +58,7 @@ export class EscribaniaComponent implements OnInit {
   }
 
   public addEscribania() {
+    this.escribania.estado= true;
     this.escribaniaService.addEscribania(this.escribania).subscribe(
         result => {
           console.log("Se añadio escribania");
@@ -92,6 +93,7 @@ export class EscribaniaComponent implements OnInit {
   }
 
   public deleteEscribania(id:number){
+    console.log(id);
     this.escribaniaService.deleteEscribania(id).subscribe(
       result => {
       console.log("borrado correctamente")
