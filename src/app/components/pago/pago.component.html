@@ -1,9 +1,9 @@
-<div *ngIf="loginService.userLogged.tipo==='Administrativo'">
+<div >
   <h3>Escribanos</h3>
   <div class="row form-group">
     <label>Elija Escribano:</label>
     <select name="escribano" id="escribano" class="form-control" [(ngModel)]="escribano">
-      <option *ngFor="let usuario of usuarios" [ngValue]="usuario.escribano">{{usuario.perfil.apellidos}},
+      <option *ngFor="let usuario of usuarios" [ngValue]="pago.escribano">{{usuario.perfil.apellidos}},
         {{usuario.perfil.nombres}}</option>
     </select>
   </div>
@@ -21,6 +21,7 @@
         </div>
       </div>
     </form>
+ 
 
   <table class="table table-striped" [mfData]="pagos" #mf="mfDataTable" [mfRowsOnPage]="5">
     <thead>

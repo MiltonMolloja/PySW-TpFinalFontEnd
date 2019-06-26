@@ -103,6 +103,10 @@ export class PagoComponent implements OnInit {
   public enviarPago() {
     //this.pago = new Pago();
     //this.escribano = new Escribano();
+    this.pago.fecha = new Date();
+    this.pago.estado = true;
+    this.pago.escribano = this.escribano;
+    console.log(this.pago);
     this.pagoService.sendPago(this.pago)
       .subscribe(
         result => {
@@ -116,20 +120,27 @@ export class PagoComponent implements OnInit {
   public elegirPago(pago: Pago) {
     //Creo una copia del mensaje recibido como parametro para NO modificarlo
     //ya que el parametro esta mostrandose por el binding en el datatable
-    console.log("slet this" + this.pago.escribano);
-    console.log("slet this" + this.escribano);
-    console.log("Selec - " + pago);
+    console.log("pago");
+    console.log(pago);
+
     this.pago = Object.assign(this.pago, pago);
     //se asigna a la propiedad mensaje.empresa el correspondiente en el
     //array de empresas, ya que este array es fuente de datos del <select>
     this.pago.escribano = this.escribanos.find(function (item: Escribano) {
+
       return item.id === pago.escribano.id;
     });
-    console.log("Selec - " + pago.escribano.escribania);
+    this.escribano = this.pago.escribano;
+    console.log("pago.escribano");
+    console.log(pago.escribano);
+
   }
 
   public actualizarPago() {
     //seteo nuevamente la fecha actual para el msj modificado
+
+    console.log("this.pago");
+    this.pago.fecha = new Date();
     console.log(this.pago);
     this.pagoService.modificarPago(this.pago).subscribe(
       data => {
