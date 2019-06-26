@@ -98,6 +98,7 @@ export class PagoComponent implements OnInit {
         return false;
       }
     )
+    this.pago = new Pago();
   }
 
   public enviarPago() {
@@ -111,10 +112,14 @@ export class PagoComponent implements OnInit {
       .subscribe(
         result => {
           console.log("agregado correctamente.");
+          this.mostrarHistoricos();
         },
         error => {
           alert("Error en el envio.");
         });
+    this.mostrarHistoricos();
+    this.mostrarHistoricos();
+    this.pago = new Pago();
   }
 
   public elegirPago(pago: Pago) {
@@ -154,5 +159,6 @@ export class PagoComponent implements OnInit {
         console.log(error);
         return false;
       });
+      this.pago = new Pago();
   }
 }
