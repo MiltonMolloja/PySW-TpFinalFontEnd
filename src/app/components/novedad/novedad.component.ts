@@ -4,6 +4,7 @@ import { LoginService } from 'src/app/services/login.service';
 import { Novedad } from './../../models/novedad';
 import {NovedadService} from './../../services/novedad.service';
 import { Escribano } from './../../models/escribano';
+import { Usuario } from 'src/app/models/usuario';
 
 
 @Component({
@@ -18,6 +19,9 @@ export class NovedadComponent implements OnInit {
   escribano: Escribano;
   escribanos: Array<Escribano>;
 
+  usuario: Usuario;
+  usuarios: Array<Usuario>;
+
   public submitted = false;
 
   constructor(private novedadService: NovedadService, public loginService: LoginService) {
@@ -27,6 +31,10 @@ export class NovedadComponent implements OnInit {
     this.escribanos = new Array<Escribano>();
     this.getEscribanos();
     this.getNovedades();
+
+    this.usuario = new Usuario();
+    this.usuarios = new Array<Usuario>();
+    this.obtenerUsuarios();
 
   }
 
@@ -40,6 +48,23 @@ export class NovedadComponent implements OnInit {
   logout(){
     //localStorage.removeItem('currentUser');
     this.loginService.logout();
+  }
+
+  public obtenerUsuarios() {
+    this.novedadService.getUsuarios().subscribe(
+      result => {
+        result.forEach(element => {
+          console.log(element.tipo);
+          if (element.tipo==="Socio") {
+            this.usuarios.push(element);
+            console.log(this.usuarios);
+          }
+        });
+        console.log(this.escribanos);
+      },
+      error => {
+        alert("error en la peticion");
+      });
   }
 
   public getEscribanos() {
@@ -66,6 +91,9 @@ export class NovedadComponent implements OnInit {
 
   public addNovedad() {
     this.novedad.fecha = new Date();
+    this.novedad.estado = true;
+    console.log("this.novedad");
+    console.log(this.novedad);
     this.novedadService.addNovedad(this.novedad)
       .subscribe(
         result => {

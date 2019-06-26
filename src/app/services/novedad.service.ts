@@ -13,6 +13,10 @@ export class NovedadService {
 
   }
 
+  getUsuarios(): Observable<any> {
+    return this.http.get('http://localhost/PySW-TpFinal/public/index.php/usuario/');
+  }
+
   public getEscribanos(): Observable<any> {
     const httpOption = {
       headers: new HttpHeaders({
@@ -33,7 +37,7 @@ export class NovedadService {
       httpOption);
   }
 
-  
+
 
   public addNovedad(novedad) {
     const httpOption = {
