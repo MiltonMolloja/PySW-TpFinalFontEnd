@@ -19,6 +19,9 @@
       <li class="nav-item"*ngIf="loginService.userLogged.tipo==='Administrativo'">
         <a class="nav-link" [routerLink]="['/novedad']">Listado de Novedades</a>
       </li>
+      <li class="nav-item"*ngIf="loginService.userLogged.tipo==='Administrativo'">
+        <a class="nav-link" [routerLink]="['/pago']">Listado de Pago</a>
+      </li>
       <li class="nav-item" *ngIf="loginService.userLogged.tipo==='Gerente'">
         <a class="nav-link" [routerLink]="['/gerente']">Resumen</a>
       </li>

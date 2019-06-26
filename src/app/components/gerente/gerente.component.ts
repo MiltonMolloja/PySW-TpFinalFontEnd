@@ -47,7 +47,7 @@ export class GerenteComponent implements OnInit {
     this.mostrarHistoricos();
     this.obtenerEscribanos();
     this.obtenerUsuarios();
-    //this.obtenerTotalPagosTodo();
+    this.obtenerTotalPagosTodo();
     this.obtenerTotalPagosEscribano(this.escribano);
     this.obtenerTotalPagosDosFechas(this.fechaInicio, this.fechaFin);
   }
@@ -84,12 +84,8 @@ export class GerenteComponent implements OnInit {
             this.usuarios.push(element);
             console.log(this.usuarios);
           }
-
         });
-
-
         console.log(this.escribanos);
-
       },
       error => {
         alert("error en la peticion");

@@ -9,6 +9,7 @@ import { EscribaniaComponent } from './components/escribania/escribania.componen
 import { EscribanoComponent } from './components/escribano/escribano.component';
 import { NovedadComponent } from './components/novedad/novedad.component';
 import { GerenteComponent } from './components/gerente/gerente.component';
+import { PagoComponent } from './components/pago/pago.component';
 
 const routes: Routes =
 [
@@ -21,6 +22,7 @@ const routes: Routes =
   { path: 'escribano', component: EscribanoComponent},
   { path: 'novedad', component: NovedadComponent},
   { path: 'gerente', component: GerenteComponent},
+  { path: 'pago', component: PagoComponent},
   {path: '**', component: HomeComponent}
 ];
 

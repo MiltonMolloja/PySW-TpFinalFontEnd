@@ -1,0 +1,64 @@
+<div *ngIf="loginService.userLogged.tipo==='Administrativo'">
+  <h3>Escribanos</h3>
+  <div class="row form-group">
+    <label>Elija Escribano:</label>
+    <select name="escribano" id="escribano" class="form-control" [(ngModel)]="escribano">
+      <option *ngFor="let usuario of usuarios" [ngValue]="usuario.escribano">{{usuario.perfil.apellidos}},
+        {{usuario.perfil.nombres}}</option>
+    </select>
+  </div>
+
+
+  <form>
+      <div>
+        <div class="row form-group">
+          <input type="number"class="form-control" rows="5"
+          name="txtnumber" [(ngModel)]="pago.importe">
+        </div>
+        <div class="row form-group">
+          <button type="button" class="btn btn-primary" (click)="enviarPago()">Enviar</button>
+          <button type="button" class="btn btn-primary" (click)="actualizarPago()">Actualizar</button>
+        </div>
+      </div>
+    </form>
+
+  <table class="table table-striped" [mfData]="pagos" #mf="mfDataTable" [mfRowsOnPage]="5">
+    <thead>
+      <tr>
+        <th>
+          <mfDefaultSorter by="id">Id</mfDefaultSorter>
+        </th>
+        <th>
+          <mfDefaultSorter by="importe">Importe</mfDefaultSorter>
+        </th>
+        <th>
+          <mfDefaultSorter by="fecha">Fecha</mfDefaultSorter>
+        </th>
+        <th>
+          <mfDefaultSorter by="estado">estado</mfDefaultSorter>
+        </th>
+      </tr>
+    </thead>
+    <tbody>
+      <tr *ngFor="let item of mf.data">
+        <td>{{item.id}}</td>
+        <td>{{item.importe}}</td>
+        <td>{{item.fecha.timestamp * 1000 | date: 'dd/MM/yyyy'}}</td>
+        <td>{{item.estado}}</td>
+        <td>
+          <button type="button" class="btn btn-primary" (click)="elegirPago(item)">Sel</button>
+        </td>
+        <td>
+          <button type="button " class="btn btn-danger" (click)="borrarPago(item.id)">Del</button>
+        </td>
+      </tr>
+    </tbody>
+    <tfoot>
+      <tr>
+        <td colspan="4">
+          <mfBootstrapPaginator [rowsOnPageSet]="[5,10,25]"></mfBootstrapPaginator>
+        </td>
+      </tr>
+    </tfoot>
+  </table>
+</div>
