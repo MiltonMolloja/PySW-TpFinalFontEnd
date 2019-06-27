@@ -1,6 +1,7 @@
 import { Component, OnInit } from '@angular/core';
 import { LoginService } from 'src/app/services/login.service';
 import { Escribania } from './../../models/escribania';
+import { Escribano } from './../../models/escribano';
 import { EscribaniaService } from './../../services/escribania.service';
 
 
@@ -26,9 +27,14 @@ export class EscribaniaComponent implements OnInit {
 
   public submitted = false;
 
+  escribanos: Array<Escribano>;
+  borrado: boolean;
+
   constructor(private escribaniaService: EscribaniaService, public loginService: LoginService) {
     this.escribania = new Escribania();
     this.escribanias = new Array<Escribania>();
+    this.escribanos = new Array<Escribano>();
+    this.borrado= true;
     this.getEscribanias();
 
   }
@@ -49,8 +55,14 @@ export class EscribaniaComponent implements OnInit {
     this.escribaniaService.getEscribanias()
       .subscribe(
         result => {
-          this.escribanias = result;
-          console.log(this.escribanias);
+          this.escribanias = new Array<Escribania>();
+          result.forEach(element => {
+            if(element.estado==true){
+              this.escribanias.push(element);
+            }
+          });
+          //this.escribanias = result;
+          //console.log(this.escribanias);
         },
         error => {
           alert("error en la peticion");
@@ -58,6 +70,7 @@ export class EscribaniaComponent implements OnInit {
   }
 
   public addEscribania() {
+    this.escribania.estado= true;
     this.escribaniaService.addEscribania(this.escribania).subscribe(
         result => {
           console.log("Se añadio escribania");
@@ -92,6 +105,7 @@ export class EscribaniaComponent implements OnInit {
   }
 
   public deleteEscribania(id:number){
+    console.log(id);
     this.escribaniaService.deleteEscribania(id).subscribe(
       result => {
       console.log("borrado correctamente")
@@ -104,5 +118,53 @@ export class EscribaniaComponent implements OnInit {
       console.log(error);
       return false;
       })
+  }
+
+  public deleteLogicoEscribania(){
+    console.log(this.escribania);
+    console.log("this.borrado");
+    console.log(this.borrado);
+    if (this.borrado) {
+      this.escribania.estado = false;
+      this.escribaniaService.editEscribania(this.escribania).subscribe(
+        data => {
+        console.log("Borrado Logico correctamente escribania")
+        //actualizo la tabla de mensajes
+        this.getEscribanias();
+        },
+        error => {
+        console.error("Error Borrado Logico escribania");
+        console.log(error);
+        });
+    }else{
+      alert("error Nose puede Borrar");
+    }
+
+  }
+
+  public deleteLogicoEscribaniaValidado(escribania: Escribania){
+    this.borrado = true;
+    this.escribaniaService.getEscribanos()
+      .subscribe(
+        result => {
+          result.forEach(element => {
+            if (element.estado) {
+              if (escribania.id === element.escribania.id) {
+                this.borrado = false;
+
+                console.log("this.borrado REs + " + this.borrado);
+              }
+              //
+            }
+          });
+          if (this.borrado) {
+            this.deleteLogicoEscribania();
+          }else{
+            alert("Error Nose puede Borrar - Escribano");
+          }
+        },
+        error => {
+          alert("error en la peticion");
+        });
   }
 }

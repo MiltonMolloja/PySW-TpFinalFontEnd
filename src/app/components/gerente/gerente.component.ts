@@ -80,7 +80,7 @@ export class GerenteComponent implements OnInit {
       result => {
         result.forEach(element => {
           console.log(element.tipo);
-          if (element.tipo==="Socio") {
+          if (element.tipo==="Socio" && element.escribano.estado) {
             this.usuarios.push(element);
             console.log(this.usuarios);
           }
@@ -96,7 +96,12 @@ export class GerenteComponent implements OnInit {
   public mostrarHistoricos() {
     this.pagoService.getPagos().subscribe(
       result => {
-        this.pagos = result;
+        result.forEach(element => {
+          if (element.estado) {
+            this.pagos.push(element);
+          }
+        });
+        ///this.pagos = result;
     ///    console.log(this.pagos);
       },
       error => {
@@ -110,7 +115,7 @@ export class GerenteComponent implements OnInit {
       result => {
         this.pagos = new Array<Pago>();
         result.forEach(element => {
-          if (element.escribano.id==escribano.id) {
+          if (element.escribano.id==escribano.id && element.estado) {
             this.pagos.push(element);
             console.log(element);
           }
@@ -131,7 +136,9 @@ export class GerenteComponent implements OnInit {
         ///console.log(result);
         result.forEach(element => {
           //console.log("ele " + element.importe);
-          this.totalPagos += parseFloat(element.importe);
+          if (element.estado) {
+            this.totalPagos += parseFloat(element.importe);
+          }
           //console.log("total pago despues " + this.totalPagos);
         });
       },
@@ -147,7 +154,7 @@ export class GerenteComponent implements OnInit {
     this.pagoService.getPagos().subscribe(
       result => {
         result.forEach(element => {
-          if (escribano.id == parseInt(element.escribano.id)) {
+          if (escribano.id == parseInt(element.escribano.id) && element.estado) {
             this.totalPagosEscribano += parseFloat(element.importe);
           }
         });
@@ -190,8 +197,10 @@ export class GerenteComponent implements OnInit {
           //console.log(new Date(element.fecha.timestamp * 1000 ));
           //console.log(new Date(fechaInicio) <= new Date(element.fecha.timestamp * 1000 ) && new Date(fechaFin) >= new Date(element.fecha.timestamp * 1000 ));
           if (new Date(fechaInicio) <= new Date(element.fecha.timestamp * 1000 ) && new Date(fechaFin) >= new Date(element.fecha.timestamp * 1000 )) {
-            this.totalPagosDosFechas+= element.importe - 1 + 1;
+            if (element.estado) {
+              this.totalPagosDosFechas+= element.importe - 1 + 1;
             this.pagos.push(element);
+            }
             //console.log(element);
           }
         });
@@ -219,7 +228,9 @@ export class GerenteComponent implements OnInit {
           console.log(fechaInicio <= new Date(element.fecha.timestamp * 1000 ) && fechaFin >= new Date(element.fecha.timestamp * 1000 ));
           if (fechaInicio <= new Date(element.fecha.timestamp * 1000 ) && fechaFin >= new Date(element.fecha.timestamp * 1000 )) {
             if (element.escribano.id === escribano.id) {
+              if (element.estado) {
               this.totalPagosDosFechas+= element.importe - 1 + 1;
+              }
             }
           }
         });

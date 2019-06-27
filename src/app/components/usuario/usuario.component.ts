@@ -42,7 +42,7 @@ export class UsuarioComponent implements OnInit {
   //Se usa para mostrar Escribano, Perfil y Usuario
   ventana:string = "";
 
-  constructor(public loginService: LoginService,  private usuarioService:UsuarioService, private perfilService:PerfilService, private escribanoService:EscribanoService ) 
+  constructor(public loginService: LoginService,  private usuarioService:UsuarioService, private perfilService:PerfilService, private escribanoService:EscribanoService )
   {
     //
     this.inicializarUsuario();
@@ -50,7 +50,7 @@ export class UsuarioComponent implements OnInit {
     this.usuarios = new Array<Usuario>() ;
     this.escribanias = new Array<Escribania>() ;
     this.perfiles = new Array<Perfil>() ;
-   
+
     this.obtenerUsuarios();
     this.obtenerEscribanias();
     this.obtenerPerfiles();
@@ -109,12 +109,12 @@ export class UsuarioComponent implements OnInit {
     let usuario:Usuario;
     this.usuarioService.getUsuarios().subscribe
     (
-      (resultados) => 
+      (resultados) =>
       {
         this.usuarios = new Array<Usuario>();
         resultados.forEach
         (
-          elemento => 
+          elemento =>
           {
             usuario = new Usuario();
             Object.assign(usuario, elemento);
@@ -160,7 +160,7 @@ export class UsuarioComponent implements OnInit {
       error =>
       {
         console.log("Error al recuperar perfiles.");
-      }     
+      }
     );
   }///
 
@@ -181,7 +181,7 @@ export class UsuarioComponent implements OnInit {
             Object.assign(escribania, elemento);
             if(escribania.estado == true)
             {
-              this.escribanias.push(escribania);  
+              this.escribanias.push(escribania);
             }
           }
         );
@@ -214,7 +214,7 @@ export class UsuarioComponent implements OnInit {
               this.escribanos.push(escribano);
             }
           }
-        ); 
+        );
       },
       error =>
       {
@@ -239,9 +239,9 @@ export class UsuarioComponent implements OnInit {
     }
   }////
 
-  //Crea un escribano con los datos de usuario 
+  //Crea un escribano con los datos de usuario
   crearEscribano( form:NgForm )
-  { 
+  {
     //Se pregunta si el formulario es valido
     if( form.valid == true )
     {
@@ -254,9 +254,9 @@ export class UsuarioComponent implements OnInit {
           this.cargarEscribanosyAsignarAlUsuario();
         },
         error=>
-        { 
+        {
           console.log("Error al enviar escribano");
-        } 
+        }
       );
     }
   }///
@@ -286,13 +286,13 @@ export class UsuarioComponent implements OnInit {
             }
           }
         );
-        this.cambiarVentana("perfil"); 
+        this.cambiarVentana("perfil");
       },
       error =>
       {
         console.log("Error al recuperar escribanos.");
       }
-    );     
+    );
    }///
 
    //Crea un perfil
@@ -304,17 +304,17 @@ export class UsuarioComponent implements OnInit {
       this.usuario.perfil.estado = true ;
       this.perfilService.sendPerfil(this.usuario.perfil).subscribe
       (
-        resultado2 => 
-        { 
+        resultado2 =>
+        {
           console.log("Perfil subido.");
           this.cargarPerfilesyAsignarAlUsuario();
         },
-        error => 
-        { 
-          console.log("Error al enviar perfil."); 
+        error =>
+        {
+          console.log("Error al enviar perfil.");
         }
-      );  
-    }     
+      );
+    }
    }///
 
    //Pracedimiento que carga los perfiles de la base de datos actuales y asigna el perfil cargado
@@ -348,7 +348,7 @@ export class UsuarioComponent implements OnInit {
       error =>
       {
         console.log("Error al recuperar perfiles.");
-      }    
+      }
     );
   }///
 
@@ -373,10 +373,10 @@ export class UsuarioComponent implements OnInit {
         error =>
         { console.log("Error al enviar usuario"); }
       );
-    }               
+    }
    }///
 
-  //Cuando se presiona el boton llama a la ventana modal. 
+  //Cuando se presiona el boton llama a la ventana modal.
   prepararBorrado(user:Usuario)
   {
     this.usuario = user;//Hace una copia del usuario
@@ -392,7 +392,7 @@ export class UsuarioComponent implements OnInit {
   realizarborrado()
   {
     //borra escribano si existe
-    if(this.usuario.tipo == "Socio" )
+    if(this.usuario.tipo === "Socio" )
     {
       this.escribanoService.borradoDeEscribano(this.usuario.escribano).subscribe
       (
@@ -400,7 +400,7 @@ export class UsuarioComponent implements OnInit {
           console.log("eliminado correctamente escribano.");
           return true;
       },
-      error => 
+      error =>
       {
         console.error("error al borrar escribano.");
         console.log(error);
@@ -415,7 +415,7 @@ export class UsuarioComponent implements OnInit {
         console.log("eliminado correctamente perfil.");
         return true;
       },
-      error => 
+      error =>
       {
       console.error("error al borrar perfil.");
       console.log(error);
@@ -430,7 +430,7 @@ export class UsuarioComponent implements OnInit {
         this.obtenerUsuarios();
         return true;
       },
-      error => 
+      error =>
       {
       console.error("error al borrar Usuario.");
       console.log(error);
@@ -469,7 +469,7 @@ export class UsuarioComponent implements OnInit {
 
   //ComenzarModificacion
   comenzarModifiacion( form:NgForm )
-  { 
+  {
     //Se pregunta si es valido
     if(form.valid)
     {
@@ -480,7 +480,7 @@ export class UsuarioComponent implements OnInit {
         //Se pregunta si el destino sigue siendo socio o no
         if( this.tipoDeDestino == "Socio" )
         {
-          this.usuario.escribano.escribania = this.escribanias.find( escribania => escribania.id === this.usuario.escribano.escribania.id  );          
+          this.usuario.escribano.escribania = this.escribanias.find( escribania => escribania.id === this.usuario.escribano.escribania.id  );
           this.ocultarInicio();
           this.activarBotonesDeModificacion();
           this.cambiarVentana("escribano");
@@ -499,13 +499,13 @@ export class UsuarioComponent implements OnInit {
               this.cambiarVentana("perfil");
               return true;
             },
-            error => 
+            error =>
             {
               console.error("error al borrar escribano.");
               console.log(error);
               return false;
             }
-          ); 
+          );
         }
       }
       //Si tipo de origen no era socio se entra aqui
@@ -555,7 +555,7 @@ export class UsuarioComponent implements OnInit {
           return false;
           }
       );
-    } 
+    }
   }///
 
   //Modifica el perfil
@@ -576,9 +576,9 @@ export class UsuarioComponent implements OnInit {
           console.error("error al modificar perfil.");
           console.log(error);
           return false;
-          }      
+          }
       );
-    }  
+    }
   }///
 
   //Modificar el usuario
@@ -606,6 +606,6 @@ export class UsuarioComponent implements OnInit {
           }
       );
     }
-  }///  
+  }///
 
 }
