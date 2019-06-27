@@ -10,6 +10,9 @@ import { EscribanoComponent } from './components/escribano/escribano.component';
 import { NovedadComponent } from './components/novedad/novedad.component';
 import { GerenteComponent } from './components/gerente/gerente.component';
 import { PagoComponent } from './components/pago/pago.component';
+import { AboutComponent } from './components/about/about.component';
+import { ContactComponent } from './components/contact/contact.component';
+
 
 const routes: Routes =
 [
@@ -23,6 +26,8 @@ const routes: Routes =
   { path: 'novedad', component: NovedadComponent},
   { path: 'gerente', component: GerenteComponent},
   { path: 'pago', component: PagoComponent},
+  { path: 'about', component: AboutComponent},
+  { path: 'contact', component: ContactComponent},
   {path: '**', component: HomeComponent}
 ];
 

@@ -25,6 +25,8 @@ import { NovedadComponent } from './components/novedad/novedad.component';
 import { GerenteComponent } from './components/gerente/gerente.component';
 import { NavigationBarComponent } from './components/navigation-bar/navigation-bar.component';
 import { PagoComponent } from './components/pago/pago.component';
+import { AboutComponent } from './components/about/about.component';
+import { ContactComponent } from './components/contact/contact.component';
 
 @NgModule({
   declarations: [
@@ -41,7 +43,9 @@ import { PagoComponent } from './components/pago/pago.component';
     UsuarioComponent,
     PerfilComponent,
     NavigationBarComponent,
-    PagoComponent
+    PagoComponent,
+    AboutComponent,
+    ContactComponent
 
   ],
   imports: [
