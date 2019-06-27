@@ -115,22 +115,22 @@ export class NovedadComponent implements OnInit {
   public elegirNovedad(novedad) {
     //Creo una copia del novedad recibido como parametro para NO modificarlo
     //ya que el parametro esta mostrandose por el binding en el datatable
-    console.log("this.novedad  - Antes");
-    console.log(this.novedad);
+    ///console.log("this.novedad  - Antes");
+    ////console.log(this.novedad);
     this.novedad = Object.assign(this.novedad, novedad);
-    console.log("this.novedad  - Desp");
+    ///console.log("this.novedad  - Desp");
 
     //console.log(((this.novedad.fecha.timestamp)));
-    console.log((new Date((novedad.fecha.timestamp)*1000)).toISOString().substring(0,10) );
+    //console.log((new Date((novedad.fecha.timestamp)*1000)).toISOString().substring(0,10) );
     //console.log(JSON.stringify(novedad.fecha));
     ///console.log(JSON.parse((novedad.fecha)));
     //this.novedad.fecha = new Date().setDate(this.novedad.fecha);
     this.fechaString = (new Date((novedad.fecha.timestamp)* 1000 )).toISOString().substring(0,10);
     this.novedad.fecha= new Date(this.fechaString);
 
-    console.log("this.novedad  - Ultimo");
-    console.log(this.fechaString);
-    console.log(this.novedad);
+    ///console.log("this.novedad  - Ultimo");
+    ///console.log(this.fechaString);
+    ///console.log(this.novedad);
     //se asigna a la propiedad novedad.escribano el correspondiente en el
     //array de escribanos, ya que este array es fuente de datos del <select>
     this.novedad.escribano = this.escribanos.find(function (item: Escribano) {

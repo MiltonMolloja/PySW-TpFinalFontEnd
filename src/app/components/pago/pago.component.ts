@@ -18,6 +18,8 @@ export class PagoComponent implements OnInit {
   usuario: Usuario;
   usuarios: Array<Usuario>;
 
+  fechaString :string;
+
   constructor(private pagoService: PagoService, public loginService: LoginService) {
     this.escribano = new Escribano();
     this.escribanos = new Array<Escribano>();
@@ -25,6 +27,7 @@ export class PagoComponent implements OnInit {
     this.pagos = new Array<Pago>();
     this.usuario = new Usuario();
     this.usuarios = new Array<Usuario>();
+    this.fechaString="";
     this.obtenerEscribanos();
     this.mostrarHistoricos();
     this.obtenerUsuarios();
@@ -122,13 +125,16 @@ export class PagoComponent implements OnInit {
     this.pago = new Pago();
   }
 
-  public elegirPago(pago: Pago) {
+  public elegirPago(pago) {
     //Creo una copia del mensaje recibido como parametro para NO modificarlo
     //ya que el parametro esta mostrandose por el binding en el datatable
     console.log("pago");
     console.log(pago);
 
     this.pago = Object.assign(this.pago, pago);
+
+    this.fechaString = (new Date((pago.fecha.timestamp)* 1000 )).toISOString().substring(0,10);
+    this.pago.fecha= new Date(this.fechaString);
     //se asigna a la propiedad mensaje.empresa el correspondiente en el
     //array de empresas, ya que este array es fuente de datos del <select>
     this.pago.escribano = this.escribanos.find(function (item: Escribano) {
@@ -145,7 +151,7 @@ export class PagoComponent implements OnInit {
     //seteo nuevamente la fecha actual para el msj modificado
 
     console.log("this.pago");
-    this.pago.fecha = new Date();
+    this.pago.fecha = new Date(this.fechaString);
     console.log(this.pago);
     this.pagoService.modificarPago(this.pago).subscribe(
       data => {
