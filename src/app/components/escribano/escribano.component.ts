@@ -77,12 +77,12 @@ export class EscribanoComponent implements OnInit {
   }
 
   public enviarEscribano() {
-    this.escribania = new Escribania();
-    this.escribano = new Escribano();
+    this.escribano.estado  = true;
     this.escribanoService.sendEscribano(this.escribano)
       .subscribe(
         result => {
           console.log("agregado correctamente.");
+          this.mostrarHistoricos();
         },
         error => {
           alert("Error en el envio.");

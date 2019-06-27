@@ -1,16 +1,16 @@
 <div *ngIf="loginService.userLogged.tipo==='Administrador'">
   <br><br><br>
-  <form>
-    <div>
-      <div class="row form-group">
-        <input type="number" class="form-control" rows="5" name="txtnumber" [(ngModel)]="perfil.dni">
-      </div>
-      <div class="row form-group">
-        <button type="button" class="btn btn-primary" (click)="enviarPerfil()">Enviar</button>
-        <button type="button" class="btn btn-primary" (click)="actualizarPerfil()">Actualizar</button>
+  <div class="table-title">
+      <div class="row">
+        <div class="col-sm-6">
+          <h2>Registro de <b>Perfiles</b></h2>
+        </div>
+        <div class="col-sm-6">
+          <a href="#deleteEmployeeModal" class="btn btn-danger" data-toggle="modal"><i class="material-icons">&#xE15C;</i>
+            <span>Recuperar</span></a>
+        </div>
       </div>
     </div>
-  </form>
 
   <table class="table table-striped" [mfData]="perfiles" #mf="mfDataTable" [mfRowsOnPage]="5">
     <thead>
@@ -47,13 +47,6 @@
         <td>{{item.sexo}}</td>
         <td>{{item.fecha_Nac }}</td>
         <td>{{item.estado}}</td>
-
-        <td>
-          <button type="button" class="btn btn-primary" (click)="elegirPerfil(item)">Sel</button>
-        </td>
-        <td>
-          <button type="button " class="btn btn-danger" (click)="borrarPerfil(item.id)">Del</button>
-        </td>
       </tr>
     </tbody>
     <tfoot>
