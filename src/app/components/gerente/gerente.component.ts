@@ -79,13 +79,13 @@ export class GerenteComponent implements OnInit {
     this.pagoService.getUsuarios().subscribe(
       result => {
         result.forEach(element => {
-          console.log(element.tipo);
+          //console.log(element.tipo);
           if (element.tipo==="Socio" && element.escribano.estado) {
             this.usuarios.push(element);
-            console.log(this.usuarios);
+            //console.log(this.usuarios);
           }
         });
-        console.log(this.escribanos);
+        ///console.log(this.escribanos);
       },
       error => {
         alert("error en la peticion");
@@ -107,7 +107,8 @@ export class GerenteComponent implements OnInit {
       error => {
         alert("error en la peticion");
       });
-      this.obtenerTotalPagosTodo();
+
+      ///this.obtenerTotalPagosTodo();
   }
 
   public mostrarHistoricosEscribano(escribano:Escribano) {
@@ -117,11 +118,11 @@ export class GerenteComponent implements OnInit {
         result.forEach(element => {
           if (element.escribano.id==escribano.id && element.estado) {
             this.pagos.push(element);
-            console.log(element);
+           //// console.log(element);
           }
         });
         //this.pagos = result;
-        console.log(this.pagos);
+        ///console.log(this.pagos);
       },
       error => {
         alert("error en la peticion");
@@ -134,6 +135,7 @@ export class GerenteComponent implements OnInit {
       result => {
         ///this.pagos = result;
         ///console.log(result);
+        //this.mostrarHistoricos();
         result.forEach(element => {
           //console.log("ele " + element.importe);
           if (element.estado) {
@@ -141,15 +143,17 @@ export class GerenteComponent implements OnInit {
           }
           //console.log("total pago despues " + this.totalPagos);
         });
+
       },
       error => {
         alert("error en la peticion");
       });
+
   }
 
   public obtenerTotalPagosEscribano(escribano: Escribano) {
     //escribano.id = 1;
-    console.log(escribano);
+    //console.log(escribano);
     this.totalPagosEscribano = 0;
     this.pagoService.getPagos().subscribe(
       result => {
@@ -158,7 +162,7 @@ export class GerenteComponent implements OnInit {
             this.totalPagosEscribano += parseFloat(element.importe);
           }
         });
-        console.log("total pago Escribano " + this.totalPagosEscribano);
+        ///console.log("total pago Escribano " + this.totalPagosEscribano);
         this.mostrarHistoricosEscribano(escribano);
       },
       error => {
@@ -183,8 +187,8 @@ export class GerenteComponent implements OnInit {
   public obtenerTotalPagosDosFechas(fechaInicio: Date, fechaFin: Date) {
     //fechaInicio = new Date("2019-03-20");
     //fechaFin = new Date("2019-08-25");
-    console.log("INICIO - " + fechaInicio.toString());
-    console.log("FIN  - " + fechaFin.toString());
+    ////console.log("INICIO - " + fechaInicio.toString());
+    //console.log("FIN  - " + fechaFin.toString());
     this.pagoService.getPagos().subscribe(
       result => {
         this.totalPagosDosFechas=0;
@@ -192,7 +196,7 @@ export class GerenteComponent implements OnInit {
         //this.pagos = result;
         //console.log(this.pagos);
         result.forEach(element => {
-          console.log(  "--------------------------------");
+          //console.log(  "--------------------------------");
           ////console.log(new Date(element.fecha.timestamp * 1000 + 86400000).toString());
           //console.log(new Date(element.fecha.timestamp * 1000 ));
           //console.log(new Date(fechaInicio) <= new Date(element.fecha.timestamp * 1000 ) && new Date(fechaFin) >= new Date(element.fecha.timestamp * 1000 ));
@@ -204,7 +208,7 @@ export class GerenteComponent implements OnInit {
             //console.log(element);
           }
         });
-        console.log("Paso Total -------"  +  this.totalPagosDosFechas);
+       // console.log("Paso Total -------"  +  this.totalPagosDosFechas);
       },
       error => {
         alert("error en la peticion");
@@ -215,17 +219,17 @@ export class GerenteComponent implements OnInit {
   public obtenerTotalPagosDosFechasMasEscribano(fechaInicio: Date, fechaFin: Date, escribano: Escribano) {
     fechaInicio = new Date("2019-03-20");
     fechaFin = new Date("2019-08-25");
-    console.log("INICIO - " + fechaInicio.toString());
-    console.log("FIN  - " + fechaFin.toString());
+   /// console.log("INICIO - " + fechaInicio.toString());
+    //console.log("FIN  - " + fechaFin.toString());
     this.pagoService.getPagos().subscribe(
       result => {
         this.pagos = result;
-        console.log(this.pagos);
+        //console.log(this.pagos);
         result.forEach(element => {
-          console.log(  "--------------------------------");
+         /// console.log(  "--------------------------------");
           ////console.log(new Date(element.fecha.timestamp * 1000 + 86400000).toString());
-          console.log(new Date(element.fecha.timestamp * 1000 ).toString());
-          console.log(fechaInicio <= new Date(element.fecha.timestamp * 1000 ) && fechaFin >= new Date(element.fecha.timestamp * 1000 ));
+         // console.log(new Date(element.fecha.timestamp * 1000 ).toString());
+         // console.log(fechaInicio <= new Date(element.fecha.timestamp * 1000 ) && fechaFin >= new Date(element.fecha.timestamp * 1000 ));
           if (fechaInicio <= new Date(element.fecha.timestamp * 1000 ) && fechaFin >= new Date(element.fecha.timestamp * 1000 )) {
             if (element.escribano.id === escribano.id) {
               if (element.estado) {
@@ -234,7 +238,7 @@ export class GerenteComponent implements OnInit {
             }
           }
         });
-        console.log("Paso -------"  +  this.totalPagosDosFechas);
+       // console.log("Paso -------"  +  this.totalPagosDosFechas);
       },
       error => {
         alert("error en la peticion");
@@ -253,7 +257,7 @@ export class GerenteComponent implements OnInit {
 
 
   public formarFechaMes(){
-    console.log("0"+(this.mes-1+2));
+   // console.log("0"+(this.mes-1+2));
 
     this.fechaInicio = new Date(this.anio+"/"+this.mes+"/01");
     this.fechaFin = this.removeDays(new Date(this.anio+"/"+("0"+(this.mes-1+2))+"/01"),1);
