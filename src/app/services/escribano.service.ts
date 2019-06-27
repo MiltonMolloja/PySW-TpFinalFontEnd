@@ -62,7 +62,7 @@ export class EscribanoService {
 
     let body = JSON.stringify(escribano);
     //envio en el body el moneda transformado en un JSON
-    return this._http.post('http://localhost/PySW-TpFinal/public/index.php/escribano/'+escribano.id+'/borrado',
+    return this._http.post('http://localhost/PySW-TpFinal/public/index.php/escribano/'+escribano.id+'/borrar',
     body, httpOption);
   }
 
