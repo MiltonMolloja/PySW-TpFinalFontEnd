@@ -37,23 +37,24 @@ export class EscribanoComponent implements OnInit {
   public obtenerEscribanias() {
     this.escribanoService.getEscribanias().subscribe(
       results => {
-        //console.log(this.escribanos);
         this.escribanias = results;
-          console.log(this.escribanias);
-        //this.escribanias = JSON.parse(results['escribanias']);
-        //console.log(this.escribanias);
+        console.log(this.escribanias);
       }
     );
   }
 
   public mostrarHistoricos() {
-    //llamamos al metodo del service
-    //para cargar los mensajes
     this.escribanoService.getEscribanos()
       .subscribe(
         result => {
-          this.escribanos = result;
-          console.log(this.escribanos);
+          this.escribanos  = new Array<Escribano>();
+          result.forEach(element => {
+            if (element.estado) {
+              this.escribanos.push(element);
+            }
+          });
+          //this.escribanos = result;
+          //console.log(this.escribanos);
         },
         error => {
           alert("error en la peticion");
@@ -119,6 +120,24 @@ export class EscribanoComponent implements OnInit {
       },
       error => {
         console.error("Error updating!");
+        console.log(error);
+        return false;
+      });
+  }
+
+  public borrarLogicoEscribano() {
+    this.escribano.estado = false;
+    this.escribano.matricula = 9999;
+    console.log( this.escribano);
+    this.escribanoService.modificarEscribano(this.escribano).subscribe(
+      data => {
+        console.log("Borrado Logico correctamente.")
+        //actualizo la tabla de mensajes
+        this.mostrarHistoricos();
+        return true;
+      },
+      error => {
+        console.error("Error Borrado Logico!");
         console.log(error);
         return false;
       });

@@ -84,8 +84,14 @@ export class NovedadComponent implements OnInit {
   public getNovedades() {
     this.novedadService.getNovedades().subscribe(
       result => {
-        this.novedades = result;
-        console.log(this.novedad);
+        this.novedades = new Array<Novedad>();
+        //this.novedades = result;
+        //console.log(this.novedad);
+        result.forEach(element => {
+          if (element.estado) {
+            this.novedades.push(element);
+          }
+        });
       },
       error => {
         alert("error en la peticion");
@@ -171,5 +177,22 @@ export class NovedadComponent implements OnInit {
     )
   }
 
+    public deleteLogicoNovedad() {
+      //seteo nuevamente la fecha actual para el msj modificado
+      this.novedad.fecha = new Date(this.fechaString);
+      this.novedad.estado = false;
+      this.novedadService.editNovedad(this.novedad).subscribe(
+        data => {
+          console.log("Borrado Logico correctamente.")
+          //actualizo la tabla de novedades
+          this.getNovedades();
+          return true;
+        },
+        error => {
+          console.error("Error Borrado Logico! novedad");
+          console.log(error);
+          return false;
+        });
+    }
 
 }

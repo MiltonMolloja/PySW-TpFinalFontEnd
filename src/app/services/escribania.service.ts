@@ -14,6 +14,16 @@ export class EscribaniaService {
 
    }
 
+   public getEscribanos():Observable<any>{
+    const httpOption = {
+      headers: new HttpHeaders({
+      'Content-Type': 'application/json'
+      })
+      };
+      return this.http.get("http://localhost/PySW-TpFinal/public/index.php/escribano/",
+     httpOption);
+   }
+
    public getEscribanias():Observable<any>{
     const httpOption = {
       headers: new HttpHeaders({
@@ -22,7 +32,6 @@ export class EscribaniaService {
       };
       return this.http.get("http://localhost/PySW-TpFinal/public/index.php/escribania/",
      httpOption);
-     
    }
 
    public addEscribania(escribania){
@@ -34,7 +43,7 @@ export class EscribaniaService {
       let body = JSON.stringify(escribania);
       return this.http.post("http://localhost/PySW-TpFinal/public/index.php/escribania/new", body,
      httpOption);
-     
+
    }
 
    public editEscribania(escribania){

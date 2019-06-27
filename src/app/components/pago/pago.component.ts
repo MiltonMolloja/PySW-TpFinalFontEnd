@@ -79,13 +79,21 @@ export class PagoComponent implements OnInit {
     this.pagoService.getPagos()
       .subscribe(
         result => {
-          this.pagos = result;
+          this.pagos = new Array<Pago>();
+          //this.pagos = result;
+          result.forEach(element => {
+            if (element.estado) {
+              this.pagos.push(element);
+            }
+          });
           console.log(this.pagos);
         },
         error => {
           alert("error en la peticion");
         });
   }
+
+
 
   public borrarPago(id: number) {
     this.pagoService.borrarPago(id).subscribe(
@@ -162,6 +170,23 @@ export class PagoComponent implements OnInit {
       },
       error => {
         console.error("Error updating!");
+        console.log(error);
+        return false;
+      });
+      this.pago = new Pago();
+  }
+
+  public borrarLogicoPago() {
+    this.pago.estado = false;
+    this.pagoService.modificarPago(this.pago).subscribe(
+      data => {
+        console.log("Borrado Logico correctamente.")
+        //actualizo la tabla de mensajes
+        this.mostrarHistoricos();
+        return true;
+      },
+      error => {
+        console.error("Error Borrado Logico!");
         console.log(error);
         return false;
       });
