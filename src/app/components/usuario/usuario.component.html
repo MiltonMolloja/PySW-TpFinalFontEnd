@@ -1,4 +1,5 @@
-<div *ngIf="loginService.userLogged.tipo==='Administrador'">
+<div >
+<!--- <div *ngIf="loginService.userLogged.tipo==='Administrador'"> -->
 
     <!--Ventana Creacion/Modificacion de Escribano -->
     <div class="row mt-3" *ngIf=" ventana == 'escribano'">
@@ -16,7 +17,7 @@
                             <label class="font-weight-bold" for="escribania_op">Elija una escribania</label>
                             <select [(ngModel)]="usuario.escribano.escribania" ngModel class="form-control selectpicker font-weight-bold text-dark bg-light" name="escribania_op" id="id_escribania_op" #v_escribania="ngModel" required>
                                     <option value="" select >Seleccione</option>
-                                    <option *ngFor="let escribania of escribanias" [ngValue]="escribania" > {{ escribania.nombre }} </option>    
+                                    <option *ngFor="let escribania of escribanias" [ngValue]="escribania" > {{ escribania.nombre }} </option>
                                 </select>
                             <div *ngIf="v_escribania.touched && v_escribania.invalid">
                                 <div class="text-danger font-weight-bolder text-center" *ngIf="v_escribania.errors.required">Escribania requerido.</div>
