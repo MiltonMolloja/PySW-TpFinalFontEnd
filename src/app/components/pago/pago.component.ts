@@ -5,11 +5,16 @@ import { LoginService } from 'src/app/services/login.service';
 import { PagoService } from 'src/app/services/pago.service';
 import { Usuario } from 'src/app/models/usuario';
 
+import * as jspdf from "jspdf";
+
 @Component({
   selector: 'app-pago',
   templateUrl: './pago.component.html',
   styleUrls: ['./pago.component.css']
 })
+
+
+
 export class PagoComponent implements OnInit {
   pago: Pago;
   pagos: Array<Pago>;
@@ -36,6 +41,18 @@ export class PagoComponent implements OnInit {
    logout(){
     //localStorage.removeItem('currentUser');
     this.loginService.logout();
+  }
+
+  generarPDF(){
+    var id = document.getElementById("tabRegistro");
+    var pdf = new jspdf({
+      orientacion:'1',
+      unit:'pt',
+      format: 'carta'
+      });
+    pdf.text("Resumen De Pagos",80,10);
+    pdf.fromHTML(id,30,20);
+    pdf.save("archivo.pdf")
   }
 
 

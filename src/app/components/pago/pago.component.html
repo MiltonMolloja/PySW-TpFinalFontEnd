@@ -15,6 +15,7 @@
       </div>
     </div>
   </div>
+  <div  id="tabRegistro" >
   <table class="table table-striped" [mfData]="pagos" #mf="mfDataTable" [mfRowsOnPage]="5">
     <thead>
       <tr>
@@ -62,7 +63,12 @@
     </tfoot>
   </table>
 </div>
+</div>
 
+<div>
+    <button type="button " class="btn btn-danger"
+      (click)="generarPDF()">PDF</button>
+  </div>
 <!-- Edit Modal HTML -->
 <div id="addEmployeeModal" class="modal fade">
   <div class="modal-dialog">

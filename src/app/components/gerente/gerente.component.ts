@@ -65,8 +65,6 @@ export class GerenteComponent implements OnInit {
     pdf.text("Resumen",80,10);
     pdf.fromHTML(id,30,20);
     pdf.save("archivo.pdf")
-
-
   }
 
   ngOnInit() {
