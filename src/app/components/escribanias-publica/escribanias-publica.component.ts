@@ -12,7 +12,7 @@ export class EscribaniasPublicaComponent implements OnInit {
   escribanias:Array<Escribania>;
   lat: number = -24.185777;
   lng: number = -65.311159;
-  zoom: number = 15;  
+  zoom: number = 14;  
 
   constructor(private escribaniaService:EscribaniaService) {
     this.escribania1=new Escribania();
