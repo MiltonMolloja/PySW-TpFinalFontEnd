@@ -60,7 +60,7 @@ import { SocioComponent } from './components/socio/socio.component';
     DataTableModule,
     AlifeFileToBase64Module,
     AgmCoreModule.forRoot({
-      apiKey: 'AIzaSyBbPusYwryniehTI37uSODwdKteRvcI0Qc'
+      apiKey: 'AIzaSyB7p6OTrBNHwGzD85w3MilKfbKd3TBTK0k'
     })
   ],
   providers: [ LoginService ],
