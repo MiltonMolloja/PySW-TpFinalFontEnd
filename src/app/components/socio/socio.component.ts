@@ -35,7 +35,7 @@ export class SocioComponent implements OnInit {
     this.usuario = new Usuario();
     this.usuarios = new Array<Usuario>();
     this.obtenerEscribanoLogeado();
-    this.getNovedades();
+    //this.getNovedades();
     //this.obtenerUsuarios();
 
    }
@@ -93,6 +93,7 @@ export class SocioComponent implements OnInit {
             this.EscribanoLogeado = element.escribano;
             console.log("this.EscribanoLogeado - Logeado");
             console.log(this.EscribanoLogeado);
+            this.getNovedades(this.EscribanoLogeado);
           }
         });
       },
@@ -112,13 +113,16 @@ export class SocioComponent implements OnInit {
       });
   }
 
-  public getNovedades() {
+  public getNovedades(escribano: Escribano) {
     this.novedadService.getNovedades().subscribe(
+
       result => {
         this.novedades = new Array<Novedad>();
         //this.novedades = result;
         //console.log(this.novedad);
         result.forEach(element => {
+          console.log(this.EscribanoLogeado);
+          console.log("this.EscribanoLogeado  +++++++++++++++++++");
           if (element.estado && element.escribano.id == this.EscribanoLogeado.id) {
             this.novedad = new Novedad();
             this.novedad = element;
