@@ -89,7 +89,7 @@
                         </div>
                         <div class="form-group">
                             <label class="font-weight-bold" for="fechanac">Fecha de Nacimiento</label>
-                            <input type="date" [(ngModel)]="usuario.perfil.fechaNac" ngModel class="form-control-sm rounded font-weight-bold text-center" name="fechanac" id="id_fechanac" #v_fecha="ngModel" required>
+                            <input type="date" [(ngModel)]="fechatemp" ngModel class="form-control-sm rounded font-weight-bold text-center" name="fechanac" id="id_fechanac" #v_fecha="ngModel" required>
                             <div *ngIf="v_fecha.touched && v_fecha.invalid">
                                 <div class="text-danger font-weight-bolder" *ngIf="v_fecha.errors.required">Fecha requerida.</div>
                             </div>
@@ -150,7 +150,7 @@
 
                         <div class="form-group">
                             <label class="font-weight-bold" for="password">Contraseña</label>
-                            <input type="text" [(ngModel)]="usuario.password" ngModel placeholder="Ingrese..." class="form-control rounded font-weight-bold text-center" name="password" id="id_password" #v_password="ngModel" required>
+                            <input type="password" [(ngModel)]="usuario.password" ngModel placeholder="Ingrese..." class="form-control rounded font-weight-bold text-center" name="password" id="id_password" #v_password="ngModel" required>
                             <div *ngIf="v_password.touched && v_password.invalid">
                                 <div class="text-danger font-weight-bolder text-center" *ngIf="v_password.errors.required">Contraseña requerida.</div>
                             </div>
@@ -170,7 +170,7 @@
                         </div>
                         <div class="d-flex justify-content-center" *ngIf="botonesDeModificacion == true">
                             <button type="button" class="btn btn-secondary" (click)="modificarUsuario( formUsuario ) ;">Modificar Usuario</button>
-                            <button type="button" (click)="ventana=' '; mostrarInicio();" class="btn btn-danger ml-2">No cambiar</button>
+                            <button type="button" (click)="noCambiarUsuario()" class="btn btn-danger ml-2">No cambiar</button>
                         </div>
                     </div>
                 </div>

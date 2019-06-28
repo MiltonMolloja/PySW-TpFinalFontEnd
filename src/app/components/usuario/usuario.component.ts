@@ -17,6 +17,11 @@ import { NgForm } from '@angular/forms';
   styleUrls: ['./usuario.component.css']
 })
 export class UsuarioComponent implements OnInit {
+  ///
+  fechatemp:string;
+  comp_password:string;
+  comp_email:string;
+
   //archivo
   imagen_u:any //Se usa any porque es un array con muchos datos y solo interesa la posicion [0].base64
 
@@ -78,6 +83,7 @@ export class UsuarioComponent implements OnInit {
   {
     this.usuario = new Usuario();
     this.usuario.perfil = new Perfil();//
+    this.usuario.perfil.fechaNac = new Date();
     this.usuario.escribano = new Escribano();
     this.usuario.escribano.escribania = new Escribania();
   }/////
@@ -302,6 +308,7 @@ export class UsuarioComponent implements OnInit {
     if( form.valid == true )
     {
       this.usuario.perfil.estado = true ;
+      this.usuario.perfil.fechaNac  = new Date( this.fechatemp );
       this.perfilService.sendPerfil(this.usuario.perfil).subscribe
       (
         resultado2 =>
@@ -428,6 +435,7 @@ export class UsuarioComponent implements OnInit {
       resultado => {
         console.log("eliminado correctamente Usuario.");
         this.obtenerUsuarios();
+        this.inicializarUsuario();
         return true;
       },
       error =>
@@ -457,6 +465,7 @@ export class UsuarioComponent implements OnInit {
   {
     this.inicializarUsuario();
     this.usuario = Object.assign(this.usuario, usuario);
+    this.fechatemp = this.usuario.perfil.fechaNac.toISOString().substring(0, 10);
     this.tipoDeDestino = this.usuario.tipo;
 
   }///
@@ -564,6 +573,7 @@ export class UsuarioComponent implements OnInit {
     //Se pregunta si el formulario es valido
     if( form.valid == true)
     {
+      this.usuario.perfil.fechaNac = new Date( this.fechatemp );
       this.perfilService.modificarPerfil(this.usuario.perfil).subscribe
       (
         resultados => {
@@ -607,5 +617,13 @@ export class UsuarioComponent implements OnInit {
       );
     }
   }///
+
+  //Cuando no se cambia los datos de usuario existente
+  noCambiarUsuario()
+  {
+    this.ventana=' '; 
+    this.inicializarUsuario();  
+    this.mostrarInicio();
+  }
 
 }
