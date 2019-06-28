@@ -467,8 +467,8 @@ export class UsuarioComponent implements OnInit {
     this.inicializarUsuario();
     this.usuario = Object.assign(this.usuario, usuario);
     this.fechatemp = this.usuario.perfil.fechaNac.toISOString().substring(0, 10);
-    this.comp_password = this.usuario.perfil.password;
-    this.comp_email = this.usuario.perfil.email ;
+    this.comp_password = this.usuario.password;
+    this.comp_email = this.usuario.email ;
     this.tipoDeDestino = this.usuario.tipo;
 
   }///
@@ -552,7 +552,7 @@ export class UsuarioComponent implements OnInit {
   modificarEscribano( form:NgForm )
   {
     //Se pregunta si el formulario es valido
-    if( form.valid == true)
+    if( form.valid == true  )
     {
       this.escribanoService.modificarEscribano(this.usuario.escribano).subscribe
       (
@@ -598,7 +598,7 @@ export class UsuarioComponent implements OnInit {
   modificarUsuario( form:NgForm )
   {
     //Se pregunta si el formulario es valido
-    if( form.valid == true)
+    if( form.valid == true && this.usuario.email == this.comp_email && this.usuario.password == this.comp_password )
     {
       this.usuarioService.modificarUsuario(this.usuario).subscribe
       (
