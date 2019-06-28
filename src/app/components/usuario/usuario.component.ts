@@ -17,13 +17,12 @@ import { NgForm } from '@angular/forms';
   styleUrls: ['./usuario.component.css']
 })
 export class UsuarioComponent implements OnInit {
-  ///
+  //archivo
+  imagen_u:any //Se usa any porque es un array con muchos datos y solo interesa la posicion [0].base64
+  //
   fechatemp:string;
   comp_password:string;
   comp_email:string;
-
-  //archivo
-  imagen_u:any //Se usa any porque es un array con muchos datos y solo interesa la posicion [0].base64
 
   //Se necesitan 4 arreglos para recuperar datos
   usuarios:Array<Usuario>;
@@ -86,6 +85,8 @@ export class UsuarioComponent implements OnInit {
     this.usuario.perfil.fechaNac = new Date();
     this.usuario.escribano = new Escribano();
     this.usuario.escribano.escribania = new Escribania();
+    this.comp_password = "";
+    this.comp_email = "" ;
   }/////
 
   //Ocultar ventanas de inicio
@@ -363,7 +364,7 @@ export class UsuarioComponent implements OnInit {
    crearUsuario( form:NgForm )
    {
     //Se pregunta si el formulario es valido
-    if( form.valid == true )
+    if( form.valid == true && this.usuario.email == this.comp_email && this.usuario.password == this.comp_password )
     {
       this.usuario.estado = true ;
       this.usuarioService.sendUsuario(this.usuario).subscribe
@@ -466,6 +467,8 @@ export class UsuarioComponent implements OnInit {
     this.inicializarUsuario();
     this.usuario = Object.assign(this.usuario, usuario);
     this.fechatemp = this.usuario.perfil.fechaNac.toISOString().substring(0, 10);
+    this.comp_password = this.usuario.perfil.password;
+    this.comp_email = this.usuario.perfil.email ;
     this.tipoDeDestino = this.usuario.tipo;
 
   }///
