@@ -1,9 +1,217 @@
-<div>
-    <!---  <div *ngIf="loginService.userLogged.tipo==='Gerente'">  -->
-    <h1 class="text-center font-weight-bolder display-4 text-secondary">Resumenes Para Gerente</h1>
+<!--Aqui va el titulo y la cabecera-->
+<div class="row">
+    <div class="col-12">
+        <!---  <div *ngIf="loginService.userLogged.tipo==='Gerente'">  -->
+        <h1 class="text-center font-weight-bolder display-4 text-secondary">Resumenes para Gerente</h1>
+        <div class="d-flex justify-content-center">
+            <ul class="nav nav-tabs font-weight-bold bg-light border-secondary" role="tablist">
+                <li class="nav-item">
+                    <a class="nav-link active" data-toggle="tab" (click)="mostrarHistoricos()" href="#total">Totales</a>
+                </li>
+                <li class="nav-item">
+                    <a class="nav-link" data-toggle="tab" href="#escribano">Por Escribano</a>
+                </li>
+                <li class="nav-item">
+                    <a class="nav-link" data-toggle="tab" href="#fecha">Por Fecha</a>
+                </li>
+            </ul>
+        </div>
+    </div>
 </div>
 
-<div>
+<!--Aqui va el contenido de los navbar-->
+<div class="row">
+    <div class="col-12">
+        <!-- Tab panes -->
+        <div class="tab-content">
+            <div id="total" class="container tab-pane active my-3"><br>
+                <div class="card text-center col-10 col-md-8 col-lg-6 mx-auto border-dark ">
+                    <h3 class="text-dark">Todos los pagos</h3>
+                    <h5 class="text-dark">El total es: <span class="text-success font-weight-bold"> $ {{totalPagos}} </span> </h5>
+                </div>
+            </div>
+            <!--Separacion-->
+            <div id="escribano" class="container tab-pane fade my-3 "><br>
+                <div class="card text-center col-10 col-md-8 col-lg-6 mx-auto border-dark ">
+                    <div class="card-header bg-white border-primary-bottom lead">
+                        Filtrar pagos por escribano
+                    </div>
+                    <div class="card-body bg-light border-primary-bottom">
+                        <h5 class="card-title"><label for="escribano">Elija un escribano</label></h5>
+                        <select name="escribano" id="escribano" class="form-control" [(ngModel)]="escribano">
+                                  <option *ngFor="let usuario of usuarios" [ngValue]="usuario.escribano">{{usuario.perfil.apellidos}},{{usuario.perfil.nombres}}</option>
+                                </select>
+                        <div class="d-flex justify-content-center mt-2">
+                            <button type="button " class="btn btn-info" (click)="obtenerTotalPagosEscribano(escribano)">Filtrar</button>
+                        </div>
+                    </div>
+                    <div class="card-footer bg-white">
+                        <p class="text-success font-weight-bold">$ {{ totalPagosEscribano}}</p>
+                    </div>
+                </div>
+            </div>
+            <!---->
+            <div id="fecha" class="container tab-pane fade">
+                <h3 class="text-center text-dark font-weight-bold lead">Elija una fecha</h3>
+                <!-- Nav tabs -->
+                <div class="d-flex justify-content-center">
+                    <ul class="nav nav-tabs bg-light border-secondary lead" role="tablist">
+                        <li class="nav-item">
+                            <a class="nav-link active" data-toggle="tab" href="#dia">Dia</a>
+                        </li>
+                        <li class="nav-item">
+                            <a class="nav-link" data-toggle="tab" href="#mes">Mes</a>
+                        </li>
+                        <li class="nav-item">
+                            <a class="nav-link" data-toggle="tab" href="#year">Año</a>
+                        </li>
+                        <li class="nav-item">
+                            <a class="nav-link" data-toggle="tab" href="#personalizado">Personalizado</a>
+                        </li>
+                    </ul>
+                </div>
+                <!---->
+                <!-- Tab panes -->
+                <div class="tab-content">
+                    <!--Dia-->
+                    <div id="dia" class="container tab-pane active my-3">
+
+                        <div class="card text-center col-10 col-md-8 col-lg-6 mx-auto border-secondary">
+                            <div class="card-header">
+                                <div class="md-form">
+                                    Seleccione una fecha de inicio:
+                                    <input type="date" class="form-control col-6 text-right mx-auto" max="{{fechaActual | date: 'dd/MM/yyyy'}}" min="2008-01-01" [(ngModel)]="fechaInicio" [(ngModel)]="fechaFin">
+                                </div>
+                            </div>
+                            <div class="card-body">
+                                <h5 class="card-title"><label for="escribano">Rango de resultado:</label></h5>
+                                <p class="card-text"> Fecha de Inicio: {{fechaInicio | date: 'dd/MM/yyyy'}}</p>
+                                <p class="card-text"> Fecha de Fin: {{fechaFin | date: 'dd/MM/yyyy'}}</p>
+                                <div>
+                                    <button type="button " class="btn btn-info" (click)="obtenerTotalPagosDosFechas(fechaInicio,fechaFin)">Filtrar por Fecha</button>
+                                </div>
+                            </div>
+                            <div class="card-footer">
+                                <p class="text-secondary">Total de pagos en esa fecha<span class="text-success font-weight-bold">$ {{totalPagosDosFechas}} </span></p>
+                            </div>
+                        </div>
+                    </div>
+                    <!---->
+                    <!--Mes-->
+                    <div id="mes" class="container tab-pane fade my-3">
+                        <div class="card text-center col-10 col-md-8 col-lg-6 mx-auto border-secondary">
+                            <div class="card-header">
+                                <div class=" form-group text-center">
+                                    <label>Elija un año:</label>
+                                    <select name="anio" id="anio" class="form-control" [(ngModel)]="anio">
+                                        <option selected>Large Custom Select Menu</option>
+                                        <option value="2016">2016</option>
+                                        <option value="2017">2017</option>
+                                        <option value="2018">2018</option>
+                                        <option value="2019">2019</option>
+                                    </select>
+                                </div>
+
+                                <div class=" form-group">
+                                    <label>Elija un mes:</label>
+                                    <select name="mes" id="mes" class="form-control" [(ngModel)]="mes">
+                                        <option selected>Large Custom Select Menu</option>
+                                        <option value="01">Enero</option>
+                                        <option value="02">Febrero</option>
+                                        <option value="03">Marzo</option>
+                                        <option value="04">Abril</option>
+                                        <option value="05">Mayo</option>
+                                        <option value="06">Junio</option>
+                                        <option value="07">Julio</option>
+                                        <option value="08">Agosto</option>
+                                        <option value="09">Septimbre</option>
+                                        <option value="10">Octubre</option>
+                                        <option value="11">Noviembre</option>
+                                        <option value="12">Diciembre</option>
+                                    </select>
+                                </div>
+                            </div>
+                            <div class="card-body">
+                                <h5 class="card-title"><label for="escribano">Resultado:</label></h5>
+                                <p> {{mes}} <span class="font-weight-bolder">/</span > {{anio}}</p>
+                                <p> Fecha de Inicio {{fechaInicio | date: 'dd/MM/yyyy'}}</p>
+                                <p> Fecha de Fin {{fechaFin | date: 'dd/MM/yyyy'}}</p>
+                                <div>
+                                    <button type="button " class="btn btn-info" (click)="formarFechaMes()">Filtrar por Fecha</button>
+                                </div>
+                            </div>
+                            <div class="card-footer">
+                                <p class="text-secondary">Total de pagos entre dos fechas <span class="text-success font-weight-bold">$ {{totalPagosDosFechas}} </span></p>
+                            </div>
+                        </div>
+                    </div>
+                    <!---->
+                    <!--Año-->
+                    <div id="year" class="container tab-pane fade my-3">
+                        <div class="card text-center col-10 col-md-8 col-lg-6 mx-auto border-secondary">
+                            <div class="card-header">
+                                <div class=" form-group text-center">
+                                    <label>Elija un año:</label>
+                                    <select name="anio" id="anio" class="form-control" [(ngModel)]="anio">
+                                        <option selected>Large Custom Select Menu</option>
+                                        <option value="2016">2016</option>
+                                        <option value="2017">2017</option>
+                                        <option value="2018">2018</option>
+                                        <option value="2019">2019</option>
+                                    </select>
+                                </div>
+                            </div>
+                            <div class="card-body">
+                                <h5 class="card-title"><label for="escribano">Resultado:</label></h5>
+                                <p>{{anio}}</p>
+                                <p> fecha Inicio {{fechaInicio | date: 'dd/MM/yyyy'}}</p>
+                                <p> fecha Fin {{fechaFin | date: 'dd/MM/yyyy'}}</p>
+                                <div>
+                                    <button type="button " class="btn btn-info" (click)="formarFechaAnio()">Filtrar por Fecha</button>
+                                </div>
+                            </div>
+                            <div class="card-footer">
+                                <p class="text-secondary">Total de pagos entre dos fechas <span class="text-success font-weight-bold">$ {{totalPagosDosFechas}} </span></p>
+                            </div>
+                        </div>
+                    </div>
+                    <!---->
+                    <!--Personalizado-->
+                    <div id="personalizado" class="container tab-pane fade my-3 ">
+                        <div class="card text-center col-10 col-md-8 col-lg-6 mx-auto">
+                            <div class="card-header">
+                                <div class="md-form">
+                                    Fecha de Inicio:
+                                    <input type="date" class="form-control col-6 mx-auto text-right" max="{{fechaActual | date: 'dd/MM/yyyy'}}" min="2008-01-01" [(ngModel)]="fechaInicio">
+                                </div>
+                                <br>
+                                <div class="md-form">
+                                    Fecha de Fin:
+                                    <input type="date" class="form-control col-6 mx-auto text-right" max="{{fechaActual | date: 'dd/MM/yyyy'}}" min="2008-01-01" [(ngModel)]="fechaFin">
+                                </div>
+                            </div>
+                            <div class="card-body">
+                                <h5 class="card-title"><label for="escribano">Resultado:</label></h5>
+
+                                <p> fecha Inicio {{fechaInicio | date: 'dd/MM/yyyy'}}</p>
+                                <p> fecha Fin {{fechaFin | date: 'dd/MM/yyyy'}}</p>
+                                <div>
+                                    <button type="button " class="btn btn-info" (click)="obtenerTotalPagosDosFechas(fechaInicio,fechaFin)">Filtrar por Fecha</button>
+                                </div>
+                            </div>
+                            <div class="card-footer">
+                                <p class="text-secondary">Total de pagos entre dos fechas <span class="text-success font-weight-bold">$ {{totalPagosDosFechas}} </span></p>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+
+<div *ngIf="false">
     <!-- Nav tabs -->
     <ul class="nav nav-tabs font-weight-bold" role="tablist">
         <li class="nav-item">
@@ -181,19 +389,12 @@
                         <h3>total Pagos entre dos fechas {{totalPagosDosFechas}}</h3>
                     </div>
                 </div>
-
-
-
-
             </div>
-
         </div>
     </div>
 </div>
 
-
-
-<div class="row">
+<div class="row mt-2">
     <div class="col-12">
         <div class="table-responsive-md">
             <table class="table table-striped thead-dark table-sm" [mfData]="pagos" #mf="mfDataTable" [mfRowsOnPage]="5">
