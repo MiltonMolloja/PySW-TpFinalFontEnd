@@ -18,6 +18,8 @@ export class PagoComponent implements OnInit {
   usuario: Usuario;
   usuarios: Array<Usuario>;
 
+  public submitted = false;
+
   constructor(private pagoService: PagoService, public loginService: LoginService) {
     this.escribano = new Escribano();
     this.escribanos = new Array<Escribano>();
@@ -30,6 +32,9 @@ export class PagoComponent implements OnInit {
     this.obtenerUsuarios();
    }
 
+   onSubmit() {
+    this.submitted = true;
+  }
    logout(){
     //localStorage.removeItem('currentUser');
     this.loginService.logout();

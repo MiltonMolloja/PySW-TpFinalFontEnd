@@ -16,6 +16,8 @@ export class EscribanoComponent implements OnInit {
   escribania: Escribania;
   escribanias: Array<Escribania>;
 
+  public submitted = false;
+
   constructor(private escribanoService: EscribanoService, public loginService: LoginService) {
     this.escribano = new Escribano();
     this.escribania = new Escribania();
@@ -28,6 +30,10 @@ export class EscribanoComponent implements OnInit {
    logout(){
     //localStorage.removeItem('currentUser');
     this.loginService.logout();
+  }
+
+  onSubmit() {
+    this.submitted = true;
   }
 
 
