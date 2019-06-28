@@ -59,7 +59,7 @@
           <td>{{esc.direccion}}</td>
           <td>{{esc.telefono}}</td>
           <td>{{esc.email}}</td>
-          <td>{{esc.foto}}</td>
+          <td> <img src='{{ esc.foto }}' class="mx-auto rounded-circle" width="30px" height="30px"> </td>
           <td>{{esc.latitud}}</td>
           <td>{{esc.longitud}}</td>
           <td>{{esc.estado}}</td>
@@ -91,7 +91,7 @@
   <div id="addEmployeeModal" class="modal fade">
     <div class="modal-dialog">
       <div class="modal-content">
-        <form>
+        <form class="frmEscribania" (ngSubmit)="onSubmit()" #escribaniaForm="ngForm">
           <div class="modal-header">
             <h4 class="modal-title">Agregar Escribania</h4>
             <button type="button" class="close" data-dismiss="modal" aria-hidden="true">&times;</button>
@@ -99,36 +99,91 @@
           <div class="modal-body">
             <div class="form-group">
               <label>Nombre</label>
-              <input type="text" class="form-control" rows="5" name="txtNombre" [(ngModel)]="escribania.nombre">
+              <input type="text" class="form-control" rows="5" name="txtNombre" [(ngModel)]="escribania.nombre"
+                #txtNombre="ngModel" required>
+              <div *ngIf="txtNombre.invalid && (txtNombre.dirty || txtNombre.touched)" class="alert alert-danger">
+                <div *ngIf="txtNombre?.errors.required">
+                  Ingrese nombre de Escribania.
+                </div>
+              </div>
             </div>
             <div class="form-group">
               <label>Direccion</label>
-              <input type="text" class="form-control" rows="5" name="txtDireccion" [(ngModel)]="escribania.direccion">
+              <input type="text" class="form-control" rows="5" name="txtDireccion" [(ngModel)]="escribania.direccion"
+                #txtDireccion="ngModel" required>
+              <div *ngIf="txtDireccion.invalid && (txtDireccion.dirty || txtDireccion.touched)"
+                class="alert alert-danger">
+                <div *ngIf="txtDireccion?.errors.required">
+                  Ingrese direccion de Escribania.
+                </div>
+              </div>
             </div>
             <div class="form-group">
               <label>Email</label>
-              <input type="text" class="form-control" rows="5" name="txtEmail" [(ngModel)]="escribania.email">
+              <input type="email" class="form-control" rows="5" name="txtEmail" [(ngModel)]="escribania.email"
+                #txtEmail="ngModel" required pattern="[a-z0-9._%+-]+@[a-z0-9.-]+\.[a-z]{2,3}$">
+              <div *ngIf="txtEmail.invalid && (txtEmail.dirty || txtEmail.touched)" class="alert alert-danger">
+                <div *ngIf="txtEmail?.errors.required">
+                  Ingrese email de Escribania.
+                </div>
+                <div *ngIf="txtEmail?.errors.pattern">
+                 Formato de correo invalido.
+                </div>
+              </div>
             </div>
             <div class="form-group">
               <label>Telefono</label>
-              <input type="text" class="form-control" rows="5" name="txtTelefono" [(ngModel)]="escribania.telefono">
+              <input type="tel" class="form-control" rows="5" name="txtTelefono" [(ngModel)]="escribania.telefono"
+                #txtTelefono="ngModel" required>
+              <div *ngIf="txtTelefono.invalid && (txtTelefono.dirty || txtTelefono.touched)" class="alert alert-danger">
+                <div *ngIf="txtTelefono?.errors.required">
+                  Ingrese telefono de Escribania.
+                </div>
+              </div>
             </div>
             <div class="form-group">
-              <label>Foto</label>
-              <input type="text" class="form-control" rows="5" name="txtFoto" [(ngModel)]="escribania.foto">
+
+              <div class="card-header bg-transparent border-primary text-center">
+                  <!--Card Header-->
+                  <label>Foto</label>
+                  <img src='{{ escribania.foto }}' class="mx-auto img-thumbnail" width="200px" height="200px">
+                  <div class="mt-2">
+                      <input type="file" class="form-control-file border" alife-file-to-base64 multiple (onFileChanged)="convertirYCargar();" [(fileModel)]="imagen_u" name="txtfoto" required />
+                  </div>
+              </div>
             </div>
             <div class="form-group">
               <label>Latitud</label>
-              <input type="text" class="form-control" rows="5" name="txtLatitud" [(ngModel)]="escribania.latitud">
+              <input type="number" step="any" class="form-control" rows="5" name="txtLatitud"
+                [(ngModel)]="escribania.latitud" #txtLatitud="ngModel" required>
+              <div *ngIf="txtLatitud.invalid && (txtLatitud.dirty || txtLatitud.touched)" class="alert alert-danger">
+                <div *ngIf="txtLatitud?.errors.required">
+                  Ingrese posicion latitud.
+                </div>
+                <div *ngIf="txtLongitud?.errors.step">
+                  valores decimales.
+                </div>
+              </div>
             </div>
             <div class="form-group">
               <label>Longitud</label>
-              <input type="text" class="form-control" rows="5" name="txtLongitud" [(ngModel)]="escribania.longitud">
+              <input type="number" step="any" class="form-control" rows="5" name="txtLongitud"
+                [(ngModel)]="escribania.longitud" #txtLongitud="ngModel" required>
+              <div *ngIf="txtLongitud.invalid && (txtLongitud.dirty || txtLongitud.touched)" class="alert alert-danger">
+                <div *ngIf="txtLongitud?.errors.required">
+                  Ingrese posicion de longitud.
+                </div>
+                <div *ngIf="txtLongitud?.errors.step">
+                  valores decimales.
+                </div>
+              </div>v
             </div>
           </div>
           <div class="modal-footer">
             <input type="button" class="btn btn-default" data-dismiss="modal" value="Cancelar">
-            <input type="submit" class="btn btn-success" value="Agregar" (click)="addEscribania(escribania)">
+            <input type="submit" class="btn btn-success" value="Agregar" [disabled]="!escribaniaForm.form.valid"
+              (click)="addEscribania(escribania)">
+              <input type="reset" class="btn btn-success"  value="Limpiar">
           </div>
         </form>
       </div>
@@ -138,44 +193,94 @@
   <div id="editEmployeeModal" class="modal fade">
     <div class="modal-dialog">
       <div class="modal-content">
-        <form>
+        <form (ngSubmit)="onSubmit()" #escribaniaForm="ngForm">
           <div class="modal-header">
             <h4 class="modal-title">Editar Escribania</h4>
             <button type="button" class="close" data-dismiss="modal" aria-hidden="true">&times;</button>
           </div>
           <div class="modal-body">
-              <div class="form-group">
-                  <label>Nombre</label>
-                  <input type="text" class="form-control" rows="5" name="txtNombre" [(ngModel)]="escribania.nombre">
-                </div>
-                <div class="form-group">
-                  <label>Direccion</label>
-                  <input type="text" class="form-control" rows="5" name="txtDireccion" [(ngModel)]="escribania.direccion">
-                </div>
-                <div class="form-group">
-                  <label>Email</label>
-                  <input type="text" class="form-control" rows="5" name="txtEmail" [(ngModel)]="escribania.email">
-                </div>
-                <div class="form-group">
-                  <label>Telefono</label>
-                  <input type="text" class="form-control" rows="5" name="txtTelefono" [(ngModel)]="escribania.telefono">
-                </div>
-                <div class="form-group">
-                  <label>Foto</label>
-                  <input type="text" class="form-control" rows="5" name="txtFoto" [(ngModel)]="escribania.foto">
-                </div>
-                <div class="form-group">
-                  <label>Latitud</label>
-                  <input type="text" class="form-control" rows="5" name="txtLatitud" [(ngModel)]="escribania.latitud">
-                </div>
-                <div class="form-group">
-                  <label>Longitud</label>
-                  <input type="text" class="form-control" rows="5" name="txtLongitud" [(ngModel)]="escribania.longitud">
+            <div class="form-group">
+              <label>Nombre</label>
+              <input type="text" class="form-control" rows="5" name="txtNombre" [(ngModel)]="escribania.nombre"
+                #txtNombre="ngModel" required>
+              <div *ngIf="txtNombre.invalid && (txtNombre.dirty || txtNombre.touched)" class="alert alert-danger">
+                <div *ngIf="txtNombre?.errors.required">
+                  Ingrese nombre de Escribania.
                 </div>
               </div>
+            </div>
+            <div class="form-group">
+              <label>Direccion</label>
+              <input type="text" class="form-control" rows="5" name="txtDireccion" [(ngModel)]="escribania.direccion"
+                #txtDireccion="ngModel" required>
+              <div *ngIf="txtDireccion.invalid && (txtDireccion.dirty || txtDireccion.touched)"
+                class="alert alert-danger">
+                <div *ngIf="txtDireccion?.errors.required">
+                  Ingrese direccion de Escribania.
+                </div>
+              </div>
+            </div>
+            <div class="form-group">
+              <label>Email</label>
+              <input type="email" class="form-control" rows="5" name="txtEmail" [(ngModel)]="escribania.email"
+                #txtEmail="ngModel" required>
+              <div *ngIf="txtEmail.invalid && (txtEmail.dirty || txtEmail.touched)" class="alert alert-danger">
+                <div *ngIf="txtEmail?.errors.required">
+                  Ingrese email de Escribania.
+                </div>
+              </div>
+            </div>
+            <div class="form-group">
+              <label>Telefono</label>
+              <input type="tel" class="form-control" rows="5" name="txtTelefono" [(ngModel)]="escribania.telefono"
+                #txtTelefono="ngModel" required>
+              <div *ngIf="txtTelefono.invalid && (txtTelefono.dirty || txtTelefono.touched)" class="alert alert-danger">
+                <div *ngIf="txtTelefono?.errors.required">
+                  Ingrese telefono de Escribania.
+                </div>
+              </div>
+            </div>
+            <div class="form-group">
+                <div class="card-header bg-transparent border-primary text-center">
+                    <!--Card Header-->
+                    <label>Foto</label>
+                    <img src='{{ escribania.foto }}' class="mx-auto img-thumbnail" width="200px" height="200px">
+                    <div class="mt-2">
+                        <input type="file" class="form-control-file border" alife-file-to-base64 multiple (onFileChanged)="convertirYCargar();" [(fileModel)]="imagen_u" />
+                    </div>
+                </div>
+            </div>
+            <div class="form-group">
+              <label>Latitud</label>
+              <input type="number" step="any" class="form-control" rows="5" name="txtLatitud"
+                [(ngModel)]="escribania.latitud" #txtLatitud="ngModel" required>
+              <div *ngIf="txtLatitud.invalid && (txtLatitud.dirty || txtLatitud.touched)" class="alert alert-danger">
+                <div *ngIf="txtLatitud?.errors.required">
+                  Ingrese posicion latitud.
+                </div>
+                <div *ngIf="txtLongitud?.errors.step">
+                  valores decimales.
+                </div>
+              </div>
+            </div>
+            <div class="form-group">
+              <label>Longitud</label>
+              <input type="number" step="any" class="form-control" rows="5" name="txtLongitud"
+                [(ngModel)]="escribania.longitud" #txtLongitud="ngModel" required>
+              <div *ngIf="txtLongitud.invalid && (txtLongitud.dirty || txtLongitud.touched)" class="alert alert-danger">
+                <div *ngIf="txtLongitud?.errors.required">
+                  Ingrese posicion de longitud.
+                </div>
+                <div *ngIf="txtLongitud?.errors.step">
+                  valores decimales.
+                </div>
+              </div>v
+            </div>
+          </div>
           <div class="modal-footer">
             <input type="button" class="btn btn-default" data-dismiss="modal" value="Cancelar">
-            <input type="submit" class="btn btn-success" value="Actualizar" (click)="editEscribania(escribania)">
+            <input type="submit" class="btn btn-success" value="Actualizar" [disabled]="!escribaniaForm.form.valid"
+              (click)="editEscribania(escribania)">
           </div>
         </form>
       </div>

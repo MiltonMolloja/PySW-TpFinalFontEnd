@@ -15,6 +15,7 @@ export class LoginComponent implements OnInit {
   returnUrl:string;
   msglogin:string;
 
+  public submitted=false;
   constructor
   (
     private route: ActivatedRoute,
@@ -22,7 +23,12 @@ export class LoginComponent implements OnInit {
     private loginService:LoginService
   ) { }
 
-  ngOnInit() 
+  onSubmit(){
+    this.submitted=true;
+
+ }
+
+  ngOnInit()
   {
     this.returnUrl = this.route.snapshot.queryParams['returnUrl'] || '/home';
   }
@@ -40,7 +46,7 @@ export class LoginComponent implements OnInit {
       //localstorage usado para mostrar o no un componente
       //localStorage.setItem('currentUser', JSON.stringify(user));
       this.router.navigateByUrl(this.returnUrl);
-    } 
+    }
     else
       {
     //usuario no encontrado muestro mensaje en la vista
