@@ -1,41 +1,41 @@
-<div class="row" *ngIf="loginService.userLoggedIn">
-  <nav class="navbar navbar-expand-sm bg-dark navbar-dark">
-    <ul class="navbar-nav">
-      <li class="nav-item active">
-        <a class="nav-link"> {{loginService.userLogged.tipo}} </a>
-      </li>
-      <li class="nav-item" *ngIf="loginService.userLogged.tipo==='Administrador'">
-        <a class="nav-link" [routerLink]="['/usuario']">Listado de Usuarios</a>
-      </li>
-      <li class="nav-item" *ngIf="loginService.userLogged.tipo==='Administrador'">
-        <a class="nav-link" [routerLink]="['/perfil']">Listado de Perfiless</a>
-      </li>
-      <li class="nav-item" *ngIf="loginService.userLogged.tipo==='Administrativo'">
-        <a class="nav-link" [routerLink]="['/escribano']">Listado de Escribano</a>
-      </li>
-      <li class="nav-item" *ngIf="loginService.userLogged.tipo==='Administrativo'">
-        <a class="nav-link" [routerLink]="['/escribania']">Listado de Escribania</a>
-      </li>
-      <li class="nav-item"*ngIf="loginService.userLogged.tipo==='Administrativo'">
-        <a class="nav-link" [routerLink]="['/novedad']">Listado de Novedades</a>
-      </li>
-      <li class="nav-item"*ngIf="loginService.userLogged.tipo==='Administrativo'">
-        <a class="nav-link" [routerLink]="['/pago']">Listado de Pago</a>
-      </li>
-      <li class="nav-item" *ngIf="loginService.userLogged.tipo==='Gerente'">
-        <a class="nav-link" [routerLink]="['/gerente']">Resumen</a>
-      </li>
-      <li class="nav-item" *ngIf="loginService.userLogged.tipo==='Socio'">
-        <a class="nav-link" [routerLink]="['/gerente']">Novedades</a>
-      </li>
-    </ul>
-  </nav>
+<div class="row d-flex justify-content-center" *ngIf="loginService.userLoggedIn">
+    <nav class="col-12 text-center  navbar navbar-expand-sm bg-dark navbar-dark">
+        <ul class="navbar-nav mx-auto">
+            <li class="nav-item active">
+                <a class="nav-link"> {{loginService.userLogged.tipo}} </a>
+            </li>
+            <li class="nav-item" *ngIf="loginService.userLogged.tipo==='Administrador'">
+                <a class="nav-link" [routerLink]="['/usuario']">Listado de Usuarios</a>
+            </li>
+            <li class="nav-item" *ngIf="loginService.userLogged.tipo==='Administrador'">
+                <a class="nav-link" [routerLink]="['/perfil']">Listado de Perfiless</a>
+            </li>
+            <li class="nav-item" *ngIf="loginService.userLogged.tipo==='Administrativo'">
+                <a class="nav-link" [routerLink]="['/escribano']">Listado de Escribano</a>
+            </li>
+            <li class="nav-item" *ngIf="loginService.userLogged.tipo==='Administrativo'">
+                <a class="nav-link" [routerLink]="['/escribania']">Listado de Escribania</a>
+            </li>
+            <li class="nav-item" *ngIf="loginService.userLogged.tipo==='Administrativo'">
+                <a class="nav-link" [routerLink]="['/novedad']">Listado de Novedades</a>
+            </li>
+            <li class="nav-item" *ngIf="loginService.userLogged.tipo==='Administrativo'">
+                <a class="nav-link" [routerLink]="['/pago']">Listado de Pago</a>
+            </li>
+            <li class="nav-item" *ngIf="loginService.userLogged.tipo==='Gerente'">
+                <a class="nav-link" [routerLink]="['/gerente']">Resumen</a>
+            </li>
+            <li class="nav-item" *ngIf="loginService.userLogged.tipo==='Socio'">
+                <a class="nav-link" [routerLink]="['/gerente']">Novedades</a>
+            </li>
+        </ul>
+    </nav>
 </div>
 
 <!-- Grey with black text -->
 <!--<nav class="row navbar navbar-expand-sm bg-dark navbar-dark">
   <ul class="navbar-nav">
-    <!--<li class="nav-item">
+    <li class="nav-item">
       <a class="nav-link active" data-toggle="pill"[routerLink]="['/Home']">Home</a>
     </li>
     <li class="nav-item">
