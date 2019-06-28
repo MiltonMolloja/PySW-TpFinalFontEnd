@@ -3,6 +3,8 @@ import { LoginService } from 'src/app/services/login.service';
 import { PerfilService } from 'src/app/services/perfil.service';
 import { Perfil } from 'src/app/models/perfil';
 
+import * as jspdf from "jspdf";
+
 @Component({
   selector: 'app-perfil',
   templateUrl: './perfil.component.html',
@@ -32,6 +34,18 @@ export class PerfilComponent implements OnInit {
   logout(){
     //localStorage.removeItem('currentUser');
     this.loginService.logout();
+  }
+  
+  generarPDF(){
+    var id = document.getElementById("tabRegistro");
+    var pdf = new jspdf({
+      orientacion:'1',
+      unit:'pt',
+      format: 'carta'
+      });
+    pdf.text("Resumen",80,10);
+    pdf.fromHTML(id,30,20);
+    pdf.save("archivo.pdf")
   }
 
 

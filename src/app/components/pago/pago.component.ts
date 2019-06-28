@@ -104,7 +104,11 @@ export class PagoComponent implements OnInit {
           this.pagos = new Array<Pago>();
           //this.pagos = result;
           result.forEach(element => {
+
             if (element.estado) {
+              this.pago = new Pago();
+              this.pago = element;
+              this.pago.fecha = new Date(element.fecha.timestamp * 1000  + 86400000);
               this.pagos.push(element);
             }
           });
@@ -163,7 +167,7 @@ export class PagoComponent implements OnInit {
 
     this.pago = Object.assign(this.pago, pago);
 
-    this.fechaString = (new Date((pago.fecha.timestamp)* 1000 )).toISOString().substring(0,10);
+    this.fechaString = (new Date(pago.fecha).toISOString().substring(0,10));
     this.pago.fecha= new Date(this.fechaString);
     //se asigna a la propiedad mensaje.empresa el correspondiente en el
     //array de empresas, ya que este array es fuente de datos del <select>

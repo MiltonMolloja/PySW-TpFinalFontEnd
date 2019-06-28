@@ -6,6 +6,7 @@ import {NovedadService} from './../../services/novedad.service';
 import { Escribano } from './../../models/escribano';
 import { Usuario } from 'src/app/models/usuario';
 
+import * as jspdf from "jspdf";
 
 @Component({
   selector: 'app-novedad',
@@ -53,6 +54,18 @@ export class NovedadComponent implements OnInit {
     this.loginService.logout();
   }
 
+  generarPDF(){
+    var id = document.getElementById("tabRegistro");
+    var pdf = new jspdf({
+      orientacion:'1',
+      unit:'pt',
+      format: 'carta'
+      });
+    pdf.text("Resumen",80,10);
+    pdf.fromHTML(id,30,20);
+    pdf.save("archivo.pdf")
+  }
+
   public obtenerUsuarios() {
     this.novedadService.getUsuarios().subscribe(
       result => {
@@ -89,7 +102,11 @@ export class NovedadComponent implements OnInit {
         //console.log(this.novedad);
         result.forEach(element => {
           if (element.estado) {
-            this.novedades.push(element);
+            this.novedad = new Novedad();
+            this.novedad = element;
+            this.novedad.fecha =  new Date(element.fecha.timestamp * 1000  + 86400000);
+            this.novedades.push(this.novedad);
+            //this.novedades.push(element);
           }
         });
       },
@@ -131,7 +148,7 @@ export class NovedadComponent implements OnInit {
     //console.log(JSON.stringify(novedad.fecha));
     ///console.log(JSON.parse((novedad.fecha)));
     //this.novedad.fecha = new Date().setDate(this.novedad.fecha);
-    this.fechaString = (new Date((novedad.fecha.timestamp)* 1000 )).toISOString().substring(0,10);
+    this.fechaString = (new Date((novedad.fecha))).toISOString().substring(0,10);
     this.novedad.fecha= new Date(this.fechaString);
 
     ///console.log("this.novedad  - Ultimo");

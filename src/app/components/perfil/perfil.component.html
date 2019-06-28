@@ -59,3 +59,59 @@
     </tfoot>
   </table>
 </div>
+
+<div>
+    <button type="button " class="btn btn-danger" href="#PDFEmployeeModal"
+      data-toggle="modal" >PDF</button>
+</div>
+
+<!-- PDF Modal HTML -->
+<div id="PDFEmployeeModal" class="modal fade">
+    <div class="modal-xl modal-dialog modal-dialog-scrollable">
+      <div class="modal-content">
+        <form>
+          <div class="modal-header">
+            <h4 class="modal-title">Previsualizacion Registro de Pagos</h4>
+            <button type="button" class="close" data-dismiss="modal" aria-hidden="true">&times;</button>
+          </div>
+          <div id="tabRegistro" class="modal-body">
+              <table class="table table-striped">
+                  <thead>
+                    <tr>
+                        <th>
+                            Id
+                          </th>
+                          <th>
+                              Nombres
+                          </th>
+                          <th>
+                              apellidos
+                          </th>
+                          <th>
+                              dni
+                          </th>
+                          <th>
+                              sexo
+                          </th>
+                    </tr>
+                  </thead>
+                  <tbody *ngFor="let item of perfiles">
+                    <tr>
+                        <td>{{item.id}}</td>
+                        <td>{{item.nombres}}</td>
+                        <td>{{item.apellidos}}</td>
+                        <td>{{item.dni}}</td>
+                        <td>{{item.sexo}}</td>
+                    </tr>
+                  </tbody>
+                </table>
+          </div>
+          <div class="modal-footer">
+            <input type="button" class="btn btn-default" data-dismiss="modal" value="Cancel">
+            <input type="submit" class="btn btn-danger" value="PDF" (click)="generarPDF()">
+          </div>
+        </form>
+      </div>
+    </div>
+  </div>
+
