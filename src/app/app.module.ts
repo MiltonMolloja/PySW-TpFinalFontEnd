@@ -27,6 +27,7 @@ import { NavigationBarComponent } from './components/navigation-bar/navigation-b
 import { PagoComponent } from './components/pago/pago.component';
 import { AboutComponent } from './components/about/about.component';
 import { ContactComponent } from './components/contact/contact.component';
+import { EscribaniasPublicaComponent } from './components/escribanias-publica/escribanias-publica.component';
 
 @NgModule({
   declarations: [
@@ -45,7 +46,8 @@ import { ContactComponent } from './components/contact/contact.component';
     NavigationBarComponent,
     PagoComponent,
     AboutComponent,
-    ContactComponent
+    ContactComponent,
+    EscribaniasPublicaComponent
 
   ],
   imports: [
