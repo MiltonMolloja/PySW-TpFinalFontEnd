@@ -1,5 +1,5 @@
-<div >
-<!--- <div *ngIf="loginService.userLogged.tipo==='Administrador'"> -->
+<div>
+    <!--- <div *ngIf="loginService.userLogged.tipo==='Administrador'"> -->
 
     <!--Ventana Creacion/Modificacion de Escribano -->
     <div class="row mt-3" *ngIf=" ventana == 'escribano'">
@@ -12,28 +12,29 @@
                     </div>
                     <!--Card Body -->
                     <div class="card-body text-center ">
-                        <h5 class="card-title text-secondary">Ingrese los datos del socio:</h5>
+                        <h5 class="card-title text-secondary">Datos del socio:</h5>
                         <div class="form-group">
                             <label class="font-weight-bold" for="escribania_op">Elija una escribania</label>
-                            <select [(ngModel)]="usuario.escribano.escribania" ngModel class="form-control selectpicker font-weight-bold text-dark bg-light" name="v_escribania" id="id_escribania_op" #v_escribania="ngModel" required>
+                            <select [(ngModel)]="usuario.escribano.escribania" ngModel class="form-control selectpicker font-weight-bold text-dark bg-light" name="escribania_op" id="id_escribania_op" #v_escribania="ngModel" required>
                                     <option value="" select >Seleccione</option>
                                     <option *ngFor="let escribania of escribanias" [ngValue]="escribania" > {{ escribania.nombre }} </option>
                                 </select>
-                            <div *ngIf="v_escribania.touched && v_escribania.invalid">
-                                <div class="text-danger font-weight-bolder text-center" *ngIf="v_escribania?.errors.required">Escribania requerido.</div>
+                            <div class="mensaje-de-error" *ngIf="v_escribania.touched && v_escribania.invalid">
+                                <div class="text-danger font-weight-bolder text-center" *ngIf="v_escribania.errors.required">Escribania requerido.</div>
                             </div>
                         </div>
                         <div class="form-group">
                             <label class="font-weight-bold" for="matricula">Numero de Matricula</label>
                             <input type="number" [(ngModel)]="usuario.escribano.matricula" ngModel placeholder="Ingrese..." class="form-control rounded font-weight-bold text-center" name="matricula" id="id_matricula" #v_matricula="ngModel" min="1" max="20000" maxlength="5" required>
-                            <div *ngIf="v_matricula.touched && v_matricula.invalid">
-                                <div class="text-danger font-weight-bolder text-center" *ngIf="v_dni?.errors.required">Matricula requerida.</div>
+                            <div class="mensaje-de-error" *ngIf="v_matricula.touched && v_matricula.invalid">
+                                <div class="text-danger font-weight-bolder text-center" *ngIf="v_dni.errors.required">Matricula requerida.</div>
+                                <div class="text-danger font-weight-bolder text-center" *ngIf="v_dni.errors.min">Debe ser igual o mayor a 1.</div>
                             </div>
                         </div>
                         <div class="form-group">
                             <label class="font-weight-bold" for="universidad">Universidad de Egreso</label>
                             <input type="text" [(ngModel)]="usuario.escribano.universidad" ngModel placeholder="Ingrese..." class="form-control rounded font-weight-bold text-center" name="universidad" id="id_universidad" #v_universidad="ngModel" required>
-                            <div *ngIf="v_universidad.touched && v_universidad.invalid">
+                            <div class="mensaje-de-error" *ngIf="v_universidad.touched && v_universidad.invalid">
                                 <div class="text-danger font-weight-bolder text-center" *ngIf="v_universidad">Universidad requerida.</div>
                             </div>
                         </div>
@@ -45,6 +46,7 @@
                         </div>
                         <div class="d-flex justify-content-center" *ngIf="botonesDeModificacion == true && respuesta == '' ">
                             <button type="button" (click)="modificarEscribano( formEscribano  ) ;" class="btn btn-secondary">Modificar Socio</button>
+                            <button type="button" (click)="ventana='perfil'" class="btn btn-danger ml-2">No cambiar</button>
                         </div>
                     </div>
                 </div>
@@ -67,30 +69,30 @@
                         <div class="form-group">
                             <label class="font-weight-bold" for="nombres">Nombres</label>
                             <input type="text" [(ngModel)]="usuario.perfil.nombres" ngModel placeholder="Ingrese..." class="form-control rounded font-weight-bold text-center" name="nombres" id="id_nombres" #v_nombres="ngModel" required>
-                            <div *ngIf="v_nombres.touched && v_nombres.invalid">
-                                <div class="text-danger font-weight-bolder text-center" *ngIf="v_nombres?.errors.required">Nombres requeridos.</div>
+                            <div class="mensaje-de-error" *ngIf="v_nombres.touched && v_nombres.invalid">
+                                <div class="text-danger font-weight-bolder text-center" *ngIf="v_nombres.errors.required">Nombres requeridos.</div>
                             </div>
                         </div>
                         <div class="form-group">
                             <label class="font-weight-bold" for="apellidos">Apellidos</label>
                             <input type="text" [(ngModel)]="usuario.perfil.apellidos" ngModel placeholder="Ingrese..." class="form-control rounded font-weight-bold text-center" name="apellidos" id="id_apellidos" #v_apellidos="ngModel" required>
-                            <div *ngIf="v_apellidos.touched && v_apellidos.invalid">
-                                <div class="text-danger font-weight-bolder text-center" *ngIf="v_apellidos?.errors.required">Nombres requeridos.</div>
+                            <div class="mensaje-de-error" *ngIf="v_apellidos.touched && v_apellidos.invalid">
+                                <div class="text-danger font-weight-bolder text-center" *ngIf="v_apellidos.errors.required">Nombres requeridos.</div>
                             </div>
                         </div>
                         <div class="form-group">
                             <label class="font-weight-bold" for="dni">DNI</label>
                             <input type="number" [(ngModel)]="usuario.perfil.dni" ngModel placeholder="Ingrese..." class="form-control rounded font-weight-bold text-center" name="dni" id="id_dni" #v_dni="ngModel" min="1" max="99999999" minlength="7" maxlength="8" required>
-                            <div *ngIf="v_dni.touched && v_dni.invalid">
-                                <div class="text-danger font-weight-bolder text-center" *ngIf="v_dni?.errors.required">DNI requerido.</div>
-                                <div class="text-danger font-weight-bolder text-center" *ngIf="v_dni?.errors.maxlength || v_dni?.errors.minlenght ">DNI debe tener entre 7 y 8 digitos</div>
+                            <div class="mensaje-de-error" *ngIf="v_dni.touched && v_dni.invalid">
+                                <div class="text-danger font-weight-bolder text-center" *ngIf="v_dni.errors.required">DNI requerido.</div>
+                                <div class="text-danger font-weight-bolder text-center" *ngIf="v_dni.errors.maxlength || v_dni.errors.minlenght ">DNI debe tener entre 7 y 8 digitos</div>
                             </div>
                         </div>
                         <div class="form-group">
                             <label class="font-weight-bold" for="fechanac">Fecha de Nacimiento</label>
-                            <input type="date" [(ngModel)]="usuario.perfil.fechaNac" ngModel class="form-control-sm rounded font-weight-bold text-center" name="fechanac" id="id_fechanac" #v_fecha="ngModel" required>
-                            <div *ngIf="v_fecha.touched && v_fecha.invalid">
-                                <div class="text-danger font-weight-bolder" *ngIf="v_fecha?.errors.required">Fecha requerida.</div>
+                            <input type="date" [(ngModel)]="fechatemp" ngModel class="form-control-sm rounded font-weight-bold text-center" name="fechanac" id="id_fechanac" #v_fecha="ngModel" required>
+                            <div class="mensaje-de-error" *ngIf="v_fecha.touched && v_fecha.invalid">
+                                <div class="text-danger font-weight-bolder" *ngIf="v_fecha.errors.required">Fecha requerida.</div>
                             </div>
                         </div>
                         <div class="form-group">
@@ -100,8 +102,8 @@
                                         <option  value="femenino">Femenino</option>
                                         <option  value="masculino">Masculino</option>
                                 </select>
-                            <div *ngIf="v_sexo.touched && v_sexo.invalid">
-                                <div class="text-danger font-weight-bolder text-center" *ngIf="v_sexo?.errors.required">Elija una opcion.</div>
+                            <div class="mensaje-de-error" *ngIf="v_sexo.touched && v_sexo.invalid">
+                                <div class="text-danger font-weight-bolder text-center" *ngIf="v_sexo.errors.required">Elija una opcion.</div>
                             </div>
                         </div>
                     </div>
@@ -112,6 +114,7 @@
                         </div>
                         <div class="d-flex justify-content-center" *ngIf="botonesDeModificacion == true">
                             <button type="button" class="btn btn-secondary" (click)="modificarPerfil( formPerfil ) ;">Modificar Perfil</button>
+                            <button type="button" (click)="ventana='usuario'" class="btn btn-danger ml-2 ">No cambiar</button>
                         </div>
                     </div>
                 </div>
@@ -141,25 +144,43 @@
                         <div class="form-group">
                             <label class="font-weight-bold" for="username">Nombre de Usuario</label>
                             <input type="text" [(ngModel)]="usuario.username" ngModel placeholder="Ingrese..." class="form-control rounded font-weight-bold text-center" name="username" id="id_username" #v_username="ngModel" required>
-                            <div *ngIf="v_username.touched && v_username.invalid">
-                                <div class="text-danger font-weight-bolder text-center" *ngIf="v_username?.errors.required">Nombre de usuario requerido.</div>
+                            <div class="mensaje-de-error" *ngIf="v_username.touched && v_username.invalid">
+                                <div class="text-danger font-weight-bolder text-center" *ngIf="v_username.errors.required">Nombre de usuario requerido.</div>
                             </div>
                         </div>
 
                         <div class="form-group">
                             <label class="font-weight-bold" for="password">Contraseña</label>
-                            <input type="text" [(ngModel)]="usuario.password" ngModel placeholder="Ingrese..." class="form-control rounded font-weight-bold text-center" name="password" id="id_password" #v_password="ngModel" required>
-                            <div *ngIf="v_password.touched && v_password.invalid">
-                                <div class="text-danger font-weight-bolder text-center" *ngIf="v_password?.errors.required">Contraseña requerida.</div>
+                            <input type="password" [(ngModel)]="usuario.password" ngModel placeholder="Ingrese..." class="form-control rounded font-weight-bold text-center" name="password" id="id_password" #v_password="ngModel" required>
+                            <div class="mensaje-de-error" *ngIf="v_password.touched && v_password.invalid">
+                                <div class="text-danger font-weight-bolder text-center" *ngIf="v_password.errors.required">Contraseña requerida.</div>
                             </div>
                         </div>
                         <div class="form-group">
-                            <label class="font-weight-bold" for="email">Email</label>
-                            <input type="text" [(ngModel)]="usuario.email" ngModel placeholder="Ingrese..." class="form-control rounded font-weight-bold text-center" name="email" id="id_email" #v_email="ngModel" required>
-                            <div *ngIf="v_email.touched && v_email.invalid">
-                                <div class="text-danger font-weight-bolder text-center" *ngIf="v_email?.errors.required">Email requerido.</div>
+                            <label class="font-weight-bold" for="password">Confirme contraseña</label>
+                            <input type="password" [(ngModel)]="comp_password" ngModel placeholder="Ingrese..." class="form-control rounded font-weight-bold text-center" name="c_password" id="id_cpassword" #v_cpassword="ngModel" required>
+                            <div class="mensaje-de-error text-danger font-weight-bolder text-center" *ngIf="usuario.password != comp_password ">Las contraseñas deben ser igaules.</div>
+                            <div class="mensaje-de-error" *ngIf="v_cpassword.touched && v_cpassword.invalid">
+                                <div class="text-danger font-weight-bolder text-center" *ngIf="v_cpassword.errors.required">Contraseña requerida.</div>
                             </div>
                         </div>
+
+                        <div class="form-group">
+                            <label class="font-weight-bold" for="email">Email</label>
+                            <input type="text" [(ngModel)]="usuario.email" ngModel placeholder="Ingrese..." class="form-control rounded font-weight-bold text-center" name="email" id="id_email" #v_cemail="ngModel" required>
+                            <div class="mensaje-de-error" *ngIf="v_cemail.touched && v_cemail.invalid">
+                                <div class="text-danger font-weight-bolder text-center" *ngIf="v_cemail.errors.required">Email requerido.</div>
+                            </div>
+                        </div>
+                        <div class="form-group">
+                            <label class="font-weight-bold" for="email">Confirmar email</label>
+                            <input type="text" [(ngModel)]="comp_email" ngModel placeholder="Ingrese..." class="form-control rounded font-weight-bold text-center" name="c_email" id="id_cemail" #v_email="ngModel" required>
+                            <div class="mensaje-de-error text-danger font-weight-bolder text-center" *ngIf="usuario.email != comp_email ">Los correos deben ser igaules.</div>
+                            <div class="mensaje-de-error" *ngIf="v_email.touched && v_email.invalid">
+                                <div class="text-danger font-weight-bolder text-center" *ngIf="v_email.errors.required">Email requerido.</div>
+                            </div>
+                        </div>
+
                     </div>
                     <div class="card-footer bg-transparent border-primary">
                         <!--FOOTER-->
@@ -168,6 +189,7 @@
                         </div>
                         <div class="d-flex justify-content-center" *ngIf="botonesDeModificacion == true">
                             <button type="button" class="btn btn-secondary" (click)="modificarUsuario( formUsuario ) ;">Modificar Usuario</button>
+                            <button type="button" (click)="noCambiarUsuario()" class="btn btn-danger ml-2">No cambiar</button>
                         </div>
                     </div>
                 </div>
@@ -182,11 +204,10 @@
                 <div class="form-group">
                     <label class="font-weight-bold mt-3" for="tipo">Elija tipo de Usuario para crear: </label>
                     <select [(ngModel)]="usuario.tipo" ngModel class="form-control font-weight-bold text-dark bg-light col-8 mx-auto " name="tipo" id="id_tipo" #v_tipo="ngModel" required>
-                        <option  value="" select >Seleccione</option>
                         <option  *ngFor="let tipo of tipos" [ngValue]="tipo"> {{ tipo }} </option>
                 </select>
-                    <div *ngIf="v_tipo.touched && v_tipo.invalid">
-                        <div class="text-danger font-weight-bolder text-center" *ngIf="v_tipo?.errors.required">Tipo de usuario requerido.</div>
+                    <div class="mensaje-de-error" *ngIf="v_tipo.touched && v_tipo.invalid">
+                        <div class="text-danger font-weight-bolder text-center" *ngIf="v_tipo.errors.required">Tipo de usuario requerido.</div>
                     </div>
                     <p class="text-center font-weight-bold text-secondary">Considere que durante la creaccion no podra cambiar el tipo elegido.</p>
                     <div class="d-flex justify-content-center ">
@@ -301,10 +322,10 @@
                                         <option  value="" select >Seleccione</option>
                                         <option  *ngFor="let tipo of tipos"  [ngValue]="tipo"> {{ tipo }} </option>
                                 </select>
-                            <div *ngIf="v_tipoD.touched && v_tipoD.invalid">
-                                <div class="text-danger font-weight-bolder text-center" *ngIf="v_tipoD?.errors.required">Tipo de usuario requerido.</div>
+                            <div class="mensaje-de-error" *ngIf="v_tipoD.touched && v_tipoD.invalid">
+                                <div class="text-danger font-weight-bolder text-center" *ngIf="v_tipoD.errors.required">Tipo de usuario requerido.</div>
                             </div>
-                            <p class="text-left">Si cambia un usuario de tipo "socio" a otro "tipo" se borraran los datos de su escribano. Si cambia gerente, administrador o administrativo a socio se le pedira que cree un escribano</p>
+                            <p class="text-left mt-1">Si cambia un usuario de tipo "socio" a otro "tipo" se borraran los datos de su escribano. Si cambia gerente, administrador o administrativo a socio se le pedira que cree un escribano</p>
                         </div>
                     </div>
                     <div class="modal-footer d-flex justify-content-center ">
