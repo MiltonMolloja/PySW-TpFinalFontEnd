@@ -1,11 +1,17 @@
-<br />
-<br />
+
+<div class="container">
+  <ol class="breadcrumb">
+    <li><a style="font-size: 20px" [routerLink]="['/Home']">Home</a></li>
+    <li style="font-size: 20px" class="active">Login</li>
+  </ol>
+</div>
+
 <div class="row d-flex justify-content-center ">
   <div class="col-md-6 col-md-offset-3">
     <h2>Login</h2>
     <form name="form" (ngSubmit)="onSubmit()" #loginForm="ngForm">
       <div class="form-group">
-        <label for="username">Username</label>
+        <label for="username">Username:  </label>
         <input type="text" class="formcontrol" name="username" [(ngModel)]="userform.username" #username="ngModel"
           required />
         <div *ngIf="username.invalid && (username.dirty || username.touched)" class="alert alert-danger">
@@ -15,7 +21,7 @@
         </div>
       </div>
       <div class="form-group">
-        <label for="password">Password</label>
+        <label for="password">Password:  </label>
         <input type="password" class="formcontrol" name="password" [(ngModel)]="userform.password" #password="ngModel" required />
         <div *ngIf="password.invalid && (password.dirty || password.touched)" class="alert alert-danger">
           <div *ngIf="password?.errors.required">
