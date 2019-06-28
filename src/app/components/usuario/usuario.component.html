@@ -204,7 +204,6 @@
                 <div class="form-group">
                     <label class="font-weight-bold mt-3" for="tipo">Elija tipo de Usuario para crear: </label>
                     <select [(ngModel)]="usuario.tipo" ngModel class="form-control font-weight-bold text-dark bg-light col-8 mx-auto " name="tipo" id="id_tipo" #v_tipo="ngModel" required>
-                        <option  value="" select >Seleccione</option>
                         <option  *ngFor="let tipo of tipos" [ngValue]="tipo"> {{ tipo }} </option>
                 </select>
                     <div class="mensaje-de-error" *ngIf="v_tipo.touched && v_tipo.invalid">

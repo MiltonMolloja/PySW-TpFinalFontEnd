@@ -232,17 +232,20 @@ export class UsuarioComponent implements OnInit {
 
   /***Metodos usados para la Creacion***/
   //Llama a las ventana de creaccion
-  comenzarLaCreacion()
+  comenzarLaCreacion( form:NgForm )
   {
-    this.ocultarInicio();
-    if( this.usuario.tipo == "Socio" )
+    if( form.valid == true )
     {
-      this.cambiarVentana("escribano");
-    }
-    else
-    {
-      this.usuario.escribano = null;
-      this.cambiarVentana("perfil");
+      this.ocultarInicio();
+      if( this.usuario.tipo == "Socio" )
+      {
+        this.cambiarVentana("escribano");
+      }
+      else
+      {
+        this.usuario.escribano = null;
+        this.cambiarVentana("perfil");
+      }
     }
   }////
 
@@ -624,9 +627,11 @@ export class UsuarioComponent implements OnInit {
   //Cuando no se cambia los datos de usuario existente
   noCambiarUsuario()
   {
-    this.ventana=' '; 
+    this.cambiarVentana("");
     this.inicializarUsuario();  
     this.mostrarInicio();
+    this.desactivarBotonesDeModificacion();
+    this.respuesta="";
   }
 
 }
