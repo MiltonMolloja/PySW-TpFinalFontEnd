@@ -3,14 +3,14 @@ export class Escribania {
   direccion: string;
   telefono: number;
   email: number;
-  latitud: string;
-  longitud:string;
+  latitud: number;
+  longitud:number;
   foto: string;
   estado: boolean;
   nombre: string;
 
   Escribania(id?: number, direccion?: string, telefono?: number, email?: number,
-    latitud?: string, longitud?:string, foto?: string, estado?: boolean, nombre?: string) {
+    latitud?: number, longitud?:number, foto?: string, estado?: boolean, nombre?: string) {
     this.id = id;
     this.direccion = direccion;
     this.telefono = telefono;
