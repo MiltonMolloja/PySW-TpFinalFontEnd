@@ -25,6 +25,8 @@ import { NovedadComponent } from './components/novedad/novedad.component';
 import { GerenteComponent } from './components/gerente/gerente.component';
 import { NavigationBarComponent } from './components/navigation-bar/navigation-bar.component';
 import { PagoComponent } from './components/pago/pago.component';
+//Validaciones personalizadas
+import { Negativo, SinEspacios, VerificarCaracteres, EmailValido, Igualdad } from './validaciones.directive' ;
 
 @NgModule({
   declarations: [
@@ -41,7 +43,12 @@ import { PagoComponent } from './components/pago/pago.component';
     UsuarioComponent,
     PerfilComponent,
     NavigationBarComponent,
-    PagoComponent
+    PagoComponent,
+    Negativo, 
+    SinEspacios,
+    VerificarCaracteres,
+    EmailValido,
+    Igualdad
 
   ],
   imports: [
