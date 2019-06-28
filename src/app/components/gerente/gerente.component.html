@@ -84,9 +84,6 @@
                                 </div>
                             </div>
                             <div class="card-body">
-                                <h5 class="card-title"><label for="escribano">Rango de resultado:</label></h5>
-                                <p class="card-text"> Fecha de Inicio: {{fechaInicio | date: 'dd/MM/yyyy'}}</p>
-                                <p class="card-text"> Fecha de Fin: {{fechaFin | date: 'dd/MM/yyyy'}}</p>
                                 <div>
                                     <button type="button " class="btn btn-info" (click)="obtenerTotalPagosDosFechas(fechaInicio,fechaFin)">Filtrar por Fecha</button>
                                 </div>
@@ -132,10 +129,8 @@
                                 </div>
                             </div>
                             <div class="card-body">
-                                <h5 class="card-title"><label for="escribano">Resultado:</label></h5>
-                                <p> {{mes}} <span class="font-weight-bolder">/</span > {{anio}}</p>
-                                <p> Fecha de Inicio {{fechaInicio | date: 'dd/MM/yyyy'}}</p>
-                                <p> Fecha de Fin {{fechaFin | date: 'dd/MM/yyyy'}}</p>
+                                <h5 class="card-title"><label for="escribano">Mes/Año:</label></h5>
+                                <p> {{mes}} <span class="font-weight-bolder">/</span > {{anio}}</p>>
                                 <div>
                                     <button type="button " class="btn btn-info" (click)="formarFechaMes()">Filtrar por Fecha</button>
                                 </div>
@@ -162,10 +157,8 @@
                                 </div>
                             </div>
                             <div class="card-body">
-                                <h5 class="card-title"><label for="escribano">Resultado:</label></h5>
+                                <h5 class="card-title"><label for="escribano">Año:</label></h5>
                                 <p>{{anio}}</p>
-                                <p> fecha Inicio {{fechaInicio | date: 'dd/MM/yyyy'}}</p>
-                                <p> fecha Fin {{fechaFin | date: 'dd/MM/yyyy'}}</p>
                                 <div>
                                     <button type="button " class="btn btn-info" (click)="formarFechaAnio()">Filtrar por Fecha</button>
                                 </div>
@@ -191,10 +184,6 @@
                                 </div>
                             </div>
                             <div class="card-body">
-                                <h5 class="card-title"><label for="escribano">Resultado:</label></h5>
-
-                                <p> fecha Inicio {{fechaInicio | date: 'dd/MM/yyyy'}}</p>
-                                <p> fecha Fin {{fechaFin | date: 'dd/MM/yyyy'}}</p>
                                 <div>
                                     <button type="button " class="btn btn-info" (click)="obtenerTotalPagosDosFechas(fechaInicio,fechaFin)">Filtrar por Fecha</button>
                                 </div>
