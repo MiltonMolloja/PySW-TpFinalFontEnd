@@ -1,267 +1,258 @@
 <!--***********************************************************************************-->
 <br>
-<div >
-  <!--<div *ngIf="loginService.userLogged.tipo==='Administrativo'">-->
-  <br>
-  <div class="table-title">
-    <div class="row">
-      <div class="col-sm-6">
-        <h2>Registro de <b>Novedades</b></h2>
-      </div>
-      <div class="col-sm-6">
-        <a href="#addEmployeeModal" class="btn btn-success" data-toggle="modal" (click)="initNovedad()" ><i class="material-icons">&#xE147;</i>
+<div>
+    <!--<div *ngIf="loginService.userLogged.tipo==='Administrativo'">-->
+    <br>
+    <div class="table-title">
+        <div class="row">
+            <div class="col-sm-6">
+                <h2>Registro de <b>Novedades</b></h2>
+            </div>
+            <div class="col-sm-6">
+                <a href="#addEmployeeModal" class="btn btn-success" data-toggle="modal" (click)="initNovedad()"><i class="material-icons">&#xE147;</i>
           <span>Agregar Nueva Novedad</span></a>
-        <a href="#PDFEmployeeModal" class="btn btn-danger" data-toggle="modal"><i class="material-icons">&#xE15C;</i>
+                <a href="#PDFEmployeeModal" class="btn btn-danger" data-toggle="modal"><i class="material-icons">&#xE15C;</i>
           <span>Generar Archivo PDF</span></a>
-      </div>
+            </div>
+        </div>
     </div>
-  </div>
-  <table class="table table-striped" [mfData]="novedades" #mf="mfDataTable" [mfRowsOnPage]="5">
-    <thead>
-      <tr>
-        <th>
-          <mfDefaultSorter by="id">Id</mfDefaultSorter>
-        </th>
-        <th>
-          <mfDefaultSorter by="escribano.matricula">Escribano</mfDefaultSorter>
-        </th>
-        <th>
-          <mfDefaultSorter by="asunto">Asunto</mfDefaultSorter>
-        </th>
-        <th>
-          <mfDefaultSorter by="mensaje">Mensaje</mfDefaultSorter>
-        </th>
-        <th>
-          <mfDefaultSorter by="fecha">Fecha</mfDefaultSorter>
-        </th>
-        <th>
-          <mfDefaultSorter by="estado">Estado</mfDefaultSorter>
-        </th>
-        <th>
-          Acciones
-        </th>
-      </tr>
-    </thead>
-    <tbody>
-      <tr *ngFor="let item of mf.data">
-        <td>{{item.id}}</td>
-        <td>{{item.escribano.matricula}}</td>
-        <td>{{item.asunto}}</td>
-        <td>{{item.mensaje}}</td>
-        <td>{{item.fecha | date: 'dd/MM/yyyy'}}</td>
-        <td>{{item.estado}}</td>
-        <td>
-          <a href="#editEmployeeModal" class="edit" data-toggle="modal" (click)="elegirNovedad(item)">
-            <i class="material-icons" data-toggle="tooltip" title="Edit">&#xE254;</i> </a>
-          <a href="#deleteEmployeeModal" class="delete" data-toggle="modal" (click)="elegirNovedad(item)">
-            <i class="material-icons" data-toggle="tooltip" title="Delete">&#xE872;</i></a>
-        </td>
-      </tr>
-    </tbody>
-    <tfoot>
-      <tr>
-        <td colspan="4">
-          <mfBootstrapPaginator [rowsOnPageSet]="[5,10,25]"></mfBootstrapPaginator>
-        </td>
-      </tr>
-    </tfoot>
-  </table>
+    <table class="table table-striped" [mfData]="novedades" #mf="mfDataTable" [mfRowsOnPage]="5">
+        <thead>
+            <tr>
+                <th>
+                    <mfDefaultSorter by="id">Id</mfDefaultSorter>
+                </th>
+                <th>
+                    <mfDefaultSorter by="escribano.matricula">Escribano</mfDefaultSorter>
+                </th>
+                <th>
+                    <mfDefaultSorter by="asunto">Asunto</mfDefaultSorter>
+                </th>
+                <th>
+                    <mfDefaultSorter by="mensaje">Mensaje</mfDefaultSorter>
+                </th>
+                <th>
+                    <mfDefaultSorter by="fecha">Fecha</mfDefaultSorter>
+                </th>
+                <th>
+                    <mfDefaultSorter by="estado">Estado</mfDefaultSorter>
+                </th>
+                <th>
+                    Acciones
+                </th>
+            </tr>
+        </thead>
+        <tbody>
+            <tr *ngFor="let item of mf.data">
+                <td>{{item.id}}</td>
+                <td>{{item.escribano.matricula}}</td>
+                <td>{{item.asunto}}</td>
+                <td>{{item.mensaje}}</td>
+                <td>{{item.fecha | date: 'dd/MM/yyyy'}}</td>
+                <td>{{item.estado}}</td>
+                <td>
+                    <a href="#editEmployeeModal" class="edit" data-toggle="modal" (click)="elegirNovedad(item)">
+                        <i class="material-icons" data-toggle="tooltip" title="Edit">&#xE254;</i> </a>
+                    <a href="#deleteEmployeeModal" class="delete" data-toggle="modal" (click)="elegirNovedad(item)">
+                        <i class="material-icons" data-toggle="tooltip" title="Delete">&#xE872;</i></a>
+                </td>
+            </tr>
+        </tbody>
+        <tfoot>
+            <tr>
+                <td colspan="4">
+                    <mfBootstrapPaginator [rowsOnPageSet]="[5,10,25]"></mfBootstrapPaginator>
+                </td>
+            </tr>
+        </tfoot>
+    </table>
 </div>
 
 
 <!-- Edit Modal HTML -->
 <div id="addEmployeeModal" class="modal fade">
-  <div class="modal-dialog">
-    <div class="modal-content">
-      <form (ngSubmit)="onSubmit()" #novedadForm="ngForm">
-        <div class="modal-header">
-          <h4 class="modal-title">Agregar Novedad</h4>
-          <button type="button" class="close" data-dismiss="modal" aria-hidden="true">&times;</button>
-        </div>
-        <div class="modal-body">
-          <div class=" form-group">
-            <label>Elija Escribano:</label>
-            <select [(ngModel)]="novedad.escribano" name="escribano" class="form-control col-sm-12 col-md-8"
-              #escribano="ngModel" required>
+    <div class="modal-dialog">
+        <div class="modal-content">
+            <form (ngSubmit)="onSubmit()" #novedadForm="ngForm">
+                <div class="modal-header">
+                    <h4 class="modal-title">Agregar Novedad</h4>
+                    <button type="button" class="close" data-dismiss="modal" aria-hidden="true">&times;</button>
+                </div>
+                <div class="modal-body">
+                    <div class=" form-group">
+                        <label>Elija Escribano:</label>
+                        <select [(ngModel)]="novedad.escribano" name="escribano" class="form-control col-sm-12 col-md-8" #escribano="ngModel" required>
               <option *ngFor="let escribano of escribanos" [ngValue]="escribano">{{escribano.matricula}}</option>
             </select>
-          </div>
+                    </div>
 
-          <div class="form-group">
-            <label class="col-sm-12 col-md-4" for="asunto">Asunto</label>
-            <input type="text" class="form-control col-sm-12 col-md-8" name="asunto" [(ngModel)]="novedad.asunto"
-              #asunto="ngModel" />
-            <div *ngIf="asunto.invalid && (asunto.dirty || asunto.touched)" class="alert alert-danger">
-              <div *ngIf="asunto?.errors.required">
-                Se requiere asunto.
-              </div>
-            </div>
-          </div>
-          <div class="form-group">
-            <label class="col-sm-12 col-md-4" for="mensaje">Mensaje</label>
-            <input type="text" class="form-control col-sm-12 col-md-8" name="mensaje" [(ngModel)]="novedad.mensaje"
-              #mensaje="ngModel" />
-            <div *ngIf="mensaje.invalid && (mensaje.dirty || mensaje.touched)" class="alert alert-danger">
-              <div *ngIf="mensaje?.errors.required">
-                Se requiere mensaje.
-              </div>
-            </div>
-          </div>
-          <div class="form-group">
-            <label class="col-sm-12 col-md-4" for="fecha">Fecha</label>
-            <input type="date" class="form-control col-sm-12 col-md-8" name="fecha" [(ngModel)]="novedad.fecha"
-              #fecha="ngModel" />
-            <div *ngIf="fecha.invalid && (fecha.dirty || fecha.touched)" class="alert alert-danger">
-              <div *ngIf="fecha?.errors.required">
-                Se requiere fecha.
-              </div>
-            </div>
-          </div>
-          <div class="modal-footer">
-            <input type="button" class="btn btn-default" data-dismiss="modal" value="Cancelar">
-            <input type="submit" class="btn btn-success" value="Agregar" (click)="addNovedad()"
-              [disabled]="!novedadForm.form.valid">
-            <input type="reset" class="btn btn-success" value="Limpiar">
-          </div>
+                    <div class="form-group">
+                        <label class="col-sm-12 col-md-4" for="asunto">Asunto</label>
+                        <input type="text" class="form-control col-sm-12 col-md-8" name="asunto" [(ngModel)]="novedad.asunto" #asunto="ngModel" />
+                        <div *ngIf="asunto.invalid && (asunto.dirty || asunto.touched)" class="alert alert-danger">
+                            <div *ngIf="asunto?.errors.required">
+                                Se requiere asunto.
+                            </div>
+                        </div>
+                    </div>
+                    <div class="form-group">
+                        <label class="col-sm-12 col-md-4" for="mensaje">Mensaje</label>
+                        <input type="text" class="form-control col-sm-12 col-md-8" name="mensaje" [(ngModel)]="novedad.mensaje" #mensaje="ngModel" />
+                        <div *ngIf="mensaje.invalid && (mensaje.dirty || mensaje.touched)" class="alert alert-danger">
+                            <div *ngIf="mensaje?.errors.required">
+                                Se requiere mensaje.
+                            </div>
+                        </div>
+                    </div>
+                    <div class="form-group">
+                        <label class="col-sm-12 col-md-4" for="fecha">Fecha</label>
+                        <input type="date" class="form-control col-sm-12 col-md-8" name="fecha" [(ngModel)]="novedad.fecha" #fecha="ngModel" />
+                        <div *ngIf="fecha.invalid && (fecha.dirty || fecha.touched)" class="alert alert-danger">
+                            <div *ngIf="fecha?.errors.required">
+                                Se requiere fecha.
+                            </div>
+                        </div>
+                    </div>
+                    <div class="modal-footer">
+                        <input type="button" class="btn btn-default" data-dismiss="modal" value="Cancelar">
+                        <input type="submit" class="btn btn-success" value="Agregar" (click)="addNovedad()" [disabled]="!novedadForm.form.valid">
+                        <input type="reset" class="btn btn-success" value="Limpiar">
+                    </div>
+                </div>
+                <div class="modal-footer">
+                    <input type="button" class="btn btn-default" data-dismiss="modal" (click)="initNovedad()" value="Cancelar">
+                    <input type="submit" class="btn btn-success" value="Agregar" (click)="addNovedad()">
+                </div>
+            </form>
         </div>
-        <div class="modal-footer">
-          <input type="button" class="btn btn-default" data-dismiss="modal" (click)="initNovedad()" value="Cancelar">
-          <input type="submit" class="btn btn-success" value="Agregar" (click)="addNovedad(novedad)">
-        </div>
-      </form>
     </div>
-  </div>
 </div>
 <!-- Edit Modal HTML -->
 <div id="editEmployeeModal" class="modal fade">
-  <div class="modal-dialog">
-    <div class="modal-content">
-      <form (ngSubmit)="onSubmit()" #novedadForm="ngForm">
-        <div class="modal-header">
-          <h4 class="modal-title">Editar Novedad</h4>
-          <button type="button" class="close" data-dismiss="modal" aria-hidden="true">&times;</button>
-        </div>
-        <div class="modal-body">
-          <div class="row form-group">
-            <select [(ngModel)]="novedad.escribano" name="escribano" class="form-control col-sm-12 col-md-8"
-              #escribano="ngModel" required>
+    <div class="modal-dialog">
+        <div class="modal-content">
+            <form (ngSubmit)="onSubmit()" #novedadForm="ngForm">
+                <div class="modal-header">
+                    <h4 class="modal-title">Editar Novedad</h4>
+                    <button type="button" class="close" data-dismiss="modal" aria-hidden="true">&times;</button>
+                </div>
+                <div class="modal-body">
+                    <div class="row form-group">
+                        <select [(ngModel)]="novedad.escribano" name="escribano" class="form-control col-sm-12 col-md-8" #escribano="ngModel" required>
               <option *ngFor="let escribano of escribanos" [ngValue]="escribano">{{escribano.matricula}}</option>
             </select>
-          </div>
-          <div class="form-group">
-            <label class="col-sm-12 col-md-4" for="asunto">Asunto</label>
-            <input type="text" class="form-control col-sm-12 col-md-8" name="asunto" [(ngModel)]="novedad.asunto"
-              #asunto="ngModel" />
-            <div *ngIf="asunto.invalid && (asunto.dirty || asunto.touched)" class="alert alert-danger">
-              <div *ngIf="asunto?.errors.required">
-                Se requiere asunto.
-              </div>
-            </div>
-          </div>
-          <div class="form-group">
-            <label class="col-sm-12 col-md-4" for="mensaje">Mensaje</label>
-            <input type="text" class="form-control col-sm-12 col-md-8" name="mensaje" [(ngModel)]="novedad.mensaje"
-              #mensaje="ngModel" />
-            <div *ngIf="mensaje.invalid && (mensaje.dirty || mensaje.touched)" class="alert alert-danger">
-              <div *ngIf="mensaje?.errors.required">
-                Se requiere mensaje.
-              </div>
-            </div>
-          </div>
-          <div class="form-group">
-            <label>Fecha</label>
-            <input type="date" class="form-control" name="txtdate" [(ngModel)]="novedad.fecha" required>
-          </div>
-          <div class="modal-footer">
-            <input type="button" class="btn btn-default" data-dismiss="modal" value="Cancelar">
-            <input type="submit" class="btn btn-success" value="Actualizar" (click)="editNovedad()"
-              [disabled]="!novedadForm.form.valid">
-            <input type="reset" class="btn btn-success" value="Limpiar">
-          </div>
+                    </div>
+                    <div class="form-group">
+                        <label class="col-sm-12 col-md-4" for="asunto">Asunto</label>
+                        <input type="text" class="form-control col-sm-12 col-md-8" name="asunto" [(ngModel)]="novedad.asunto" #asunto="ngModel" />
+                        <div *ngIf="asunto.invalid && (asunto.dirty || asunto.touched)" class="alert alert-danger">
+                            <div *ngIf="asunto?.errors.required">
+                                Se requiere asunto.
+                            </div>
+                        </div>
+                    </div>
+                    <div class="form-group">
+                        <label class="col-sm-12 col-md-4" for="mensaje">Mensaje</label>
+                        <input type="text" class="form-control col-sm-12 col-md-8" name="mensaje" [(ngModel)]="novedad.mensaje" #mensaje="ngModel" />
+                        <div *ngIf="mensaje.invalid && (mensaje.dirty || mensaje.touched)" class="alert alert-danger">
+                            <div *ngIf="mensaje?.errors.required">
+                                Se requiere mensaje.
+                            </div>
+                        </div>
+                    </div>
+                    <div class="form-group">
+                        <label>Fecha</label>
+                        <input type="date" class="form-control" name="txtdate" [(ngModel)]="novedad.fecha" required>
+                    </div>
+                    <div class="modal-footer">
+                        <input type="button" class="btn btn-default" data-dismiss="modal" value="Cancelar">
+                        <input type="submit" class="btn btn-success" value="Actualizar" (click)="editNovedad()" [disabled]="!novedadForm.form.valid">
+                        <input type="reset" class="btn btn-success" value="Limpiar">
+                    </div>
+                </div>
+            </form>
         </div>
-      </form>
     </div>
-  </div>
 </div>
 <!-- Delete Modal HTML -->
 <div id="deleteEmployeeModal" class="modal fade">
-  <div class="modal-dialog">
-    <div class="modal-content">
-      <form>
-        <div class="modal-header">
-          <h4 class="modal-title">Eliminar Novedad</h4>
-          <button type="button" class="close" data-dismiss="modal" aria-hidden="true">&times;</button>
+    <div class="modal-dialog">
+        <div class="modal-content">
+            <form>
+                <div class="modal-header">
+                    <h4 class="modal-title">Eliminar Novedad</h4>
+                    <button type="button" class="close" data-dismiss="modal" aria-hidden="true">&times;</button>
+                </div>
+                <div class="modal-body">
+                    <p>Novedad</p>
+                    <p>
+                        <li>Id: {{novedad.id}}</li>
+                        <li>Escribano Matricula: {{novedad.escribano.matricula}}</li>
+                        <li>Asunto: {{novedad.asunto}}</li>
+                        <li>Mensaje: {{novedad.mensaje}}</li>
+                        <li>Fecha: {{novedad.fecha}}</li>
+                    </p>
+                    <p>Seguro que deseas Eliminar estos Datos?</p>
+                    <p class="text-warning"><small>Esta accion se puede Recuperar. Consulte Manual.</small></p>
+                </div>
+                <div class="modal-footer">
+                    <input type="button" class="btn btn-default" data-dismiss="modal" value="Cancel">
+                    <input type="submit" class="btn btn-danger" value="Eliminar" (click)="deleteLogicoNovedad()">
+                </div>
+            </form>
         </div>
-        <div class="modal-body">
-          <p>Novedad</p>
-          <p>
-            <li>Id: {{novedad.id}}</li>
-            <li>Escribano Matricula: {{novedad.escribano.matricula}}</li>
-            <li>Asunto: {{novedad.asunto}}</li>
-            <li>Mensaje: {{novedad.mensaje}}</li>
-            <li>Fecha: {{novedad.fecha}}</li>
-          </p>
-          <p>Seguro que deseas Eliminar estos Datos?</p>
-          <p class="text-warning"><small>Esta accion se puede Recuperar. Consulte Manual.</small></p>
-        </div>
-        <div class="modal-footer">
-          <input type="button" class="btn btn-default" data-dismiss="modal" value="Cancel">
-          <input type="submit" class="btn btn-danger" value="Eliminar" (click)="deleteLogicoNovedad()">
-        </div>
-      </form>
     </div>
-  </div>
 </div>
 
 <!-- PDF Modal HTML -->
 <div id="PDFEmployeeModal" class="modal fade">
     <div class="modal-xl modal-dialog modal-dialog-scrollable">
-      <div class="modal-content">
-        <form>
-          <div class="modal-header">
-            <h4 class="modal-title">Previsualizacion Registro de Pagos</h4>
-            <button type="button" class="close" data-dismiss="modal" aria-hidden="true">&times;</button>
-          </div>
-          <div id="tabRegistro" class="modal-body">
-              <table class="table table-striped">
-                  <thead>
-                    <tr>
-                        <th>
-                          Id
-                          </th>
-                          <th>
-                           Escribano
-                          </th>
-                          <th>
-                           Asunto
-                          </th>
-                          <th>
-                            Mensaje
-                          </th>
-                          <th>
-                            Fecha
-                          </th>
-                    </tr>
-                  </thead>
-                  <tbody *ngFor="let item of novedades">
-                    <tr>
-                     <td>{{item.id}}</td>
-                     <td>{{item.escribano.matricula}}</td>
-                     <td>{{item.asunto}}</td>
-                    <td>{{item.mensaje}}</td>
-                    <td>{{item.fecha | date: 'dd/MM/yyyy'}}</td>
-                    </tr>
-                  </tbody>
-                </table>
-          </div>
-          <div class="modal-footer">
-            <input type="button" class="btn btn-default" data-dismiss="modal" value="Cancel">
-            <input type="submit" class="btn btn-danger" value="Confirmar PDF" (click)="generarPDF()">
-          </div>
-        </form>
-      </div>
+        <div class="modal-content">
+            <form>
+                <div class="modal-header">
+                    <h4 class="modal-title">Previsualizacion Registro de Pagos</h4>
+                    <button type="button" class="close" data-dismiss="modal" aria-hidden="true">&times;</button>
+                </div>
+                <div id="tabRegistro" class="modal-body">
+                    <table class="table table-striped">
+                        <thead>
+                            <tr>
+                                <th>
+                                    Id
+                                </th>
+                                <th>
+                                    Escribano
+                                </th>
+                                <th>
+                                    Asunto
+                                </th>
+                                <th>
+                                    Mensaje
+                                </th>
+                                <th>
+                                    Fecha
+                                </th>
+                            </tr>
+                        </thead>
+                        <tbody *ngFor="let item of novedades">
+                            <tr>
+                                <td>{{item.id}}</td>
+                                <td>{{item.escribano.matricula}}</td>
+                                <td>{{item.asunto}}</td>
+                                <td>{{item.mensaje}}</td>
+                                <td>{{item.fecha | date: 'dd/MM/yyyy'}}</td>
+                            </tr>
+                        </tbody>
+                    </table>
+                </div>
+                <div class="modal-footer">
+                    <input type="button" class="btn btn-default" data-dismiss="modal" value="Cancel">
+                    <input type="submit" class="btn btn-danger" value="Confirmar PDF" (click)="generarPDF()">
+                </div>
+            </form>
+        </div>
     </div>
-  </div>
+</div>
 
 <!--
 
