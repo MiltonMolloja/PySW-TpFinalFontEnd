@@ -35,14 +35,14 @@
                     <button type="button" class="navbar-toggle" data-toggle="collapse"
                         data-target=".navbar-collapse"><span class="icon-bar"></span> <span class="icon-bar"></span>
                         <span class="icon-bar"></span> </button>
-                    <a class="navbar-brand" href="#"><img src="assets/images/logoescribano.png" alt="Progressus HTML5 template"></a>
+                    <a class="navbar-brand" href="#"><img src="assets/images/logoescribano.png" alt="logo colegio"></a>
                 </div>
 
             <div class="navbar-collapse collapse">
                 <ul class="nav navbar-nav pull-right ml-auto">
-                    <li class="active"><a class="nav-link active" [routerLink]="['/Home']">Home</a></li>
-                    <li ><a class="nav-link active" [routerLink]="['escribaniasPublicas']">Escribanias</a></li>
-                   <li><a class="nav-link active" [routerLink]="['about']">Acerca de</a></li>
+                    <li class="active"><a style="font-size: 20px" class="nav-link active" [routerLink]="['/Home']">Home</a></li>
+                    <li ><a style="font-size: 20px" class="nav-link active" [routerLink]="['escribaniasPublicas']">Escribanias</a></li>
+                   <li><a style="font-size: 20px" class="nav-link active" [routerLink]="['about']">Acerca de</a></li>
                    <!-- <li class="dropdown">
                         <a href="#" class="dropdown-toggle" data-toggle="dropdown">More Pages <b class="caret"></b></a>
                         <ul class="dropdown-menu">
@@ -50,11 +50,11 @@
                             <li class="active"><a href="#">Right Sidebar</a></li>
                         </ul>
                     </li>-->
-                    <li><a class="nav-link active" [routerLink]="['contact']">Contacto</a></li>
+                    <li><a style="font-size: 20px" class="nav-link active" [routerLink]="['contact']">Contacto</a></li>
                     <li class="nav-item" routerLinkActive="active">
-                            <a class="btn" *ngIf="!loginService.userLoggedIn" [routerLink]="['login']">SIGN IN</a>
+                            <a style="font-size: 15px" class="btn" *ngIf="!loginService.userLoggedIn" [routerLink]="['login']">SIGN IN</a>
                     </li>
-                    <li class="nav-item" routerLinkActive="active"><a class="btn" href="#" *ngIf="loginService.userLoggedIn" [routerLink]="['login']" (click)="logout()">
+                    <li class="nav-item" routerLinkActive="active"><a style="font-size: 15px" class="btn" href="#" *ngIf="loginService.userLoggedIn" [routerLink]="['login']" (click)="logout()">
                     {{loginService.userLogged.username}}  GO OUT </a></li>
                 </ul>
             </div>

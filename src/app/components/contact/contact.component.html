@@ -2,8 +2,8 @@
 <div class="container">
 
   <ol class="breadcrumb">
-    <li><a href="#">Home</a></li>
-    <li class="active">Contacto</li>
+    <li><a style="font-size: 20px" [routerLink]="['/Home']">Home</a></li>
+    <li style="font-size: 20px" class="active">Contacto</li>
   </ol>
 
   <div class="row">
@@ -22,19 +22,19 @@
       <form>
         <div class="row">
           <div class="col-sm-4">
-            <input class="form-control" type="text" placeholder="Name">
+            <input class="form-control" type="text" placeholder="Nombre">
           </div>
           <div class="col-sm-4">
             <input class="form-control" type="text" placeholder="Email">
           </div>
           <div class="col-sm-4">
-            <input class="form-control" type="text" placeholder="Phone">
+            <input class="form-control" type="text" placeholder="Telefono">
           </div>
         </div>
         <br>
         <div class="row">
           <div class="col-sm-12">
-            <textarea placeholder="Type your message here..." class="form-control" rows="9"></textarea>
+            <textarea placeholder="mensaje..." class="form-control" rows="9"></textarea>
           </div>
         </div>
         <br>
@@ -43,7 +43,7 @@
             <label class="checkbox"><input type="checkbox"> Sign up for newsletter</label>
           </div>
           <div class="col-sm-6 text-right">
-            <input class="btn btn-action" type="submit" value="Send message">
+            <input class="btn btn-action" type="submit" value="Enviar mensaje">
           </div>
         </div>
       </form>
