@@ -5,6 +5,9 @@ import { Pago } from 'src/app/models/pago';
 import { Escribano } from 'src/app/models/escribano';
 import { Usuario } from 'src/app/models/usuario';
 
+
+import * as jspdf from "jspdf";
+
 @Component({
   selector: 'app-gerente',
   templateUrl: './gerente.component.html',
@@ -50,6 +53,15 @@ export class GerenteComponent implements OnInit {
     this.obtenerTotalPagosTodo();
     this.obtenerTotalPagosEscribano(this.escribano);
     this.obtenerTotalPagosDosFechas(this.fechaInicio, this.fechaFin);
+  }
+
+  generarPDF(){
+    var id = document.getElementById("tabRegistro");
+    var pdf = new jspdf();
+    pdf.text("Lista Mensaje Enviado",180,30);
+    pdf.fromHTML(id,75,15);
+    pdf.save("archivo.pdf")
+
   }
 
   ngOnInit() {
