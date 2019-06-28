@@ -28,6 +28,7 @@ import { PagoComponent } from './components/pago/pago.component';
 import { AboutComponent } from './components/about/about.component';
 import { ContactComponent } from './components/contact/contact.component';
 import { EscribaniasPublicaComponent } from './components/escribanias-publica/escribanias-publica.component';
+import { SocioComponent } from './components/socio/socio.component';
 
 @NgModule({
   declarations: [
@@ -47,7 +48,8 @@ import { EscribaniasPublicaComponent } from './components/escribanias-publica/es
     PagoComponent,
     AboutComponent,
     ContactComponent,
-    EscribaniasPublicaComponent
+    EscribaniasPublicaComponent,
+    SocioComponent
 
   ],
   imports: [

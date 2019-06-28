@@ -13,6 +13,7 @@ import { PagoComponent } from './components/pago/pago.component';
 import { AboutComponent } from './components/about/about.component';
 import { ContactComponent } from './components/contact/contact.component';
 import { EscribaniasPublicaComponent } from './components/escribanias-publica/escribanias-publica.component';
+import { SocioComponent } from './components/socio/socio.component';
 
 
 const routes: Routes =
@@ -29,6 +30,7 @@ const routes: Routes =
   { path: 'pago', component: PagoComponent},
   { path: 'about', component: AboutComponent},
   { path: 'contact', component: ContactComponent},
+  { path: 'socio', component: SocioComponent},
   { path: 'escribaniasPublicas', component: EscribaniasPublicaComponent },
   {path: '**', component: HomeComponent}
 ];
