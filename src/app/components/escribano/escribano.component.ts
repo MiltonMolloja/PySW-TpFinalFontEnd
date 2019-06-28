@@ -4,6 +4,8 @@ import { EscribanoService } from 'src/app/services/escribano.service';
 import { Escribano } from 'src/app/models/escribano';
 import { Escribania } from 'src/app/models/escribania';
 
+import * as jspdf from "jspdf";
+
 
 @Component({
   selector: 'app-escribano',
@@ -75,6 +77,18 @@ export class EscribanoComponent implements OnInit {
         return false;
       }
     )
+  }
+
+  generarPDF(){
+    var id = document.getElementById("tabRegistro");
+    var pdf = new jspdf({
+      orientacion:'1',
+      unit:'pt',
+      format: 'carta'
+      });
+    pdf.text("Resumen de Escribanos",80,10);
+    pdf.fromHTML(id,30,20);
+    pdf.save("archivo.pdf")
   }
 
   public enviarEscribano() {

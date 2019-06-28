@@ -4,6 +4,8 @@ import { Escribania } from './../../models/escribania';
 import { Escribano } from './../../models/escribano';
 import { EscribaniaService } from './../../services/escribania.service';
 
+import * as jspdf from "jspdf";
+
 
 @Component({
   selector: 'app-escribania',
@@ -50,6 +52,19 @@ export class EscribaniaComponent implements OnInit {
     //localStorage.removeItem('currentUser');
     this.loginService.logout();
   }
+
+  generarPDF(){
+    var id = document.getElementById("tabRegistro");
+    var pdf = new jspdf({
+      orientacion:'1',
+      unit:'pt',
+      format: 'carta'
+      });
+    pdf.text("Resumen de Escribania",80,10);
+    pdf.fromHTML(id,30,20);
+    pdf.save("archivo.pdf")
+  }
+
 
   public getEscribanias() {
     this.escribaniaService.getEscribanias()
