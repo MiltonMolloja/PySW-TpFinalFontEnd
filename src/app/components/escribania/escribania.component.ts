@@ -18,6 +18,10 @@ export class EscribaniaComponent implements OnInit {
   rowfiles:any;
   arrayLink:Array<any>;
 
+   //archivo
+   imagen_u:any //Se usa any porque es un array con muchos datos y solo interesa la posicion [0].base64
+
+
   title: string = 'My first AGM project';
   lat: number = -24.188430;
   lng: number = -65.299052;
@@ -44,6 +48,12 @@ export class EscribaniaComponent implements OnInit {
   }
 
   ngOnInit() {
+  }
+
+  convertirYCargar()
+  {
+    //Se pasa a la imagen del usuario
+    this.escribania.foto = this.imagen_u[0].base64;
   }
 
   logout(){

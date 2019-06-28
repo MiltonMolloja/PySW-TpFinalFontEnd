@@ -1,19 +1,38 @@
+<br />
+<br />
 <div class="row d-flex justify-content-center ">
-    <div class="col-md-6 col-md-offset-3">
-        <h2>Login</h2>
-        <form name="form">
-            <div class="form-group">
-                <label for="username">Username</label>
-                <input type="text" class="formcontrol" name="username" [(ngModel)]="userform.username" />
-            </div>
-            <div class="form-group">
-                <label for="password">Password</label>
-                <input type="password" class="formcontrol" name="password" [(ngModel)]="userform.password" />
-            </div>
-            <div class="form-group">
-                <button class="btn btn-primary" (click)="login()">Login</button>
-            </div>
-            <div class="alert-danger">{{msglogin}}</div>
-        </form>
-    </div>
+  <div class="col-md-6 col-md-offset-3">
+    <h2>Login</h2>
+    <form name="form" (ngSubmit)="onSubmit()" #loginForm="ngForm">
+      <div class="form-group">
+        <label for="username">Username</label>
+        <input type="text" class="formcontrol" name="username" [(ngModel)]="userform.username" #username="ngModel"
+          required />
+        <div *ngIf="username.invalid && (username.dirty || username.touched)" class="alert alert-danger">
+          <div *ngIf="username?.errors.required">
+            Ingrese nombre se usuario.
+          </div>
+        </div>
+      </div>
+      <div class="form-group">
+        <label for="password">Password</label>
+        <input type="password" class="formcontrol" name="password" [(ngModel)]="userform.password" #password="ngModel" required />
+        <div *ngIf="password.invalid && (password.dirty || password.touched)" class="alert alert-danger">
+          <div *ngIf="password?.errors.required">
+            Ingrese contraseña.
+          </div>
+        </div>
+      </div>
+      <div class="form-group">
+        <button type="submit" class="btn btn-primary" [disabled]="!loginForm.form.valid"
+          (click)="login()">Login</button>
+      </div>
+      <div class="alert-danger">{{msglogin}}</div>
+    </form>
+  </div>
 </div>
+<br />
+<br />
+<br />
+<br />
+<br />

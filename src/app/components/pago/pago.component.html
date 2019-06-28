@@ -73,7 +73,7 @@
 <div id="addEmployeeModal" class="modal fade">
   <div class="modal-dialog">
     <div class="modal-content">
-      <form>
+      <form (ngSubmit)="onSubmit()" #pagoForm="ngForm">
         <div class="modal-header">
           <h4 class="modal-title">Agregar Pago</h4>
           <button type="button" class="close" data-dismiss="modal" aria-hidden="true">&times;</button>
@@ -88,12 +88,27 @@
           </div>
           <div class="form-group">
             <label>Importe</label>
-            <input type="number" class="form-control" rows="5" name="txtnumber" [(ngModel)]="pago.importe">
+            <input type="number" class="form-control" rows="5" name="txtnumber" [(ngModel)]="pago.importe" #txtnumber="ngModel" required>
+            <div *ngIf="txtnumber.invalid && (txtnumber.dirty || txtnumber.touched)" class="alert alert-danger">
+                <div *ngIf="txtnumber?.errors.required">
+                  Ingrese importe.
+                </div>
+              </div>
+          </div>
+          <div class="form-group">
+            <label>Fecha</label>
+            <input type="date" class="form-control" name="txtdate"[(ngModel)]="pago.fecha" #txtdate="ngModel" required>
+            <div *ngIf="txtdate.invalid && (txtdate.dirty || txtdate.touched)" class="alert alert-danger">
+                <div *ngIf="txtdate?.errors.required">
+                  Ingrese fecha de pago.
+                </div>
+              </div>
           </div>
         </div>
         <div class="modal-footer">
           <input type="button" class="btn btn-default" data-dismiss="modal" value="Cancelar">
-          <input type="submit" class="btn btn-success" value="Agregar" (click)="enviarPago(pago)">
+          <input type="submit" class="btn btn-success" value="Agregar" (click)="enviarPago()" [disabled]="!pagoForm.form.valid">
+          <input type="reset" class="btn btn-success"  value="Limpiar">
         </div>
       </form>
     </div>
@@ -103,7 +118,7 @@
 <div id="editEmployeeModal" class="modal fade">
   <div class="modal-dialog">
     <div class="modal-content">
-      <form>
+      <form (ngSubmit)="onSubmit()" #pagoForm="ngForm">
           <div class="modal-header">
               <h4 class="modal-title">Editar Pago</h4>
               <button type="button" class="close" data-dismiss="modal" aria-hidden="true">&times;</button>
@@ -122,12 +137,12 @@
               </div>
               <div class="form-group">
                 <label>Fecha</label>
-                <input type="date" class="form-control" name="txtdate"[(ngModel)]="fechaString" required>
+                <input type="date" class="form-control" name="txtdate"[(ngModel)]="pago.fecha" required>
               </div>
             </div>
             <div class="modal-footer">
               <input type="button" class="btn btn-default" data-dismiss="modal" value="Cancelar">
-              <input type="submit" class="btn btn-success" value="Actualizar" (click)="actualizarPago()">
+              <input type="submit" class="btn btn-success" value="Actualizar" (click)="actualizarPago(pago)">
             </div>
       </form>
     </div>

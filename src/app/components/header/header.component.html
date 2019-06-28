@@ -1,4 +1,4 @@
-<div class="row bg-dark text-center d-flex justify-content-center align-items-center py-2 cabecera">
+<!--<div class="row bg-dark text-center d-flex justify-content-center align-items-center py-2 cabecera">
     <div class="col-12 col-sm-12 col-md-12 col-lg-4 col-xl-5">
         <header>
             <h1 class="font-weight-bold"><span class="resaltado">Colegio de Escribanos</span><small class="text-white"> de Jujuy</small></h1>
@@ -24,4 +24,41 @@
             </div>
         </nav>
     </div>
-</div>
+</div>-->
+<!-- Fixed navbar -->
+
+    <div class="row navbar navbar-inverse navbar-fixed-top headroom navbar-expand-md">
+        <div class="container">
+
+                <div class="navbar-header">
+                    <!-- Button for smallest screens -->
+                    <button type="button" class="navbar-toggle" data-toggle="collapse"
+                        data-target=".navbar-collapse"><span class="icon-bar"></span> <span class="icon-bar"></span>
+                        <span class="icon-bar"></span> </button>
+                    <a class="navbar-brand" href="#"><img src="assets/images/logoescribano.png" alt="Progressus HTML5 template"></a>
+                </div>
+
+            <div class="navbar-collapse collapse">
+                <ul class="nav navbar-nav pull-right ml-auto">
+                    <li class="active"><a class="nav-link active" [routerLink]="['/Home']">Home</a></li>
+                    <li ><a class="nav-link active" [routerLink]="['escribaniasPublicas']">Escribanias</a></li>
+                   <li><a class="nav-link active" [routerLink]="['about']">Acerca de</a></li>
+                   <!-- <li class="dropdown">
+                        <a href="#" class="dropdown-toggle" data-toggle="dropdown">More Pages <b class="caret"></b></a>
+                        <ul class="dropdown-menu">
+                            <li><a href="#">Left Sidebar</a></li>
+                            <li class="active"><a href="#">Right Sidebar</a></li>
+                        </ul>
+                    </li>-->
+                    <li><a class="nav-link active" [routerLink]="['contact']">Contacto</a></li>
+                    <li class="nav-item" routerLinkActive="active">
+                            <a class="btn" *ngIf="!loginService.userLoggedIn" [routerLink]="['login']">SIGN IN</a>
+                    </li>
+                    <li class="nav-item" routerLinkActive="active"><a class="btn" href="#" *ngIf="loginService.userLoggedIn" [routerLink]="['login']" (click)="logout()">
+                    {{loginService.userLogged.username}}  GO OUT </a></li>
+                </ul>
+            </div>
+            <!--/.nav-collapse -->
+        </div>
+    </div>
+    <!-- /.navbar -->

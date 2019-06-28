@@ -1,4 +1,3 @@
-
 <!--***********************************************************************************-->
 <br>
 <div >
@@ -73,7 +72,7 @@
 <div id="addEmployeeModal" class="modal fade">
   <div class="modal-dialog">
     <div class="modal-content">
-      <form>
+      <form (ngSubmit)="onSubmit()" #novedadForm="ngForm">
         <div class="modal-header">
           <h4 class="modal-title">Agregar Novedad</h4>
           <button type="button" class="close" data-dismiss="modal" aria-hidden="true">&times;</button>
@@ -86,13 +85,42 @@
               <option *ngFor="let escribano of escribanos" [ngValue]="escribano">{{escribano.matricula}}</option>
             </select>
           </div>
+
           <div class="form-group">
-            <label>Asunto</label>
-            <input type="text" class="form-control" rows="5" name="txtAsunto" [(ngModel)]="novedad.asunto">
+            <label class="col-sm-12 col-md-4" for="asunto">Asunto</label>
+            <input type="text" class="form-control col-sm-12 col-md-8" name="asunto" [(ngModel)]="novedad.asunto"
+              #asunto="ngModel" />
+            <div *ngIf="asunto.invalid && (asunto.dirty || asunto.touched)" class="alert alert-danger">
+              <div *ngIf="asunto?.errors.required">
+                Se requiere asunto.
+              </div>
+            </div>
           </div>
           <div class="form-group">
-            <label>Mensaje</label>
-            <input type="text" class="form-control" rows="5" name="txtMensaje" [(ngModel)]="novedad.mensaje">
+            <label class="col-sm-12 col-md-4" for="mensaje">Mensaje</label>
+            <input type="text" class="form-control col-sm-12 col-md-8" name="mensaje" [(ngModel)]="novedad.mensaje"
+              #mensaje="ngModel" />
+            <div *ngIf="mensaje.invalid && (mensaje.dirty || mensaje.touched)" class="alert alert-danger">
+              <div *ngIf="mensaje?.errors.required">
+                Se requiere mensaje.
+              </div>
+            </div>
+          </div>
+          <div class="form-group">
+            <label class="col-sm-12 col-md-4" for="fecha">Fecha</label>
+            <input type="date" class="form-control col-sm-12 col-md-8" name="fecha" [(ngModel)]="novedad.fecha"
+              #fecha="ngModel" />
+            <div *ngIf="fecha.invalid && (fecha.dirty || fecha.touched)" class="alert alert-danger">
+              <div *ngIf="fecha?.errors.required">
+                Se requiere fecha.
+              </div>
+            </div>
+          </div>
+          <div class="modal-footer">
+            <input type="button" class="btn btn-default" data-dismiss="modal" value="Cancelar">
+            <input type="submit" class="btn btn-success" value="Agregar" (click)="addNovedad()"
+              [disabled]="!novedadForm.form.valid">
+            <input type="reset" class="btn btn-success" value="Limpiar">
           </div>
         </div>
         <div class="modal-footer">
@@ -107,9 +135,9 @@
 <div id="editEmployeeModal" class="modal fade">
   <div class="modal-dialog">
     <div class="modal-content">
-      <form>
+      <form (ngSubmit)="onSubmit()" #novedadForm="ngForm">
         <div class="modal-header">
-          <h4 class="modal-title">Editar Noveda</h4>
+          <h4 class="modal-title">Editar Novedad</h4>
           <button type="button" class="close" data-dismiss="modal" aria-hidden="true">&times;</button>
         </div>
         <div class="modal-body">
@@ -120,21 +148,35 @@
             </select>
           </div>
           <div class="form-group">
-            <label>Asunto</label>
-            <input type="text" class="form-control" rows="5" name="txtAsunto" [(ngModel)]="novedad.asunto">
+            <label class="col-sm-12 col-md-4" for="asunto">Asunto</label>
+            <input type="text" class="form-control col-sm-12 col-md-8" name="asunto" [(ngModel)]="novedad.asunto"
+              #asunto="ngModel" />
+            <div *ngIf="asunto.invalid && (asunto.dirty || asunto.touched)" class="alert alert-danger">
+              <div *ngIf="asunto?.errors.required">
+                Se requiere asunto.
+              </div>
+            </div>
           </div>
           <div class="form-group">
-            <label>Mensaje</label>
-            <input type="text" class="form-control" rows="5" name="txtMensaje" [(ngModel)]="novedad.mensaje">
+            <label class="col-sm-12 col-md-4" for="mensaje">Mensaje</label>
+            <input type="text" class="form-control col-sm-12 col-md-8" name="mensaje" [(ngModel)]="novedad.mensaje"
+              #mensaje="ngModel" />
+            <div *ngIf="mensaje.invalid && (mensaje.dirty || mensaje.touched)" class="alert alert-danger">
+              <div *ngIf="mensaje?.errors.required">
+                Se requiere mensaje.
+              </div>
+            </div>
           </div>
           <div class="form-group">
             <label>Fecha</label>
-            <input type="date" class="form-control" name="txtdate" [(ngModel)]="fechaString" required>
+            <input type="date" class="form-control" name="txtdate" [(ngModel)]="novedad.fecha" required>
           </div>
-        </div>
-        <div class="modal-footer">
-          <input type="button" class="btn btn-default" data-dismiss="modal" value="Cancelar">
-          <input type="submit" class="btn btn-success" value="Actualizar" (click)="editNovedad(novedad)">
+          <div class="modal-footer">
+            <input type="button" class="btn btn-default" data-dismiss="modal" value="Cancelar">
+            <input type="submit" class="btn btn-success" value="Actualizar" (click)="editNovedad()"
+              [disabled]="!novedadForm.form.valid">
+            <input type="reset" class="btn btn-success" value="Limpiar">
+          </div>
         </div>
       </form>
     </div>
@@ -153,7 +195,7 @@
           <p>Novedad</p>
           <p>
             <li>Id: {{novedad.id}}</li>
-            <li>Escribano: {{novedad.escribano}}</li>
+            <li>Escribano Matricula: {{novedad.escribano.matricula}}</li>
             <li>Asunto: {{novedad.asunto}}</li>
             <li>Mensaje: {{novedad.mensaje}}</li>
             <li>Fecha: {{novedad.fecha}}</li>

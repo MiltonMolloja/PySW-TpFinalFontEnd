@@ -71,7 +71,7 @@
   <div id="addEmployeeModal" class="modal fade">
     <div class="modal-dialog">
       <div class="modal-content">
-        <form>
+        <form (ngSubmit)="onSubmit()" #escribanoForm="ngForm">
           <div class="modal-header">
             <h4 class="modal-title">Agregar Escribano</h4>
             <button type="button" class="close" data-dismiss="modal" aria-hidden="true">&times;</button>
@@ -85,16 +85,27 @@
               </div>
             <div class="form-group">
               <label>Matricula</label>
-              <input type="text" class="form-control" rows="5" name="txtMatricula" [(ngModel)]="escribano.matricula">
+              <input type="text" class="form-control" rows="5" name="txtMatricula" [(ngModel)]="escribano.matricula" #txtMatricula="ngModel" required>
+              <div *ngIf="txtMatricula.invalid && (txtMatricula.dirty || txtMatricula.touched)" class="alert alert-danger">
+                <div *ngIf="txtMatricula?.errors.required">
+                  Ingrese matricula de escribano.
+                </div>
+              </div>
             </div>
             <div class="form-group">
               <label>Universidad</label>
-              <input type="text" class="form-control" name="txtUniversidad" [(ngModel)]="escribano.universidad">
+              <input type="text" class="form-control" name="txtUniversidad" [(ngModel)]="escribano.universidad" #txtUniversidad="ngModel" required>
+              <div *ngIf="txtUniversidad.invalid && (txtUniversidad.dirty || txtUniversidad.touched)" class="alert alert-danger">
+                <div *ngIf="txtUniversidad?.errors.required">
+                  Ingrese Universidad.
+                </div>
+              </div>
             </div>
           </div>
           <div class="modal-footer">
             <input type="button" class="btn btn-default" data-dismiss="modal" value="Cancelar">
-            <input type="submit" class="btn btn-success" value="Agregar" (click)="enviarEscribano(escribano)">
+            <input type="submit" class="btn btn-success" value="Agregar" (click)="enviarEscribano()" [disabled]="!escribanoForm.form.valid">
+            <input type="reset" class="btn btn-success"  value="Limpiar">
           </div>
         </form>
       </div>
@@ -104,7 +115,7 @@
   <div id="editEmployeeModal" class="modal fade">
     <div class="modal-dialog">
       <div class="modal-content">
-        <form>
+        <form (ngSubmit)="onSubmit()" #escribanoForm="ngForm">
           <div class="modal-header">
             <h4 class="modal-title">Modificar Escribano</h4>
             <button type="button" class="close" data-dismiss="modal" aria-hidden="true">&times;</button>
@@ -117,18 +128,28 @@
                 </select>
             </div>
             <div class="form-group">
-              <label>Matricula</label>
-              <input type="text" class="form-control" rows="5" name="txtMatricula" [(ngModel)]="escribano.matricula">
-            </div>
-            <div class="form-group">
-              <label>Universidad</label>
-              <input type="text" class="form-control" rows="5" name="txtUniversidad"
-                [(ngModel)]="escribano.universidad">
-            </div>
+                <label>Matricula</label>
+                <input type="text" class="form-control" rows="5" name="txtMatricula" [(ngModel)]="escribano.matricula" #txtMatricula="ngModel" required>
+                <div *ngIf="txtMatricula.invalid && (txtMatricula.dirty || txtMatricula.touched)" class="alert alert-danger">
+                  <div *ngIf="txtMatricula?.errors.required">
+                    Ingrese matricula de escribano.
+                  </div>
+                </div>
+              </div>
+              <div class="form-group">
+                <label>Universidad</label>
+                <input type="text" class="form-control" name="txtUniversidad" [(ngModel)]="escribano.universidad" #txtUniversidad="ngModel" required>
+                <div *ngIf="txtUniversidad.invalid && (txtUniversidad.dirty || txtUniversidad.touched)" class="alert alert-danger">
+                  <div *ngIf="txtUniversidad?.errors.required">
+                    Ingrese Universidad.
+                  </div>
+                </div>
+              </div>
           </div>
           <div class="modal-footer">
             <input type="button" class="btn btn-default" data-dismiss="modal" value="Cancelar">
-            <input type="submit" class="btn btn-success" value="Actualizar" (click)="actualizarEscribano(escribano)">
+            <input type="submit" class="btn btn-success" value="Actualizar" (click)="actualizarEscribano()" [disabled]="!escribanoForm.form.valid">
+            <input type="reset" class="btn btn-success"  value="Limpiar">
           </div>
         </form>
       </div>
