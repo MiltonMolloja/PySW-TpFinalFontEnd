@@ -19,6 +19,10 @@ import { NgForm } from '@angular/forms';
 export class UsuarioComponent implements OnInit {
   //archivo
   imagen_u:any //Se usa any porque es un array con muchos datos y solo interesa la posicion [0].base64
+  //
+  fechatemp:string;
+  comp_password:string;
+  comp_email:string;
 
   //Se necesitan 4 arreglos para recuperar datos
   usuarios:Array<Usuario>;
@@ -78,8 +82,11 @@ export class UsuarioComponent implements OnInit {
   {
     this.usuario = new Usuario();
     this.usuario.perfil = new Perfil();//
+    this.usuario.perfil.fechaNac = new Date();
     this.usuario.escribano = new Escribano();
     this.usuario.escribano.escribania = new Escribania();
+    this.comp_password = "";
+    this.comp_email = "" ;
   }/////
 
   //Ocultar ventanas de inicio
@@ -225,17 +232,20 @@ export class UsuarioComponent implements OnInit {
 
   /***Metodos usados para la Creacion***/
   //Llama a las ventana de creaccion
-  comenzarLaCreacion()
+  comenzarLaCreacion( form:NgForm )
   {
-    this.ocultarInicio();
-    if( this.usuario.tipo == "Socio" )
+    if( form.valid == true )
     {
-      this.cambiarVentana("escribano");
-    }
-    else
-    {
-      this.usuario.escribano = null;
-      this.cambiarVentana("perfil");
+      this.ocultarInicio();
+      if( this.usuario.tipo == "Socio" )
+      {
+        this.cambiarVentana("escribano");
+      }
+      else
+      {
+        this.usuario.escribano = null;
+        this.cambiarVentana("perfil");
+      }
     }
   }////
 
@@ -302,6 +312,7 @@ export class UsuarioComponent implements OnInit {
     if( form.valid == true )
     {
       this.usuario.perfil.estado = true ;
+      this.usuario.perfil.fechaNac  = new Date( this.fechatemp );
       this.perfilService.sendPerfil(this.usuario.perfil).subscribe
       (
         resultado2 =>
@@ -356,7 +367,7 @@ export class UsuarioComponent implements OnInit {
    crearUsuario( form:NgForm )
    {
     //Se pregunta si el formulario es valido
-    if( form.valid == true )
+    if( form.valid == true && this.usuario.email == this.comp_email && this.usuario.password == this.comp_password )
     {
       this.usuario.estado = true ;
       this.usuarioService.sendUsuario(this.usuario).subscribe
@@ -428,6 +439,7 @@ export class UsuarioComponent implements OnInit {
       resultado => {
         console.log("eliminado correctamente Usuario.");
         this.obtenerUsuarios();
+        this.inicializarUsuario();
         return true;
       },
       error =>
@@ -457,6 +469,9 @@ export class UsuarioComponent implements OnInit {
   {
     this.inicializarUsuario();
     this.usuario = Object.assign(this.usuario, usuario);
+    this.fechatemp = this.usuario.perfil.fechaNac.toISOString().substring(0, 10);
+    this.comp_password = this.usuario.password;
+    this.comp_email = this.usuario.email ;
     this.tipoDeDestino = this.usuario.tipo;
 
   }///
@@ -540,7 +555,7 @@ export class UsuarioComponent implements OnInit {
   modificarEscribano( form:NgForm )
   {
     //Se pregunta si el formulario es valido
-    if( form.valid == true)
+    if( form.valid == true  )
     {
       this.escribanoService.modificarEscribano(this.usuario.escribano).subscribe
       (
@@ -564,6 +579,7 @@ export class UsuarioComponent implements OnInit {
     //Se pregunta si el formulario es valido
     if( form.valid == true)
     {
+      this.usuario.perfil.fechaNac = new Date( this.fechatemp );
       this.perfilService.modificarPerfil(this.usuario.perfil).subscribe
       (
         resultados => {
@@ -585,7 +601,7 @@ export class UsuarioComponent implements OnInit {
   modificarUsuario( form:NgForm )
   {
     //Se pregunta si el formulario es valido
-    if( form.valid == true)
+    if( form.valid == true && this.usuario.email == this.comp_email && this.usuario.password == this.comp_password )
     {
       this.usuarioService.modificarUsuario(this.usuario).subscribe
       (
@@ -607,5 +623,15 @@ export class UsuarioComponent implements OnInit {
       );
     }
   }///
+
+  //Cuando no se cambia los datos de usuario existente
+  noCambiarUsuario()
+  {
+    this.cambiarVentana("");
+    this.inicializarUsuario();  
+    this.mostrarInicio();
+    this.desactivarBotonesDeModificacion();
+    this.respuesta="";
+  }
 
 }
