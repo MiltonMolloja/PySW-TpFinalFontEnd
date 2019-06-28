@@ -57,10 +57,15 @@ export class GerenteComponent implements OnInit {
 
   generarPDF(){
     var id = document.getElementById("tabRegistro");
-    var pdf = new jspdf();
-    pdf.text("Lista Mensaje Enviado",180,30);
-    pdf.fromHTML(id,75,15);
+    var pdf = new jspdf({
+      orientacion:'1',
+      unit:'pt',
+      format: 'carta'
+      });
+    pdf.text("Resumen",80,10);
+    pdf.fromHTML(id,30,20);
     pdf.save("archivo.pdf")
+
 
   }
 
