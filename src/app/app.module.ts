@@ -31,6 +31,8 @@ import { EscribaniasPublicaComponent } from './components/escribanias-publica/es
 import { SocioComponent } from './components/socio/socio.component';
 //Para los filtros
 import { FilterUsuarioPipe } from './pipes/filter-usuario.pipe';
+//Para las validaciones
+import { SinCaracterEspecial, Negativo, SinEspacios, ControlarRangoDNI, SoloLetrasYEspacios, FechaValida, ImagenValida } from './validaciones.directive' ;
 
 @NgModule({
   declarations: [
@@ -52,7 +54,16 @@ import { FilterUsuarioPipe } from './pipes/filter-usuario.pipe';
     ContactComponent,
     EscribaniasPublicaComponent,
     SocioComponent,
-    FilterUsuarioPipe
+    FilterUsuarioPipe,
+    //Usados para validar
+    SinCaracterEspecial,
+    Negativo,
+    SinEspacios,
+    ControlarRangoDNI,
+    SoloLetrasYEspacios, 
+    FechaValida,
+    ImagenValida
+    //
 
   ],
   imports: [

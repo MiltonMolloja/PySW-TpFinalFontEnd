@@ -91,7 +91,8 @@ export class UsuarioComponent implements OnInit {
     this.usuario.escribano.escribania = new Escribania();
     this.comp_password = "";
     this.comp_email = "" ;
-    this.tipo = "";
+    //this.tipo = "";
+    this.fechatemp = "";
   }/////
 
   //Ocultar ventanas de inicio
@@ -130,12 +131,8 @@ export class UsuarioComponent implements OnInit {
           {
             usuario = new Usuario();
             Object.assign(usuario, elemento);
-            //Solo se cargaran los que tengan estado valido.
-            //7if(usuario.estado == true )
-            //{
-              usuario.perfil.fechaNac = new Date( (elemento.perfil.fechaNac.timestamp + 11000 ) * 1000 );
-              this.usuarios.push(usuario);
-            //}
+            usuario.perfil.fechaNac = new Date( (elemento.perfil.fechaNac.timestamp + 11000 ) * 1000 );
+            this.usuarios.push(usuario);
           }
         );
       },
@@ -156,21 +153,6 @@ export class UsuarioComponent implements OnInit {
       {
         this.perfiles = new Array<Perfil>();
         this.perfiles =  resultados;
-        /**
-        resultados.forEach
-        (
-          elemento =>
-          {
-            perfil = new Perfil();
-            Object.assign(perfil, elemento);
-            //Solo se cargaran los que tengan estado valido.
-            if( perfil.estado == true  )
-            {
-              this.perfiles.push(perfil);
-            }
-          }
-        );
-        **/
       },
       error =>
       {
@@ -219,20 +201,6 @@ export class UsuarioComponent implements OnInit {
       {
         this.escribanos = new Array<Escribano>();
         this.escribanos = resultados;
-        /*
-        resultados.forEach
-        (
-          elemento =>
-          {
-            escribano = new Escribano();
-            Object.assign(escribano, elemento);
-            if(escribano.estado == true )
-            {
-              this.escribanos.push(escribano);
-            }
-          }
-        );
-        **/
       },
       error =>
       {
@@ -247,8 +215,10 @@ export class UsuarioComponent implements OnInit {
   {
     if( form.valid == true )
     {
+      this.inicializarUsuario();
       this.desactivarBotonesDeModificacion();
       this.ocultarInicio();
+      this.usuario.tipo = this.tipo;
       if( this.usuario.tipo == "Socio" )
       {
         this.cambiarVentana("escribano");
@@ -330,7 +300,6 @@ export class UsuarioComponent implements OnInit {
         resultado2 =>
         {
           console.log("Perfil subido.");
-          this.usuario.tipo = this.tipo;
           this.cargarPerfilesyAsignarAlUsuario();
         },
         error =>
@@ -602,6 +571,7 @@ export class UsuarioComponent implements OnInit {
           console.log("modificado correctamente perfil.")
           this.cambiarVentana("usuario");
           this.usuario.tipo = this.tipoDeDestino; //Asigna el tipo de usuario nuevo
+          this.imagen_u = this.usuario.imagen;
           return true;
           },
           error => {
@@ -617,7 +587,7 @@ export class UsuarioComponent implements OnInit {
   modificarUsuario( form:NgForm )
   {
     //Se pregunta si el formulario es valido
-    if( form.valid == true && this.coincidencia() && !this.controlarUsername()  && !this.controlarEmail()  )
+    if( form.valid == true && this.coincidencia() && !this.controlarUsername()  && !this.controlarEmail() )
     {
       this.usuarioService.modificarUsuario(this.usuario).subscribe
       (
@@ -646,6 +616,7 @@ export class UsuarioComponent implements OnInit {
     this.cambiarVentana("");
     this.inicializarUsuario();  
     this.mostrarInicio();
+    this.tipo = "";
     this.desactivarBotonesDeModificacion();
     this.respuesta="";
   }

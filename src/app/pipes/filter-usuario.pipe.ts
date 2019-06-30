@@ -9,7 +9,7 @@ export class FilterUsuarioPipe implements PipeTransform {
   transform(value: Array<Usuario>, arg:string): Array<Usuario> 
   {
     let usuarios:Array<Usuario> = new Array<Usuario>();
-    if( arg == '' )
+    if( arg == '' || arg.length < 3 )
     {
       for(let usuario of value)
       {
@@ -19,6 +19,18 @@ export class FilterUsuarioPipe implements PipeTransform {
         }
       }
       return usuarios ;
+    }
+    else
+    {
+      console.log(arg);
+      for(let usuario of value)
+      {
+        if(usuario.estado == true && ( usuario.tipo.toLowerCase().indexOf( arg.toLowerCase() ) > -1 || usuario.perfil.nombres.toLowerCase().indexOf( arg.toLowerCase() ) > -1 || usuario.perfil.apellidos.toLowerCase().indexOf( arg.toLowerCase() ) > -1 || usuario.perfil.dni.toString().indexOf( arg.toLowerCase() ) > -1  ) )
+        {
+          usuarios.push(usuario); //Si su estado es verdadero lo agrega
+        }
+      }
+      return usuarios ;       
     } 
   return null;
   }
