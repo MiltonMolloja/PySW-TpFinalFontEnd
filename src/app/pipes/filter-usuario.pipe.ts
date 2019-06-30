@@ -25,7 +25,7 @@ export class FilterUsuarioPipe implements PipeTransform {
       console.log(arg);
       for(let usuario of value)
       {
-        if(usuario.estado == true && ( usuario.tipo.toLowerCase().indexOf( arg.toLowerCase() ) > -1 || usuario.perfil.nombres.toLowerCase().indexOf( arg.toLowerCase() ) > -1 || usuario.perfil.apellidos.toLowerCase().indexOf( arg.toLowerCase() ) > -1 || usuario.perfil.dni.toString().indexOf( arg.toLowerCase() ) > -1  ) )
+        if(usuario.estado == true && ( usuario.tipo.toLowerCase().indexOf( arg.toLowerCase() ) > -1 || usuario.perfil.nombres.toLowerCase().indexOf( arg.toLowerCase() ) > -1 || usuario.perfil.apellidos.toLowerCase().indexOf( arg.toLowerCase() ) > -1 || usuario.perfil.dni.toString().indexOf( arg.toLowerCase() ) > -1 || usuario.perfil.sexo.toLowerCase().indexOf( arg.toLowerCase() ) > -1  ) )
         {
           usuarios.push(usuario); //Si su estado es verdadero lo agrega
         }

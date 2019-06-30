@@ -7,7 +7,7 @@ export function verificarCaracterEspecial(c:AbstractControl){
     if (c.value == null) return null;
     // si se ha ingresado un caracter especial en el nombre
     // la funcion test retornara true
-    if(/^[a-zA-Z0-9\s]*$/.test(c.value) == false){
+    if(/^[a-zA-Z0-9-\s\_]*$/.test(c.value) == false){
     // retorno un error mediante un objeto con un atributo booleado,
     // este atributo será parte del array de errors asociado al control.
     return {sinCaracterEspecial: true};
@@ -99,7 +99,7 @@ export class ControlarRangoDNI {}
 export function soloLetras( c:AbstractControl )
 {
     if ( c.value == null ) return null;
-    if ( /^[a-zA-Z\s]*$/.test(c.value) == false  )
+    if ( /^[a-zA-Z-ZñÑáéíóúÁÉÍÓÚ\s]*$/.test(c.value) == false  )
     {
         return { palabras: true};
     }

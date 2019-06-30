@@ -1,4 +1,4 @@
-<div>
+<div *ngIf="loginService.userLogged.tipo ==='Administrador'">
     <!--- <div *ngIf="loginService.userLogged.tipo==='Administrador'"> -->
     <!--Ventana Creacion/Modificacion de Escribano -->
     <div class="row mt-3" *ngIf=" ventana == 'escribano'">
@@ -35,10 +35,10 @@
                         </div>
                         <div class="form-group">
                             <label class="font-weight-bold" for="universidad">Universidad de Egreso</label>
-                            <input type="text" [(ngModel)]="usuario.escribano.universidad" ngModel placeholder="Ingrese..." class="form-control rounded font-weight-bold text-center" name="universidad" id="id_universidad" #v_universidad="ngModel" required sin-caracter-especial>
+                            <input type="text" [(ngModel)]="usuario.escribano.universidad" ngModel placeholder="Ingrese..." class="form-control rounded font-weight-bold text-center" name="universidad" id="id_universidad" #v_universidad="ngModel" required solo-letras>
                             <div class="mensaje-de-error" *ngIf="v_universidad.touched && v_universidad.invalid">
                                 <div class="text-danger font-weight-bolder text-center" *ngIf="v_universidad.errors.required">Universidad requerida.</div>
-                                <div class="text-danger font-weight-bolder text-center" *ngIf="v_universidad.errors.sinCaracterEspecial">No ingrese simbolos raros.</div>
+                                <div class="text-danger font-weight-bolder text-center" *ngIf="v_universidad.errors.palabras">No ingrese simbolos raros.</div>
                             </div>
                         </div>
                     </div>
@@ -71,18 +71,18 @@
                         <h5 class="card-title text-secondary">Ingrese los datos de perfil:</h5>
                         <div class="form-group">
                             <label class="font-weight-bold" for="nombres">Nombres</label>
-                            <input type="text" [(ngModel)]="usuario.perfil.nombres" ngModel placeholder="Ingrese..." class="form-control rounded font-weight-bold text-center" name="nombres" id="id_nombres" #v_nombres="ngModel" required sin-caracter-especial>
+                            <input type="text" [(ngModel)]="usuario.perfil.nombres" ngModel placeholder="Ingrese..." class="form-control rounded font-weight-bold text-center" name="nombres" id="id_nombres" #v_nombres="ngModel" required solo-letras>
                             <div class="mensaje-de-error" *ngIf="v_nombres.touched && v_nombres.invalid">
                                 <div class="text-danger font-weight-bolder text-center" *ngIf="v_nombres.errors.required">Nombres requeridos.</div>
-                                <div class="text-danger font-weight-bolder text-center" *ngIf="v_nombres.errors.sinCaracterEspecial">No ingrese caracteres raros.</div>
+                                <div class="text-danger font-weight-bolder text-center" *ngIf="v_nombres.errors.palabras">No ingrese caracteres raros.</div>
                             </div>
                         </div>
                         <div class="form-group">
                             <label class="font-weight-bold" for="apellidos">Apellidos</label>
-                            <input type="text" [(ngModel)]="usuario.perfil.apellidos" ngModel placeholder="Ingrese..." class="form-control rounded font-weight-bold text-center" name="apellidos" id="id_apellidos" #v_apellidos="ngModel" required sin-caracter-especial>
+                            <input type="text" [(ngModel)]="usuario.perfil.apellidos" ngModel placeholder="Ingrese..." class="form-control rounded font-weight-bold text-center" name="apellidos" id="id_apellidos" #v_apellidos="ngModel" required solo-letras>
                             <div class="mensaje-de-error" *ngIf="v_apellidos.touched && v_apellidos.invalid">
                                 <div class="text-danger font-weight-bolder text-center" *ngIf="v_apellidos.errors.required">Apellidos requeridos.</div>
-                                <div class="text-danger font-weight-bolder text-center" *ngIf="v_apellidos.errors.sinCaracterEspecial">No ingrese caracteres raros.</div>
+                                <div class="text-danger font-weight-bolder text-center" *ngIf="v_apellidos.errors.palabras">No ingrese caracteres raros.</div>
                             </div>
                         </div>
                         <div class="form-group">
@@ -193,8 +193,8 @@
 
                         <div class="form-group">
                             <label class="font-weight-bold" for="email">Email</label>
-                            <input type="text" [(ngModel)]="usuario.email" ngModel placeholder="Ingrese..." class="form-control rounded font-weight-bold text-center" name="email" id="id_email" #v_cemail="ngModel" required sin-espacios email>
-                            <div class="mensaje-de-error" *ngIf="v_cemail.touched && v_cemail.invalid">
+                            <input type="text" [(ngModel)]="usuario.email" ngModel placeholder="Ingrese..." class="form-control rounded font-weight-bold text-center" name="email" id="id_email" #v_email="ngModel" required sin-espacios email>
+                            <div class="mensaje-de-error" *ngIf="v_email.touched && v_email.invalid">
                                 <div class="text-danger font-weight-bolder text-center" *ngIf="v_email.errors.required">Email requerido.</div>
                                 <div class="text-danger font-weight-bolder text-center" *ngIf="v_email.errors.sinEspacios">No ingrese espacios en blanco.</div>
                                 <div class="text-danger font-weight-bolder text-center" *ngIf="v_email.errors.email">Email invalido.</div>
@@ -205,11 +205,12 @@
                         </div>
                         <div class="form-group">
                             <label class="font-weight-bold" for="email">Confirmar email</label>
-                            <input type="text" [(ngModel)]="comp_email" ngModel placeholder="Ingrese..." class="form-control rounded font-weight-bold text-center" name="c_email" id="id_cemail" #v_email="ngModel" required email>
+                            <input type="text" [(ngModel)]="comp_email" ngModel placeholder="Ingrese..." class="form-control rounded font-weight-bold text-center" name="c_email" id="id_cemail" #v_cemail="ngModel" required sin-espacios email>
                             <div class="mensaje-de-error text-danger font-weight-bolder text-center" *ngIf="usuario.email != comp_email ">Los correos deben ser igaules.</div>
-                            <div class="mensaje-de-error" *ngIf="v_email.touched && v_email.invalid">
-                                <div class="text-danger font-weight-bolder text-center" *ngIf="v_email.errors.required">Email requerido.</div>
-                                <div class="text-danger font-weight-bolder text-center" *ngIf="v_email.errors.required">Debe corresponder a un email.</div>
+                            <div class="mensaje-de-error" *ngIf="v_cemail.touched && v_cemail.invalid">
+                                <div class="text-danger font-weight-bolder text-center" *ngIf="v_cemail.errors.required">Email requerido.</div>
+                                <div class="text-danger font-weight-bolder text-center" *ngIf="v_cemail.errors.sinEspacios">No ingrese espacios en blanco.</div>
+                                <div class="text-danger font-weight-bolder text-center" *ngIf="v_cemail.errors.email">Email invalido.</div>
                             </div>
                         </div>
 
@@ -255,7 +256,7 @@
             <p class="text-center lead text-primary font-weight-bolder display-4">Tabla de Usuarios</p>
             <div class="form-group">
                 <h4 class="text-center font-weight-bold text-info">Buscar en la tabla</h4>
-                <input type="text" placeholder="Buscar por tipo, dni, nombres o apellidos" class="form-control font-weight-bold text-dark bg-light col-8 mx-auto rounded text-center" [(ngModel)]="filtroUsuario" ngModel id="filtroUsuario" name="filtroUsuario">
+                <input type="text" placeholder="Por tipo, dni, nombres, apellidos o sexo" class="form-control font-weight-bold text-dark bg-light col-8 mx-auto rounded text-center" [(ngModel)]="filtroUsuario" ngModel id="filtroUsuario" name="filtroUsuario">
             </div>
             <form>
                 <div class="table-responsive-md">

@@ -365,6 +365,7 @@ export class UsuarioComponent implements OnInit {
           //se cambia a la siguiente ventana
           this.cambiarVentana("");
           this.inicializarUsuario();
+          this.tipo = "";
           this.mostrarInicio();
         },
         error =>
