@@ -29,6 +29,8 @@ import { AboutComponent } from './components/about/about.component';
 import { ContactComponent } from './components/contact/contact.component';
 import { EscribaniasPublicaComponent } from './components/escribanias-publica/escribanias-publica.component';
 import { SocioComponent } from './components/socio/socio.component';
+//Para los filtros
+import { FilterUsuarioPipe } from './pipes/filter-usuario.pipe';
 
 @NgModule({
   declarations: [
@@ -49,7 +51,8 @@ import { SocioComponent } from './components/socio/socio.component';
     AboutComponent,
     ContactComponent,
     EscribaniasPublicaComponent,
-    SocioComponent
+    SocioComponent,
+    FilterUsuarioPipe
 
   ],
   imports: [
