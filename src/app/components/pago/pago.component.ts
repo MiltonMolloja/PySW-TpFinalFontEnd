@@ -218,4 +218,9 @@ export class PagoComponent implements OnInit {
       });
       this.pago = new Pago();
   }
+
+  public initPago(){
+    this.pago = new Pago();
+    this.pago.escribano = new Escribano();
+  }
 }

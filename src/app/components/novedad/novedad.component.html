@@ -11,7 +11,7 @@
             <div class="col-sm-6">
                 <a href="#addEmployeeModal" class="btn btn-success" data-toggle="modal" (click)="initNovedad()"><i class="material-icons">&#xE147;</i>
           <span>Agregar Nueva Novedad</span></a>
-                <a href="#PDFEmployeeModal" class="btn btn-danger" data-toggle="modal"><i class="material-icons">&#xE15C;</i>
+                <a href="#PDFEmployeeModal" class="btn btn-danger" data-toggle="modal" (click)="initNovedad()"><i class="material-icons">&#xE15C;</i>
           <span>Generar Archivo PDF</span></a>
             </div>
         </div>
@@ -162,7 +162,7 @@
                     </div>
                     <div class="form-group">
                         <label>Fecha</label>
-                        <input type="date" class="form-control" name="txtdate" [(ngModel)]="novedad.fecha" required>
+                        <input type="date" class="form-control" name="txtdate" [(ngModel)]="fechaString " required>
                     </div>
                     <div class="modal-footer">
                         <input type="button" class="btn btn-default" data-dismiss="modal" value="Cancelar">
@@ -190,7 +190,7 @@
                         <li>Escribano Matricula: {{novedad.escribano.matricula}}</li>
                         <li>Asunto: {{novedad.asunto}}</li>
                         <li>Mensaje: {{novedad.mensaje}}</li>
-                        <li>Fecha: {{novedad.fecha}}</li>
+                        <li>Fecha: {{novedad.fecha | date :'dd/MM/yyyy'}}</li>
                     </p>
                     <p>Seguro que deseas Eliminar estos Datos?</p>
                     <p class="text-warning"><small>Esta accion se puede Recuperar. Consulte Manual.</small></p>

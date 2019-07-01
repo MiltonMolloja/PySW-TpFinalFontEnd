@@ -29,10 +29,11 @@ export class NovedadComponent implements OnInit {
 
   constructor(private novedadService: NovedadService, public loginService: LoginService) {
     this.novedad = new Novedad();
+    this.novedad.escribano = new Escribano();
     this.novedades = new Array<Novedad>()
     this.escribano = new Escribano();
     this.escribanos = new Array<Escribano>();
-    this.fechaString= "";
+    this.fechaString="";
     this.getEscribanos();
     this.getNovedades();
 
@@ -99,12 +100,16 @@ export class NovedadComponent implements OnInit {
       result => {
         this.novedades = new Array<Novedad>();
         //this.novedades = result;
-        //console.log(this.novedad);
+
         result.forEach(element => {
+          console.log(element);
           if (element.estado) {
             this.novedad = new Novedad();
+            this.escribano = new Escribano();
             this.novedad = element;
+            this.escribano = element.escribano;
             this.novedad.fecha =  new Date(element.fecha.timestamp * 1000  + 86400000);
+            this.novedad.escribano = this.escribano;
             this.novedades.push(this.novedad);
             //this.novedades.push(element);
           }
@@ -117,6 +122,7 @@ export class NovedadComponent implements OnInit {
 
   public initNovedad() {
     this.novedad = new Novedad();
+    this.novedad.escribano = new Escribano();
   }
 
   public addNovedad() {
