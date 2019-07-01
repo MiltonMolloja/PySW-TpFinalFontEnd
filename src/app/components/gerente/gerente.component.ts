@@ -103,7 +103,7 @@ export class GerenteComponent implements OnInit {
   {
     this.pagoService.getUsuarios().subscribe
     (
-      results => 
+      results =>
       {
         results.forEach
         (
@@ -115,7 +115,7 @@ export class GerenteComponent implements OnInit {
           }
         );
       },
-      error =>  
+      error =>
       {
         alert("Error al recuper usuarios.");
       }
@@ -130,7 +130,7 @@ export class GerenteComponent implements OnInit {
     (
       results =>
       {
-        results.forEach(element => 
+        results.forEach(element =>
         {
           if( element.estado )
           {
@@ -146,18 +146,18 @@ export class GerenteComponent implements OnInit {
   }///
 
   //Obtiene todos los pagos de un escribano
-  public mostrarHistoricosEscribano2(escribano:Escribano) 
+  public mostrarHistoricosEscribano2(escribano:Escribano)
   {
     this.pagoService.getPagos().subscribe
     (
-      result => 
+      result =>
       {
         this.pagos = new Array<Pago>();
         result.forEach(element => {
           if( element.escribano.id == escribano.id && element.estado )
           {
             this.pagos.push(element);
-          }  
+          }
         });
       },
       error =>
@@ -168,16 +168,18 @@ export class GerenteComponent implements OnInit {
   }///
 
   //Obtiene el total de todos los pagos
-  public obtenerTotalPagosTodo2() 
+  public obtenerTotalPagosTodo2()
   {
     this.totalPagos = 0;
+    this.pagos = new Array<Pago>();
     this.pagoService.getPagos().subscribe
     (
       result =>
       {
         result.forEach(element => {
-          this.totalPagos += parseFloat(element.importe);          
+          this.totalPagos += parseFloat(element.importe);
         });
+        //this.mostrarHistoricos2();
       },
       error =>
       {
@@ -187,7 +189,7 @@ export class GerenteComponent implements OnInit {
   }///
 
   //Obtiene todo los pagos de un escribano
-  public obtenerTotalPagosEscribano2(escribano: Escribano) 
+  public obtenerTotalPagosEscribano2(escribano: Escribano)
   {
     this.totalPagosEscribano = 0;
     this.pagoService.getPagos().subscribe(
@@ -216,7 +218,7 @@ export class GerenteComponent implements OnInit {
   }///
 
   //Obtiene el pago entre 2 fechas
-  public obtenerTotalPagosDosFechas2(fechaInicio: Date, fechaFin: Date) 
+  public obtenerTotalPagosDosFechas2(fechaInicio: Date, fechaFin: Date)
   {
     this.pagoService.getPagos().subscribe
     (
@@ -224,11 +226,11 @@ export class GerenteComponent implements OnInit {
       {
         this.totalPagosDosFechas = 0;
         this.pagos = new Array<Pago>();
-        result.forEach(element => 
+        result.forEach(element =>
           {
-            if (new Date(fechaInicio) <= new Date(element.fecha.timestamp * 1000 ) && new Date(fechaFin) >= new Date(element.fecha.timestamp * 1000 )) 
+            if (new Date(fechaInicio) <= new Date(element.fecha.timestamp * 1000 ) && new Date(fechaFin) >= new Date(element.fecha.timestamp * 1000 ))
             {
-              if (element.estado) 
+              if (element.estado)
               {
                 this.totalPagosDosFechas+= element.importe - 1 + 1;
                 this.pagos.push(element);
@@ -241,7 +243,7 @@ export class GerenteComponent implements OnInit {
       {
         alert("Error al recuperar pagos.");
       }
-    ); 
+    );
   }//
 
   public obtenerTotalPagosDosFechasMasEscribano2(fechaInicio: Date, fechaFin: Date, escribano: Escribano)
@@ -267,7 +269,7 @@ export class GerenteComponent implements OnInit {
       error => {
         alert("Erro al recuperar los pagos de un escribano entre 2 fechas.");
       });
-  }///  
+  }///
 
 
 
@@ -376,7 +378,7 @@ export class GerenteComponent implements OnInit {
           }
         });
         ///console.log("total pago Escribano " + this.totalPagosEscribano);
-        //this.mostrarHistoricosEscribano(escribano);
+        this.mostrarHistoricosEscribano(escribano);
       },
       error => {
         alert("error en la peticion");

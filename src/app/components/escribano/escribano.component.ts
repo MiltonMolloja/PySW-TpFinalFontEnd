@@ -163,5 +163,10 @@ export class EscribanoComponent implements OnInit {
       });
   }
 
+  public initEscribano(){
+    this.escribano = new Escribano();
+    this.escribano.escribania = new Escribania();
+  }
+
 
 }
