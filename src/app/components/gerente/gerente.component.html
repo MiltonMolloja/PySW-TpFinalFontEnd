@@ -21,19 +21,19 @@
 
 <!--Aqui va el contenido de los navbar-->
 <div class="row">
-    <div class="col-12">
+    <div class="col-12 col-sm-10 col-md-8 col-lg-6 mx-auto ">
         <!-- Tab panes -->
         <div class="tab-content">
             <div id="total" class="container tab-pane active my-3"><br>
-                <div class="card text-center col-10 col-md-8 col-lg-6 mx-auto border-dark ">
+                <div class="card text-center mx-auto border-dark p-2 ">
                     <h3 class="text-dark">Todos los pagos</h3>
-                    <h5 class="text-dark">El total es: <span class="text-success font-weight-bold"> $ {{totalPagos}} </span> </h5>
+                    <h5 class="text-dark">El total es: <span class="text-success font-weight-bold">{{ totalPagos | currency }} </span> </h5>
                 </div>
             </div>
             <!--Separacion-->
             <div id="escribano" class="container tab-pane fade my-3 "><br>
-                <div class="card text-center col-10 col-md-8 col-lg-6 mx-auto border-dark ">
-                    <div class="card-header bg-white border-primary-bottom lead">
+                <div class="card text-center mx-auto border-dark ">
+                    <div class="card-header bg-white border-primary-bottom lead font-weight-bolder">
                         Filtrar pagos por escribano
                     </div>
                     <div class="card-body bg-light border-primary-bottom">
@@ -46,7 +46,7 @@
                         </div>
                     </div>
                     <div class="card-footer bg-white">
-                        <p class="text-success font-weight-bold">$ {{ totalPagosEscribano}}</p>
+                        <p class="text-success font-weight-bold">{{totalPagosEscribano | currency }}</p>
                     </div>
                 </div>
             </div>
@@ -75,9 +75,8 @@
                 <div class="tab-content">
                     <!--Dia-->
                     <div id="dia" class="container tab-pane active my-3">
-
-                        <div class="card text-center col-10 col-md-8 col-lg-6 mx-auto border-secondary">
-                            <div class="card-header">
+                        <div class="card text-center mx-auto border-secondary">
+                            <div class="card-header font-weight-bolder">
                                 <div class="md-form">
                                     Seleccione una fecha de inicio:
                                     <input type="date" class="form-control col-6 text-right mx-auto" max="{{fechaActual | date: 'dd/MM/yyyy'}}" min="2008-01-01" [(ngModel)]="fechaInicio" [(ngModel)]="fechaFin">
@@ -89,15 +88,15 @@
                                 </div>
                             </div>
                             <div class="card-footer">
-                                <p class="text-secondary">Total de pagos en esa fecha<span class="text-success font-weight-bold">$ {{totalPagosDosFechas}} </span></p>
+                                <p class="text-secondary">Total de pagos en esa fecha<span class="text-success font-weight-bold">{{totalPagosDosFechas | currency }} </span></p>
                             </div>
                         </div>
                     </div>
                     <!---->
                     <!--Mes-->
                     <div id="mes" class="container tab-pane fade my-3">
-                        <div class="card text-center col-10 col-md-8 col-lg-6 mx-auto border-secondary">
-                            <div class="card-header">
+                        <div class="card text-center mx-auto border-secondary">
+                            <div class="card-header font-weight-bolder">
                                 <div class=" form-group text-center">
                                     <label>Elija un año:</label>
                                     <select name="anio" id="anio" class="form-control" [(ngModel)]="anio">
@@ -130,21 +129,21 @@
                             </div>
                             <div class="card-body">
                                 <h5 class="card-title"><label for="escribano">Mes/Año:</label></h5>
-                                <p> {{mes}} <span class="font-weight-bolder">/</span > {{anio}}</p>>
+                                <p> {{mes}} <span class="font-weight-bolder">/</span > {{anio}}</p>
                                 <div>
                                     <button type="button " class="btn btn-info" (click)="formarFechaMes()">Filtrar por Fecha</button>
                                 </div>
                             </div>
                             <div class="card-footer">
-                                <p class="text-secondary">Total de pagos entre dos fechas <span class="text-success font-weight-bold">$ {{totalPagosDosFechas}} </span></p>
+                                <p class="text-secondary">Total de pagos entre dos fechas <span class="text-success font-weight-bold">{{totalPagosDosFechas | currency }} </span></p>
                             </div>
                         </div>
                     </div>
                     <!---->
                     <!--Año-->
                     <div id="year" class="container tab-pane fade my-3">
-                        <div class="card text-center col-10 col-md-8 col-lg-6 mx-auto border-secondary">
-                            <div class="card-header">
+                        <div class="card text-center mx-auto border-secondary">
+                            <div class="card-header font-weight-bolder">
                                 <div class=" form-group text-center">
                                     <label>Elija un año:</label>
                                     <select name="anio" id="anio" class="form-control" [(ngModel)]="anio">
@@ -164,15 +163,15 @@
                                 </div>
                             </div>
                             <div class="card-footer">
-                                <p class="text-secondary">Total de pagos entre dos fechas <span class="text-success font-weight-bold">$ {{totalPagosDosFechas}} </span></p>
+                                <p class="text-secondary">Total de pagos entre dos fechas <span class="text-success font-weight-bold">{{ totalPagosDosFechas | currency }} </span></p>
                             </div>
                         </div>
                     </div>
                     <!---->
                     <!--Personalizado-->
                     <div id="personalizado" class="container tab-pane fade my-3 ">
-                        <div class="card text-center col-10 col-md-8 col-lg-6 mx-auto">
-                            <div class="card-header">
+                        <div class="card text-center mx-auto border-secondary">
+                            <div class="card-header font-weight-bolder">
                                 <div class="md-form">
                                     Fecha de Inicio:
                                     <input type="date" class="form-control col-6 mx-auto text-right" max="{{fechaActual | date: 'dd/MM/yyyy'}}" min="2008-01-01" [(ngModel)]="fechaInicio">
@@ -189,7 +188,7 @@
                                 </div>
                             </div>
                             <div class="card-footer">
-                                <p class="text-secondary">Total de pagos entre dos fechas <span class="text-success font-weight-bold">$ {{totalPagosDosFechas}} </span></p>
+                                <p class="text-secondary">Total de pagos entre dos fechas <span class="text-success font-weight-bold">{{totalPagosDosFechas | currency }} </span></p>
                             </div>
                         </div>
                     </div>
@@ -382,49 +381,48 @@
         </div>
     </div>
 </div>
-<div  id="tabRegistro">
-<div class="row mt-2">
-    <div class="col-12">
-        <div class="table-responsive-md">
-            <table class="table table-striped thead-dark table-sm" [mfData]="pagos" #mf="mfDataTable" [mfRowsOnPage]="5">
-                <thead class="thead-dark">
-                    <tr>
-                        <th>
-                            <mfDefaultSorter by="id">Id</mfDefaultSorter>
-                        </th>
-                        <th>
-                            <mfDefaultSorter by="importe">Importe</mfDefaultSorter>
-                        </th>
-                        <th>
-                            <mfDefaultSorter by="fecha">Fecha</mfDefaultSorter>
-                        </th>
-                        <th>
-                            <mfDefaultSorter by="estado">estado</mfDefaultSorter>
-                        </th>
-                    </tr>
-                </thead>
-                <tbody>
-                    <tr *ngFor="let item of mf.data">
-                        <td>{{item.id}}</td>
-                        <td>{{item.importe}}</td>
-                        <td>{{item.fecha.timestamp * 1000 | date: 'dd/MM/yyyy'}}</td>
-                        <td>{{item.estado}}</td>
-                    </tr>
-                </tbody>
-                <tfoot>
-                    <tr>
-                        <td colspan="4">
-                            <mfBootstrapPaginator [rowsOnPageSet]="[5,10,25]"></mfBootstrapPaginator>
-                        </td>
-                    </tr>
-                </tfoot>
-            </table>
+<div id="tabRegistro">
+    <div class="row mt-2">
+        <div class="col-12">
+            <div class="table-responsive-md">
+                <table class="table table-striped thead-dark table-sm" [mfData]="pagos" #mf="mfDataTable" [mfRowsOnPage]="5">
+                    <thead class="thead-dark">
+                        <tr>
+                            <th>
+                                <mfDefaultSorter by="id">Id</mfDefaultSorter>
+                            </th>
+                            <th>
+                                <mfDefaultSorter by="importe">Importe</mfDefaultSorter>
+                            </th>
+                            <th>
+                                <mfDefaultSorter by="fecha">Fecha</mfDefaultSorter>
+                            </th>
+                            <th>
+                                <mfDefaultSorter by="estado">estado</mfDefaultSorter>
+                            </th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        <tr *ngFor="let item of mf.data">
+                            <td>{{item.id}}</td>
+                            <td>{{item.importe}}</td>
+                            <td>{{item.fecha.timestamp * 1000 | date: 'dd/MM/yyyy'}}</td>
+                            <td>{{item.estado}}</td>
+                        </tr>
+                    </tbody>
+                    <tfoot>
+                        <tr>
+                            <td colspan="4">
+                                <mfBootstrapPaginator [rowsOnPageSet]="[5,10,25]"></mfBootstrapPaginator>
+                            </td>
+                        </tr>
+                    </tfoot>
+                </table>
+            </div>
         </div>
     </div>
 </div>
-</div>
 
 <div>
-    <button type="button " class="btn btn-danger"
-      (click)="generarPDF()">PDF</button>
-  </div>
+    <button type="button " class="btn btn-danger" (click)="generarPDF()">PDF</button>
+</div>
