@@ -21,6 +21,11 @@ export class EscribanoService {
     return this._http.get('http://localhost/PySW-TpFinal/public/index.php/escribano/');
   }
 
+
+  getUsuarios(): Observable<any> {
+    return this._http.get('http://localhost/PySW-TpFinal/public/index.php/usuario/');
+  }
+  
   borrarEscribano(id: number){
     //utilizo el metodo delete de http que es el configurado en el deleteAction de Symfony
     return this._http.delete(('http://localhost/PySW-TpFinal/public/index.php/escribano/'+id));
@@ -52,7 +57,7 @@ export class EscribanoService {
     body, httpOption);
   }
 
-  
+
   borradoDeEscribano(escribano:Escribano){
     const httpOption = {
       headers: new HttpHeaders({
