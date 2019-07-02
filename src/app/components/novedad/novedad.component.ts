@@ -38,7 +38,7 @@ export class NovedadComponent implements OnInit {
     this.escribano = new Escribano();
     this.escribanos = new Array<Escribano>();
     this.fechaString="";
-    this.loginService.userLogged.username = "socio"
+    //this.loginService.userLogged.username = "socio"
 
     this.getEscribanos();
     //this.getNovedades();
