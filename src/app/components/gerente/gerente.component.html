@@ -1,5 +1,5 @@
 <!--Aqui va el titulo y la cabecera-->
-<div class="row">
+<div class="row" *ngIf="loginService.userLogged.tipo==='Gerente'">
     <div class="col-12">
         <!---  <div *ngIf="loginService.userLogged.tipo==='Gerente'">  -->
         <h1 class="text-center font-weight-bolder display-4 text-secondary">Resumenes para Gerente</h1>

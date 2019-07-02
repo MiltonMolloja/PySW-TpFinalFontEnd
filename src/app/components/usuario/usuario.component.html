@@ -1,4 +1,4 @@
-<div>
+<div *ngIf="loginService.userLogged.tipo==='Administrador'">
     <!--- <div *ngIf="loginService.userLogged.tipo==='Administrador'"> -->
     <!--Ventana Creacion/Modificacion de Escribano -->
     <div class="row mt-3" *ngIf=" ventana == 'escribano'">
