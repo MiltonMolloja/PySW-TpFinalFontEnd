@@ -17,6 +17,8 @@ import { NgForm } from '@angular/forms';
   styleUrls: ['./usuario.component.css']
 })
 export class UsuarioComponent implements OnInit {
+  //Para el filtrado de usuario
+  filtroUsuario:string = '';
   //archivo
   imagen_u:any //Se usa any porque es un array con muchos datos y solo interesa la posicion [0].base64
   //
@@ -36,7 +38,7 @@ export class UsuarioComponent implements OnInit {
   //
   usuario:Usuario; //Se manejara la creacion de Usuario
   tipoDeDestino:string;
-
+  tipo:string = "";
   //Efectos visuales
   tablaUsuarios:boolean = true; //Se manejan a la vez
   formCreacion:boolean = true; //Se manejan a la vez
@@ -81,12 +83,16 @@ export class UsuarioComponent implements OnInit {
   inicializarUsuario()
   {
     this.usuario = new Usuario();
+    this.usuario.email = "";
+    this.usuario.password = "";
     this.usuario.perfil = new Perfil();//
     this.usuario.perfil.fechaNac = new Date();
     this.usuario.escribano = new Escribano();
     this.usuario.escribano.escribania = new Escribania();
     this.comp_password = "";
     this.comp_email = "" ;
+    //this.tipo = "";
+    this.fechatemp = "";
   }/////
 
   //Ocultar ventanas de inicio
@@ -125,12 +131,8 @@ export class UsuarioComponent implements OnInit {
           {
             usuario = new Usuario();
             Object.assign(usuario, elemento);
-            //Solo se cargaran los que tengan estado valido.
-            if(usuario.estado == true )
-            {
-              usuario.perfil.fechaNac = new Date( (elemento.perfil.fechaNac.timestamp + 11000 ) * 1000 );
-              this.usuarios.push(usuario);
-            }
+            usuario.perfil.fechaNac = new Date( (elemento.perfil.fechaNac.timestamp + 11000 ) * 1000 );
+            this.usuarios.push(usuario);
           }
         );
       },
@@ -150,19 +152,7 @@ export class UsuarioComponent implements OnInit {
       (resultados) =>
       {
         this.perfiles = new Array<Perfil>();
-        resultados.forEach
-        (
-          elemento =>
-          {
-            perfil = new Perfil();
-            Object.assign(perfil, elemento);
-            //Solo se cargaran los que tengan estado valido.
-            if( perfil.estado == true  )
-            {
-              this.perfiles.push(perfil);
-            }
-          }
-        );
+        this.perfiles =  resultados;
       },
       error =>
       {
@@ -210,18 +200,7 @@ export class UsuarioComponent implements OnInit {
       (resultados) =>
       {
         this.escribanos = new Array<Escribano>();
-        resultados.forEach
-        (
-          elemento =>
-          {
-            escribano = new Escribano();
-            Object.assign(escribano, elemento);
-            if(escribano.estado == true )
-            {
-              this.escribanos.push(escribano);
-            }
-          }
-        );
+        this.escribanos = resultados;
       },
       error =>
       {
@@ -236,7 +215,10 @@ export class UsuarioComponent implements OnInit {
   {
     if( form.valid == true )
     {
+      this.inicializarUsuario();
+      this.desactivarBotonesDeModificacion();
       this.ocultarInicio();
+      this.usuario.tipo = this.tipo;
       if( this.usuario.tipo == "Socio" )
       {
         this.cambiarVentana("escribano");
@@ -253,7 +235,7 @@ export class UsuarioComponent implements OnInit {
   crearEscribano( form:NgForm )
   {
     //Se pregunta si el formulario es valido
-    if( form.valid == true )
+    if( form.valid == true && !this.controlarMatricula() )
     {
       this.usuario.escribano.estado = true;
       this.escribanoService.sendEscribano(this.usuario.escribano).subscribe
@@ -309,7 +291,7 @@ export class UsuarioComponent implements OnInit {
    crearPerfil( form:NgForm )
    {
     //Se pregunta si el formulario es valido
-    if( form.valid == true )
+    if( form.valid == true && !this.controlarDNI()  )
     {
       this.usuario.perfil.estado = true ;
       this.usuario.perfil.fechaNac  = new Date( this.fechatemp );
@@ -325,6 +307,10 @@ export class UsuarioComponent implements OnInit {
           console.log("Error al enviar perfil.");
         }
       );
+    }
+    else
+    {
+      console.log("No se puede crear.");
     }
    }///
 
@@ -367,7 +353,7 @@ export class UsuarioComponent implements OnInit {
    crearUsuario( form:NgForm )
    {
     //Se pregunta si el formulario es valido
-    if( form.valid == true && this.usuario.email == this.comp_email && this.usuario.password == this.comp_password )
+    if( form.valid == true && this.coincidencia() && !this.controlarUsername()  && !this.controlarEmail() )
     {
       this.usuario.estado = true ;
       this.usuarioService.sendUsuario(this.usuario).subscribe
@@ -379,6 +365,7 @@ export class UsuarioComponent implements OnInit {
           //se cambia a la siguiente ventana
           this.cambiarVentana("");
           this.inicializarUsuario();
+          this.tipo = "";
           this.mostrarInicio();
         },
         error =>
@@ -473,7 +460,6 @@ export class UsuarioComponent implements OnInit {
     this.comp_password = this.usuario.password;
     this.comp_email = this.usuario.email ;
     this.tipoDeDestino = this.usuario.tipo;
-
   }///
 
   //Cancela la modificacion
@@ -555,7 +541,7 @@ export class UsuarioComponent implements OnInit {
   modificarEscribano( form:NgForm )
   {
     //Se pregunta si el formulario es valido
-    if( form.valid == true  )
+    if( form.valid == true && !this.controlarMatricula()  )
     {
       this.escribanoService.modificarEscribano(this.usuario.escribano).subscribe
       (
@@ -577,7 +563,7 @@ export class UsuarioComponent implements OnInit {
   modificarPerfil( form:NgForm )
   {
     //Se pregunta si el formulario es valido
-    if( form.valid == true)
+    if( form.valid == true && !this.controlarDNI() )
     {
       this.usuario.perfil.fechaNac = new Date( this.fechatemp );
       this.perfilService.modificarPerfil(this.usuario.perfil).subscribe
@@ -586,6 +572,7 @@ export class UsuarioComponent implements OnInit {
           console.log("modificado correctamente perfil.")
           this.cambiarVentana("usuario");
           this.usuario.tipo = this.tipoDeDestino; //Asigna el tipo de usuario nuevo
+          this.imagen_u = this.usuario.imagen;
           return true;
           },
           error => {
@@ -601,7 +588,7 @@ export class UsuarioComponent implements OnInit {
   modificarUsuario( form:NgForm )
   {
     //Se pregunta si el formulario es valido
-    if( form.valid == true && this.usuario.email == this.comp_email && this.usuario.password == this.comp_password )
+    if( form.valid == true && this.coincidencia() && !this.controlarUsername()  && !this.controlarEmail() )
     {
       this.usuarioService.modificarUsuario(this.usuario).subscribe
       (
@@ -630,8 +617,135 @@ export class UsuarioComponent implements OnInit {
     this.cambiarVentana("");
     this.inicializarUsuario();  
     this.mostrarInicio();
+    this.tipo = "";
     this.desactivarBotonesDeModificacion();
     this.respuesta="";
   }
+
+  //Controla que el nombre de usuario no se repita
+  controlarUsername():boolean
+  {
+    let encontrado:boolean = false;
+      //Aqui preguntamos si el usuario tiene un id indefinido. Es un nuevo usuario
+      if( this.usuario.id == undefined )
+      {
+        for( let usuario of this.usuarios ) 
+        {
+          if(this.usuario.username == usuario.username)
+          {
+            encontrado = true ;
+            break; //Si lo encuentra deja de 
+          }
+        }
+      }
+      else
+      {
+        //Quiere decir que tiene un id
+        for( let usuario of this.usuarios ) 
+        {
+          if(this.usuario.username == usuario.username && this.usuario.id != usuario.id  )
+          {
+            encontrado = true ;
+            break; //Si lo encuentra deja de 
+          }
+        }
+      }
+    return encontrado;
+  }//
+
+  //Controlar 
+  controlarEmail():boolean
+  {
+    let encontrado:boolean = false;
+    if( this.usuario.id == undefined )
+    {
+      for( let usuario of this.usuarios ) 
+      {
+        if(this.usuario.email == usuario.email)
+        {
+          encontrado = true ;
+          break; //Si lo encuentra deja de 
+        }
+      }
+    }
+    else
+    {
+      //Quiere decir que tiene un id
+      for( let usuario of this.usuarios ) 
+      {
+        if(this.usuario.email == usuario.email && this.usuario.id != usuario.id  )
+        {
+          encontrado = true ;
+          break; //Si lo encuentra deja de 
+        }
+      }      
+    }
+    return encontrado;
+  }///
+  
+  //Controlar Matricula
+  controlarMatricula(): boolean
+  {
+    let encontrado:boolean = false;
+    if( this.usuario.escribano.matricula == undefined )
+    {
+      for( let escribano of this.escribanos ) 
+      {
+        if(this.usuario.escribano.matricula == escribano.matricula  )
+        {
+          encontrado = true;
+          break; //Si lo encuentra deja de 
+        }
+      }
+    }
+    else
+    {
+      for( let escribano of this.escribanos )
+      {
+        if( this.usuario.escribano.matricula == escribano.matricula && this.usuario.escribano.id !=  escribano.id )
+        {
+          encontrado = true;
+          break;
+        }
+      }
+    }
+    return encontrado;
+  }///
+
+  //Controla que el dni no se repita
+  controlarDNI():boolean
+  {
+    let encontrado:boolean = false;
+    if( this.usuario.perfil.id == undefined )
+    {
+      for( let perfil of this.perfiles ) 
+      {
+        if(this.usuario.perfil.dni == perfil.dni  )
+        {
+          encontrado = true ;
+          break; //Si lo encuentra deja de 
+        }
+      }
+    }
+    else
+    {
+      for( let perfil of this.perfiles )
+      {
+        if( this.usuario.perfil.dni == perfil.dni && this.usuario.perfil.id !=  perfil.id )
+        {
+          encontrado = true;
+          break;
+        }
+      }
+    }
+    return encontrado;
+  }///
+
+  //Revisa que concidan los emails y contraseña de control
+  coincidencia():boolean
+  {
+    return this.usuario.email == this.comp_email && this.usuario.password == this.comp_password;
+  }
+
 
 }

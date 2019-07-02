@@ -118,6 +118,7 @@ export class EscribaniaComponent implements OnInit {
     this.escribaniaService.editEscribania(this.escribania).subscribe(
       data => {
       console.log("modificado correctamente escribania")
+
       //actualizo la tabla de mensajes
       this.getEscribanias();
       return true;
@@ -125,6 +126,7 @@ export class EscribaniaComponent implements OnInit {
       error => {
       console.error("Error en actualizar escribania");
       console.log(error);
+      alert("NO se Pudo Modificar...");
       return false;
       });
   }
@@ -191,5 +193,9 @@ export class EscribaniaComponent implements OnInit {
         error => {
           alert("error en la peticion");
         });
+  }
+
+  public initEscribania(){
+    this.escribania = new Escribania();
   }
 }

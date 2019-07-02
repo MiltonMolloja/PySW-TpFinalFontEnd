@@ -9,7 +9,7 @@
           <h2>Registro de <b>Escribano</b></h2>
         </div>
         <div class="col-sm-6">
-          <a href="#addEmployeeModal" class="btn btn-success" data-toggle="modal"><i class="material-icons">&#xE147;</i>
+          <a (click)="initEscribano()" href="#addEmployeeModal" class="btn btn-success" data-toggle="modal"><i class="material-icons">&#xE147;</i>
             <span>Agregar Escribano</span></a>
           <a href="#PDFEmployeeModal" class="btn btn-danger" data-toggle="modal"><i
               class="material-icons">&#xE15C;</i>
@@ -24,6 +24,9 @@
           <th>
             <mfDefaultSorter by="id">Id</mfDefaultSorter>
           </th>
+          <th>
+              Nombre
+            </th>
           <th>
             <mfDefaultSorter by="matricula">Matricula</mfDefaultSorter>
           </th>
@@ -44,6 +47,12 @@
       <tbody>
         <tr *ngFor="let item of mf.data">
           <td>{{item.id}}</td>
+          <td>
+              <div *ngFor="let usu of usuarios">
+                  <div *ngIf='item.id===usu.escribano.id'>
+                      {{usu.perfil.apellidos}}, {{usu.perfil.nombres}}</div>
+                </div>
+          </td>
           <td>{{item.matricula}}</td>
           <td>{{item.universidad}}</td>
           <td>{{item.escribania.nombre}}</td>
@@ -105,7 +114,7 @@
           </div>
           <div class="modal-footer">
             <input type="button" class="btn btn-default" data-dismiss="modal" value="Cancelar">
-            <input type="submit" class="btn btn-success" value="Agregar" (click)="enviarEscribano()" [disabled]="!escribanoForm.form.valid">
+            <input type="submit" class="btn btn-success" data-dismiss="modal" value="Agregar" (click)="enviarEscribano()" [disabled]="!escribanoForm.form.valid">
             <input type="reset" class="btn btn-success"  value="Limpiar">
           </div>
         </form>
@@ -149,7 +158,7 @@
           </div>
           <div class="modal-footer">
             <input type="button" class="btn btn-default" data-dismiss="modal" value="Cancelar">
-            <input type="submit" class="btn btn-success" value="Actualizar" (click)="actualizarEscribano()" [disabled]="!escribanoForm.form.valid">
+            <input type="submit" class="btn btn-success" data-dismiss="modal" value="Actualizar" (click)="actualizarEscribano()" [disabled]="!escribanoForm.form.valid">
             <input type="reset" class="btn btn-success"  value="Limpiar">
           </div>
         </form>
@@ -178,7 +187,7 @@
           </div>
           <div class="modal-footer">
             <input type="button" class="btn btn-default" data-dismiss="modal" value="Cancel">
-            <input type="submit" class="btn btn-danger" value="Eliminar" (click)="borrarLogicoEscribano()">
+            <input type="submit" class="btn btn-danger" data-dismiss="modal" value="Eliminar" (click)="borrarLogicoEscribano()">
           </div>
         </form>
       </div>
@@ -226,7 +235,7 @@
           </div>
           <div class="modal-footer">
             <input type="button" class="btn btn-default" data-dismiss="modal" value="Cancel">
-            <input type="submit" class="btn btn-danger" value="Confirmar PDF" (click)="generarPDF()">
+            <input type="submit" class="btn btn-danger" data-dismiss="modal" value="Confirmar PDF" (click)="generarPDF()">
           </div>
         </form>
       </div>

@@ -22,7 +22,10 @@ export class PagoComponent implements OnInit {
   escribanos: Array<Escribano>;
   usuario: Usuario;
   usuarios: Array<Usuario>;
-
+  escribanoFiltrado: Escribano;
+  escribanosFiltrado: Array<Escribano>;
+  usuarioFiltrado: Usuario;
+  usuariosFiltrado: Array<Usuario>;
   public submitted = false;
 
   fechaString :string;
@@ -34,10 +37,17 @@ export class PagoComponent implements OnInit {
     this.pagos = new Array<Pago>();
     this.usuario = new Usuario();
     this.usuarios = new Array<Usuario>();
+    this.escribanoFiltrado = new Escribano();
+    this.escribanosFiltrado = new Array<Escribano>();
+    this.usuarioFiltrado = new Usuario();
+    this.usuariosFiltrado = new Array<Usuario>();
     this.fechaString="";
     this.obtenerEscribanos();
-    this.mostrarHistoricos();
     this.obtenerUsuarios();
+    this.obtenerEscribanosFiltrado();
+    this.obtenerUsuariosFiltrado();
+    this.mostrarHistoricos();
+
    }
 
    onSubmit() {
@@ -71,7 +81,8 @@ export class PagoComponent implements OnInit {
         this.escribanos = results;
         //console.log(this.escribanos);
         //this.escribanias = JSON.parse(results['escribanias']);
-        //console.log(this.escribanias);
+        console.log("this.escribanos");
+        console.log(this.escribanos);
       },
       error => {
         alert("error en la peticion");
@@ -82,18 +93,57 @@ export class PagoComponent implements OnInit {
     this.pagoService.getUsuarios().subscribe(
       result => {
         result.forEach(element => {
-          console.log(element.tipo);
+          //console.log(element.tipo);
           if (element.tipo==="Socio") {
             this.usuarios.push(element);
-            console.log(this.usuarios);
+           // console.log(this.usuarios);
           }
         });
-        console.log(this.escribanos);
+       console.log("this.escribanos");
+       console.log(this.escribanos);
       },
       error => {
         alert("error en la peticion");
       });
   }
+
+
+  public obtenerUsuariosFiltrado() {
+    this.pagoService.getUsuarios().subscribe(
+      result => {
+        result.forEach(element => {
+         /// console.log(element.tipo);
+          if (element.tipo==="Socio" && element.escribano.estado) {
+            this.usuariosFiltrado.push(element);
+            //console.log(this.usuariosFiltrado);
+          }
+        });
+        console.log("this.usuariosFiltrado");
+        console.log(this.usuariosFiltrado);
+      },
+      error => {
+        alert("error en la peticion");
+      });
+  }
+
+  public obtenerEscribanosFiltrado() {
+    this.pagoService.getEscribanos()
+    .subscribe(
+      result => {
+        this.escribanosFiltrado  = new Array<Escribano>();
+        result.forEach(element => {
+          if (element.estado) {
+            this.escribanosFiltrado.push(element);
+          }
+        });
+        //this.escribanos = result;
+        console.log("this.escribanosFiltrado");
+       console.log(this.escribanosFiltrado);
+      },
+      error => {
+        alert("error en la peticion");
+      });
+}
 
   public mostrarHistoricos() {
     //llamamos al metodo del service
@@ -112,7 +162,7 @@ export class PagoComponent implements OnInit {
               this.pagos.push(element);
             }
           });
-          console.log(this.pagos);
+          //console.log(this.pagos);
         },
         error => {
           alert("error en la peticion");
@@ -144,7 +194,7 @@ export class PagoComponent implements OnInit {
     this.pago.fecha = new Date();
     this.pago.estado = true;
     this.pago.escribano = this.escribano;
-    console.log(this.pago);
+   // console.log(this.pago);
     this.pagoService.sendPago(this.pago)
       .subscribe(
         result => {
@@ -162,8 +212,8 @@ export class PagoComponent implements OnInit {
   public elegirPago(pago) {
     //Creo una copia del mensaje recibido como parametro para NO modificarlo
     //ya que el parametro esta mostrandose por el binding en el datatable
-    console.log("pago");
-    console.log(pago);
+   // console.log("pago");
+   // console.log(pago);
 
     this.pago = Object.assign(this.pago, pago);
 
@@ -176,17 +226,17 @@ export class PagoComponent implements OnInit {
       return item.id === pago.escribano.id;
     });
     this.escribano = this.pago.escribano;
-    console.log("pago.escribano");
-    console.log(pago.escribano);
+    ///console.log("pago.escribano");
+    ////console.log(pago.escribano);
 
   }
 
   public actualizarPago() {
     //seteo nuevamente la fecha actual para el msj modificado
 
-    console.log("this.pago");
+    //console.log("this.pago");
     this.pago.fecha = new Date(this.fechaString);
-    console.log(this.pago);
+   // console.log(this.pago);
     this.pagoService.modificarPago(this.pago).subscribe(
       data => {
         console.log("modificado correctamente.")
@@ -217,5 +267,10 @@ export class PagoComponent implements OnInit {
         return false;
       });
       this.pago = new Pago();
+  }
+
+  public initPago(){
+    this.pago = new Pago();
+    this.pago.escribano = new Escribano();
   }
 }

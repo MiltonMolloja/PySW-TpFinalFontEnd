@@ -36,7 +36,12 @@
     <tbody>
       <tr *ngFor="let item of mf.data">
           <td>{{item.id}}</td>
-          <td>{{item.escribano.matricula}}</td>
+          <td>
+          <div *ngFor="let usu of usuarios">
+              <div *ngIf='item.escribano.matricula===usu.escribano.matricula'>
+              {{usu.perfil.nombres}}  - M.P. {{usu.escribano.matricula}}  </div>
+            </div>
+            </td>
           <td>{{item.asunto}}</td>
           <td>{{item.mensaje}}</td>
           <td>{{item.fecha | date: 'dd/MM/yyyy'}}</td>
@@ -86,7 +91,11 @@
                   <tbody *ngFor="let item of novedades">
                     <tr>
                      <td>{{item.id}}</td>
-                     <td>{{item.escribano.matricula}}</td>
+                     <td><div *ngFor="let usu of usuarios">
+                        <div *ngIf='item.escribano.matricula===usu.escribano.matricula'>
+                        {{usu.perfil.nombres}}  - M.P. {{usu.escribano.matricula}}  </div>
+                      </div>
+                      </td>
                      <td>{{item.asunto}}</td>
                     <td>{{item.mensaje}}</td>
                     <td>{{item.fecha | date: 'dd/MM/yyyy'}}</td>

@@ -29,6 +29,10 @@ import { AboutComponent } from './components/about/about.component';
 import { ContactComponent } from './components/contact/contact.component';
 import { EscribaniasPublicaComponent } from './components/escribanias-publica/escribanias-publica.component';
 import { SocioComponent } from './components/socio/socio.component';
+//Para los filtros
+import { FilterUsuarioPipe } from './pipes/filter-usuario.pipe';
+//Para las validaciones
+import { SinCaracterEspecial, Negativo, SinEspacios, ControlarRangoDNI, SoloLetrasYEspacios, FechaValida, ImagenValida } from './validaciones.directive' ;
 
 @NgModule({
   declarations: [
@@ -49,7 +53,17 @@ import { SocioComponent } from './components/socio/socio.component';
     AboutComponent,
     ContactComponent,
     EscribaniasPublicaComponent,
-    SocioComponent
+    SocioComponent,
+    FilterUsuarioPipe,
+    //Usados para validar
+    SinCaracterEspecial,
+    Negativo,
+    SinEspacios,
+    ControlarRangoDNI,
+    SoloLetrasYEspacios, 
+    FechaValida,
+    ImagenValida
+    //
 
   ],
   imports: [
@@ -60,7 +74,7 @@ import { SocioComponent } from './components/socio/socio.component';
     DataTableModule,
     AlifeFileToBase64Module,
     AgmCoreModule.forRoot({
-      apiKey: 'AIzaSyBbPusYwryniehTI37uSODwdKteRvcI0Qc'
+      apiKey: 'AIzaSyB7p6OTrBNHwGzD85w3MilKfbKd3TBTK0k'
     })
   ],
   providers: [ LoginService ],

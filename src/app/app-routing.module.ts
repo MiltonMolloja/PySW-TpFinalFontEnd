@@ -25,12 +25,12 @@ const routes: Routes =
   { path: 'usuario', component: UsuarioComponent},
   { path: 'escribania', component: EscribaniaComponent},
   { path: 'escribano', component: EscribanoComponent},
-  { path: 'novedad', component: NovedadComponent},
+  { path: 'socio', component: NovedadComponent},
   { path: 'gerente', component: GerenteComponent},
   { path: 'pago', component: PagoComponent},
   { path: 'about', component: AboutComponent},
   { path: 'contact', component: ContactComponent},
-  { path: 'socio', component: SocioComponent},
+  { path: 'novedad', component: SocioComponent},
   { path: 'escribaniasPublicas', component: EscribaniasPublicaComponent },
   {path: '**', component: HomeComponent}
 ];

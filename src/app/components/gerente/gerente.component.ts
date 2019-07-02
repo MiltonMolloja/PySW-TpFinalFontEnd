@@ -47,12 +47,18 @@ export class GerenteComponent implements OnInit {
     this.fechaInicio = new Date();
     this.fechaFin = new Date();
     this.fechaActual = new Date();
-    this.mostrarHistoricos();
-    this.obtenerEscribanos();
-    this.obtenerUsuarios();
-    this.obtenerTotalPagosTodo();
-    this.obtenerTotalPagosEscribano(this.escribano);
-    this.obtenerTotalPagosDosFechas(this.fechaInicio, this.fechaFin);
+    //this.mostrarHistoricos();
+    //this.obtenerEscribanos();
+    //this.obtenerUsuarios();
+    //this.obtenerTotalPagosTodo();
+    //this.obtenerTotalPagosEscribano(this.escribano);
+    //this.obtenerTotalPagosDosFechas(this.fechaInicio, this.fechaFin);
+
+    //
+    this.obtenerEscribanos2();
+    this.obtenerUsuarios2();
+    this.mostrarHistoricos2();
+    this.obtenerTotalPagosTodo2();
   }
 
   generarPDF(){
@@ -75,6 +81,199 @@ export class GerenteComponent implements OnInit {
     this.loginService.logout();
   }
 
+  //Aqui comienza
+  //Recupera los escribanos de la base de datos
+  public obtenerEscribanos2()
+  {
+    this.pagoService.getEscribanos().subscribe
+    (
+      results =>
+      {
+        this.escribanos = results;
+      },
+      errors =>
+      {
+        alert("Error al recuperar escribanos.");
+      }
+    );
+  }///
+
+  //Obtiene los usuarios de la base de datos
+  public obtenerUsuarios2()
+  {
+    this.pagoService.getUsuarios().subscribe
+    (
+      results =>
+      {
+        results.forEach
+        (
+          element => {
+            if(element.tipo === "Socio" && element.escribano.estado )
+            {
+              this.usuarios.push(element);
+            }
+          }
+        );
+      },
+      error =>
+      {
+        alert("Error al recuper usuarios.");
+      }
+    );
+  }///
+
+  //Obtiene todos los pagos registrados
+  public mostrarHistoricos2()
+  {
+    this.pagos = new Array<Pago>();
+    this.pagoService.getPagos().subscribe
+    (
+      results =>
+      {
+        results.forEach(element =>
+        {
+          if( element.estado )
+          {
+            this.pagos.push(element);
+          }
+        });
+      },
+      error =>
+      {
+        alert("Error al recuperar pagos.");
+      }
+    );
+  }///
+
+  //Obtiene todos los pagos de un escribano
+  public mostrarHistoricosEscribano2(escribano:Escribano)
+  {
+    this.pagoService.getPagos().subscribe
+    (
+      result =>
+      {
+        this.pagos = new Array<Pago>();
+        result.forEach(element => {
+          if( element.escribano.id == escribano.id && element.estado )
+          {
+            this.pagos.push(element);
+          }
+        });
+      },
+      error =>
+      {
+        alert("Error al recuperar los pagos de un escribano");
+      }
+    );
+  }///
+
+  //Obtiene el total de todos los pagos
+  public obtenerTotalPagosTodo2()
+  {
+    this.totalPagos = 0;
+    this.pagos = new Array<Pago>();
+    this.pagoService.getPagos().subscribe
+    (
+      result =>
+      {
+        result.forEach(element => {
+          this.totalPagos += parseFloat(element.importe);
+        });
+        //this.mostrarHistoricos2();
+      },
+      error =>
+      {
+        alert("Error al recuperar pagos para obtener total.");
+      }
+    );
+  }///
+
+  //Obtiene todo los pagos de un escribano
+  public obtenerTotalPagosEscribano2(escribano: Escribano)
+  {
+    this.totalPagosEscribano = 0;
+    this.pagoService.getPagos().subscribe(
+      result => {
+        result.forEach(element => {
+          if (escribano.id == parseInt(element.escribano.id) && element.estado) {
+            this.totalPagosEscribano += parseFloat(element.importe);
+          }
+        });
+      },
+      error => {
+        alert("Error al recuperar los pagos de un escribano.");
+      });
+  }//
+
+  //Obtiene el total de pagos entre dos fechas.
+  public obtenerTotalPagosDosFechasDetallado2(fechaInicio: Date, fechaFin: Date)
+  {
+    fechaInicio = new Date("2019-02-20");
+    fechaFin = new Date("2019-11-25");
+    this.addDays(fechaInicio, 1);
+    this.addDays(fechaFin, 1);
+    for (let index = fechaInicio; index <= fechaFin; this.addDays(index, 1)) {
+      //      console.log("INT - " + index.toString());
+    }
+  }///
+
+  //Obtiene el pago entre 2 fechas
+  public obtenerTotalPagosDosFechas2(fechaInicio: Date, fechaFin: Date)
+  {
+    this.pagoService.getPagos().subscribe
+    (
+      result =>
+      {
+        this.totalPagosDosFechas = 0;
+        this.pagos = new Array<Pago>();
+        result.forEach(element =>
+          {
+            if (new Date(fechaInicio) <= new Date(element.fecha.timestamp * 1000 ) && new Date(fechaFin) >= new Date(element.fecha.timestamp * 1000 ))
+            {
+              if (element.estado)
+              {
+                this.totalPagosDosFechas+= element.importe - 1 + 1;
+                this.pagos.push(element);
+              }
+            }
+          }
+        );
+      },
+      error =>
+      {
+        alert("Error al recuperar pagos.");
+      }
+    );
+  }//
+
+  public obtenerTotalPagosDosFechasMasEscribano2(fechaInicio: Date, fechaFin: Date, escribano: Escribano)
+  {
+    fechaInicio = new Date("2019-03-20");
+    fechaFin = new Date("2019-08-25");
+    this.pagoService.getPagos().subscribe(
+      result => {
+        this.pagos = result;
+        result.forEach(element => {
+          if (fechaInicio <= new Date(element.fecha.timestamp * 1000 ) && fechaFin >= new Date(element.fecha.timestamp * 1000 ))
+          {
+            if (element.escribano.id === escribano.id)
+            {
+              if (element.estado)
+              {
+              this.totalPagosDosFechas+= element.importe - 1 + 1;
+              }
+            }
+          }
+        });
+      },
+      error => {
+        alert("Erro al recuperar los pagos de un escribano entre 2 fechas.");
+      });
+  }///
+
+
+
+  //Aqui finaliza
   public obtenerEscribanos() {
     this.pagoService.getEscribanos().subscribe(
       results => {
@@ -87,7 +286,7 @@ export class GerenteComponent implements OnInit {
       error => {
         alert("error en la peticion");
       });
-      this.obtenerTotalPagosTodo();
+     //this.obtenerTotalPagosTodo();
   }
 
   public obtenerUsuarios() {
@@ -105,7 +304,7 @@ export class GerenteComponent implements OnInit {
       error => {
         alert("error en la peticion");
       });
-      this.obtenerTotalPagosTodo();
+      //this.obtenerTotalPagosTodo();
   }
 
   public mostrarHistoricos() {
@@ -153,8 +352,9 @@ export class GerenteComponent implements OnInit {
         //this.mostrarHistoricos();
         result.forEach(element => {
           //console.log("ele " + element.importe);
-          if (element.estado) {
+          if (element.estado ) {
             this.totalPagos += parseFloat(element.importe);
+            console.log("Pago actual: " + this.totalPagos );
           }
           //console.log("total pago despues " + this.totalPagos);
         });
