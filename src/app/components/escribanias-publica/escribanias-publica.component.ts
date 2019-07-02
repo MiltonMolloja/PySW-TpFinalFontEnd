@@ -8,6 +8,7 @@ import { Escribania } from 'src/app/models/escribania';
   styleUrls: ['./escribanias-publica.component.css']
 })
 export class EscribaniasPublicaComponent implements OnInit {
+  filtroEscribania:string = "";
   escribania1:Escribania;
   escribanias:Array<Escribania>;
   lat: number = -24.185777;
