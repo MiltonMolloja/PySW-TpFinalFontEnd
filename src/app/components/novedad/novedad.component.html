@@ -3,7 +3,7 @@
 <br>
 <br><br>
 
-  <div>
+<div>
     <div class="table-responsive-md">
         <div class="table-title">
             <div class="row">
@@ -72,11 +72,11 @@
 </div>
 
 
-<!-- Edit Modal HTML -->
+<!--Crear Modal HTML -->
 <div id="addEmployeeModal" class="modal fade">
     <div class="modal-dialog">
         <div class="modal-content">
-            <form (ngSubmit)="onSubmit()" #novedadForm="ngForm">
+            <form (ngSubmit)="onSubmit()" #novedadCForm="ngForm">
                 <div class="modal-header">
                     <h4 class="modal-title">Agregar Novedad</h4>
                     <button type="button" class="close" data-dismiss="modal" aria-hidden="true">&times;</button>
@@ -92,20 +92,20 @@
           </div>
           -->
                     <div class="form-group">
-                        <label class="col-sm-12 col-md-4" for="asunto">Asunto</label>
-                        <input type="text" class="form-control col-sm-12 col-md-8" name="asunto" [(ngModel)]="novedad.asunto" #asunto="ngModel" />
-                        <div *ngIf="asunto.invalid && (asunto.dirty || asunto.touched)" class="alert alert-danger">
-                            <div *ngIf="asunto?.errors.required">
+                        <label class="col-12 font-weight-bold text-dark text-center" for="asunto">Asunto</label>
+                        <input type="text" class="form-control text-center rounded border-secondary" name="asunto" [(ngModel)]="novedad.asunto" #vc_asunto="ngModel" ngModel required>
+                        <div *ngIf="vc_asunto.invalid && (vc_asunto.dirty || vc_asunto.touched)" class="alert alert-danger col-12">
+                            <div *ngIf="vc_asunto.errors.required">
                                 Se requiere asunto.
                             </div>
                         </div>
                     </div>
                     <br><br>
                     <div class="form-group">
-                        <label class="col-sm-12 col-md-4" for="mensaje">Mensaje</label>
-                        <input type="text" class="form-control col-sm-12 col-md-8" name="mensaje" [(ngModel)]="novedad.mensaje" #mensaje="ngModel" />
-                        <div *ngIf="mensaje.invalid && (mensaje.dirty || mensaje.touched)" class="alert alert-danger">
-                            <div *ngIf="mensaje?.errors.required">
+                        <label class="col-12 font-weight-bold text-dark text-center" for="mensaje">Mensaje</label>
+                        <input type="text" class="form-control rounded border-secondary" name="mensaje" [(ngModel)]="novedad.mensaje" #vc_mensaje="ngModel" ngModel required>
+                        <div *ngIf="vc_mensaje.invalid && (vc_mensaje.dirty || vc_mensaje.touched)" class="alert alert-danger col-12">
+                            <div *ngIf="vc_mensaje.errors.required">
                                 Se requiere mensaje.
                             </div>
                         </div>
@@ -123,11 +123,15 @@
             </div>
           </div>
           -->
-
+                    <div class="modal-footer">
+                        <input type="button" class="btn btn-default" data-dismiss="modal" value="Cancelar">
+                        <input type="submit" class="btn btn-success" value="Agregar" (click)="addNovedad()" [disabled]="!novedadForm.form.valid">
+                        <input type="reset" class="btn btn-success" value="Limpiar">
+                    </div>
                 </div>
                 <div class="modal-footer">
                     <input type="button" class="btn btn-default" data-dismiss="modal" (click)="initNovedad()" value="Cancelar">
-                    <input type="submit" class="btn btn-success" data-dismiss="modal" value="Agregar" (click)="addNovedad()">
+                    <input type="submit" class="btn btn-success" value="Agregar" [disabled]="!novedadCForm.form.valid" (click)="addNovedad()">
                 </div>
                 <br>
             </form>
@@ -138,7 +142,7 @@
 <div id="editEmployeeModal" class="modal fade">
     <div class="modal-dialog">
         <div class="modal-content">
-            <form (ngSubmit)="onSubmit()" #novedadForm="ngForm">
+            <form (ngSubmit)="onSubmit()" #novedadEForm="ngForm">
                 <div class="modal-header">
                     <h4 class="modal-title">Editar Novedad</h4>
                     <button type="button" class="close" data-dismiss="modal" aria-hidden="true">&times;</button>
@@ -153,30 +157,38 @@
           -->
                     </div>
                     <div class="form-group">
-                        <label class="col-sm-12 col-md-4" for="asunto">Asunto</label>
-                        <input type="text" class="form-control col-sm-12 col-md-8" name="asunto" [(ngModel)]="novedad.asunto" #asunto="ngModel" />
-                        <div *ngIf="asunto.invalid && (asunto.dirty || asunto.touched)" class="alert alert-danger">
-                            <div *ngIf="asunto?.errors.required">
+                        <label class="col-12 font-weight-bold text-center text-dark" for="asunto">Asunto</label>
+                        <input type="text" class="form-control col-12 rounded border-secondary" name="asunto" [(ngModel)]="novedad.asunto" #vm_asunto="ngModel" ngModel required>
+                        <div *ngIf="vm_asunto.invalid && (vm_asunto.dirty || vm_asunto.touched)" class="col-12 alert alert-danger">
+                            <div *ngIf="vm_asunto.errors.required">
                                 Se requiere asunto.
                             </div>
                         </div>
                     </div>
                     <div class="form-group">
-                        <label class="col-sm-12 col-md-4" for="mensaje">Mensaje</label>
-                        <input type="text" class="form-control col-sm-12 col-md-8" name="mensaje" [(ngModel)]="novedad.mensaje" #mensaje="ngModel" />
-                        <div *ngIf="mensaje.invalid && (mensaje.dirty || mensaje.touched)" class="alert alert-danger">
-                            <div *ngIf="mensaje?.errors.required">
+                        <label class="col-12 text-center font-weight-bolder text-dark" for="mensaje">Mensaje</label>
+                        <input type="text" class="form-control col-12 rounded border-secondary" name="mensaje" [(ngModel)]="novedad.mensaje" #vm_mensaje="ngModel" ngModel required>
+                        <div *ngIf="vm_mensaje.invalid && (vm_mensaje.dirty || vm_mensaje.touched)" class="col-12 alert alert-danger">
+                            <div *ngIf="vm_mensaje.errors.required">
                                 Se requiere mensaje.
                             </div>
                         </div>
                     </div>
                     <div class="form-group">
                         <label>Fecha</label>
-                        <input type="date" class="form-control" name="txtdate" [(ngModel)]="fechaString " required>
+                        <input type="date" class="form-control" name="txtdate" [(ngModel)]="fechaString" #ve_fecha="ngModel" ngModel required fecha-valida>
+                        <div *ngIf="ve_fecha.invalid && (ve_fecha.dirty || ve_fecha.touched)" class="col-12 alert alert-danger">
+                            <div *ngIf="ve_fecha.errors.required">
+                                Se requiere mensaje.
+                            </div>
+                            <div *ngIf="ve_fecha.errors.fechaValida">
+                                La fecha supera la fecha actual.
+                            </div>
+                        </div>
                     </div>
                     <div class="modal-footer">
                         <input type="button" class="btn btn-default" data-dismiss="modal" value="Cancelar">
-                        <input type="submit" class="btn btn-success" data-dismiss="modal" value="Actualizar" (click)="editNovedad()" [disabled]="!novedadForm.form.valid">
+                        <input type="submit" class="btn btn-success" value="Actualizar" (click)="editNovedad()" [disabled]="!novedadForm.form.valid">
                         <input type="reset" class="btn btn-success" value="Limpiar">
                     </div>
                 </div>
