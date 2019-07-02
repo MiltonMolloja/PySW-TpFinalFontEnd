@@ -24,9 +24,7 @@
         <th>
           <mfDefaultSorter by="id">Id</mfDefaultSorter>
         </th>
-        <th>
-          <mfDefaultSorter by="escribano.matricula">Escribano</mfDefaultSorter>
-        </th>
+        
         <th>
           <mfDefaultSorter by="asunto">Asunto</mfDefaultSorter>
         </th>
@@ -47,7 +45,7 @@
     <tbody>
       <tr *ngFor="let item of mf.data">
         <td>{{item.id}}</td>
-        <td>{{item.escribano.matricula}}</td>
+
         <td>{{item.asunto}}</td>
         <td>{{item.mensaje}}</td>
         <td>{{item.fecha | date: 'dd/MM/yyyy'}}</td>

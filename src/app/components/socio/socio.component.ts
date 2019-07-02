@@ -34,10 +34,11 @@ export class SocioComponent implements OnInit {
     this.fechaString= "";
     this.usuario = new Usuario();
     this.usuarios = new Array<Usuario>();
-    this.obtenerEscribanoLogeado();
+    this.obtenerEscribanos();
+    this.obtenerUsuarios();
+    this.getNovedades();
     //this.getNovedades();
     //this.obtenerUsuarios();
-
    }
 
   ngOnInit() {
@@ -65,13 +66,14 @@ export class SocioComponent implements OnInit {
     this.novedadService.getUsuarios().subscribe(
       result => {
         result.forEach(element => {
-          console.log(element.tipo);
-          if (element.tipo==="Socio") {
+          //console.log(element.tipo);
+          if (element.tipo==="Socio" && element.estado) {
             this.usuarios.push(element);
-            console.log(this.usuarios);
+           // console.log(this.usuarios);
           }
         });
-        console.log(this.escribanos);
+        console.log("this.usuarios");
+        console.log(this.usuarios);
       },
       error => {
         alert("error en la peticion");
@@ -83,17 +85,17 @@ export class SocioComponent implements OnInit {
       result => {
         this.EscribanoLogeado = new Escribano();
         //this.loginService.userLogged.username = "socio3"
-        console.log("this.EscribanoLogeado - Nuveo");
-        console.log(this.EscribanoLogeado);
-        console.log(this.loginService.userLogged.username);
+        //console.log("this.EscribanoLogeado - Nuveo");
+        ///console.log(this.EscribanoLogeado);
+       // console.log(this.loginService.userLogged.username);
         result.forEach(element => {
-          console.log(element.usename === this.loginService.userLogged.username);
-          console.log(element);
+         /// console.log(element.usename === this.loginService.userLogged.username);
+          //console.log(element);
           //if (element.username === this.loginService.userLogged.username) {
             this.EscribanoLogeado = element.escribano;
             console.log("this.EscribanoLogeado - Logeado");
             console.log(this.EscribanoLogeado);
-            this.getNovedades(this.EscribanoLogeado);
+            this.getNovedades();
           ///}
         });
       },
@@ -113,7 +115,7 @@ export class SocioComponent implements OnInit {
       });
   }
 
-  public getNovedades(escribano: Escribano) {
+  public getNovedades() {
     this.novedadService.getNovedades().subscribe(
 
       result => {
@@ -121,8 +123,8 @@ export class SocioComponent implements OnInit {
         //this.novedades = result;
         //console.log(this.novedad);
         result.forEach(element => {
-          console.log(this.EscribanoLogeado);
-          console.log("this.EscribanoLogeado  +++++++++++++++++++");
+         // console.log(this.EscribanoLogeado);
+         // console.log("this.EscribanoLogeado  +++++++++++++++++++");
           if (element.estado) {
             this.novedad = new Novedad();
             this.novedad = element;
@@ -140,5 +142,42 @@ export class SocioComponent implements OnInit {
   public initNovedad() {
     this.novedad = new Novedad();
   }
+
+  public obtenerUsuarios2() {
+    this.novedadService.getNovedades().subscribe(
+      result => {
+        result.forEach(element => {
+         /// console.log(element.tipo);
+          if (element.tipo==="Socio" && element.escribano.estado) {
+            this.usuarios.push(element);
+            //console.log(this.usuarios);
+          }
+        });
+        console.log("this.usuarios");
+        console.log(this.usuarios);
+      },
+      error => {
+        alert("error en la peticion");
+      });
+  }
+
+  public obtenerEscribanos() {
+    this.novedadService.getEscribanos()
+    .subscribe(
+      result => {
+        this.escribanos  = new Array<Escribano>();
+        result.forEach(element => {
+          if (element.estado) {
+            this.escribanos.push(element);
+          }
+        });
+        //this.escribanos = result;
+        console.log("this.escribanos");
+       console.log(this.escribanos);
+      },
+      error => {
+        alert("error en la peticion");
+      });
+}
 
 }
