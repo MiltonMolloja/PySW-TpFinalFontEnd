@@ -13,6 +13,8 @@ import * as jspdf from "jspdf";
   styleUrls: ['./escribania.component.css']
 })
 export class EscribaniaComponent implements OnInit {
+  //Usado para filtrar la tabla
+  filtroEscribania:string = '';
 
   type="file";
   link:any;
