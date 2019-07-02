@@ -7,6 +7,7 @@ import { Escribano } from './../../models/escribano';
 import { Usuario } from 'src/app/models/usuario';
 
 import * as jspdf from "jspdf";
+import { Escribania } from 'src/app/models/escribania';
 
 @Component({
   selector: 'app-novedad',
@@ -30,6 +31,7 @@ export class NovedadComponent implements OnInit {
   constructor(private novedadService: NovedadService, public loginService: LoginService) {
     this.novedad = new Novedad();
     this.novedad.escribano = new Escribano();
+    this.novedad.escribano.escribania = new Escribania();
     this.novedades = new Array<Novedad>()
     this.escribano = new Escribano();
     this.escribanos = new Array<Escribano>();
@@ -72,7 +74,7 @@ export class NovedadComponent implements OnInit {
       result => {
         result.forEach(element => {
           console.log(element.tipo);
-          if (element.tipo==="Socio") {
+          if (element.tipo==="Socio" && element.estado) {
             this.usuarios.push(element);
             console.log(this.usuarios);
           }
@@ -85,14 +87,21 @@ export class NovedadComponent implements OnInit {
   }
 
   public getEscribanos() {
-    this.novedadService.getEscribanos().subscribe(
-      result => {
-        this.escribanos = result;
-        console.log(this.escribano);
-      },
-      error => {
-        alert("error en la peticion");
-      });
+    this.novedadService.getEscribanos()
+      .subscribe(
+        result => {
+          this.escribanos  = new Array<Escribano>();
+          result.forEach(element => {
+            if (element.estado) {
+              this.escribanos.push(element);
+            }
+          });
+          //this.escribanos = result;
+          //console.log(this.escribanos);
+        },
+        error => {
+          alert("error en la peticion");
+        });
   }
 
   public getNovedades() {
@@ -123,6 +132,7 @@ export class NovedadComponent implements OnInit {
   public initNovedad() {
     this.novedad = new Novedad();
     this.novedad.escribano = new Escribano();
+    this.novedad.escribano.escribania = new Escribania();
   }
 
   public addNovedad() {

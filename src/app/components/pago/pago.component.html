@@ -43,7 +43,12 @@
             <tbody>
                 <tr *ngFor="let item of mf.data">
                     <td>{{item.id}}</td>
-                    <td>{{item.escribano.matricula}}</td>
+                    <td >
+                      <div *ngFor="let usu of usuarios">
+                        <div *ngIf='item.escribano.matricula===usu.escribano.matricula'>
+                        {{usu.perfil.nombres}}  - M.P. {{usu.escribano.matricula}}  </div>
+                      </div>
+                      </td>
                     <td>{{item.importe}}</td>
                     <td>{{item.fecha| date: 'dd/MM/yyyy'}}</td>
                     <td>{{item.estado}}</td>
@@ -80,7 +85,7 @@
                     <div class="row form-group">
                         <label>Elija Escribano:</label>
                         <select name="escribano" id="escribano" class="form-control" [(ngModel)]="escribano">
-              <option *ngFor="let usuario of usuarios" [ngValue]="usuario.escribano">{{usuario.perfil.apellidos}},
+              <option *ngFor="let usuario of usuariosFiltrado" [ngValue]="usuario.escribano">{{usuario.perfil.apellidos}},
                 {{usuario.perfil.nombres}}</option>
             </select>
                     </div>
@@ -125,8 +130,8 @@
                     <div class="row form-group">
                         <label>Elija Escribano:</label>
                         <select name="escribano" id="escribano" class="form-control" [(ngModel)]="escribano">
-                  <option *ngFor="let usuario of usuarios" [ngValue]="pago.escribano">{{usuario.perfil.apellidos}},
-                    {{usuario.perfil.nombres}}</option>
+                  <option *ngFor="let usuario of usuariosFiltrado" [ngValue]="pago.escribano">{{usuario.perfil.apellidos}},
+                    {{usuario.perfil.nombres}} - {{usuario.escribano.matricula}} </option>
                 </select>
                     </div>
                     <div class="form-group">
