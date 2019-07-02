@@ -14,6 +14,7 @@ import * as jspdf from "jspdf";
   styleUrls: ['./novedad.component.css']
 })
 export class NovedadComponent implements OnInit {
+  filtroNovedad:string = '';
 
   novedad: Novedad;
   novedades: Array<Novedad>;

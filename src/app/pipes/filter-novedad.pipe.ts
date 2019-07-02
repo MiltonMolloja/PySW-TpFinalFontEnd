@@ -2,7 +2,6 @@ import { Pipe, PipeTransform } from '@angular/core';
 import { Novedad } from './../models/novedad' ;
 //import { Escribano } from './../models/escribano' ;
 
-
 @Pipe({
   name: 'filterNovedad'
 })
@@ -11,7 +10,7 @@ export class FilterNovedadPipe implements PipeTransform {
   transform(value: Array<Novedad>, arg: any): any 
   {
     let novedades:Array<Novedad> = new Array<Novedad>();
-    if( arg = '' || arg.lenght < 4  )
+    if( arg == '' || arg.lenght < 3  )
     {
       return value ;
     }
@@ -19,14 +18,13 @@ export class FilterNovedadPipe implements PipeTransform {
     {
       for(let novedad of value)
       {
-        if( novedad.asunto.toLowerCase().indexOf( arg.toLowerCase() )  > -1 || novedad.escribano.matricula.toString().indexOf( arg ) > -1 || novedad.mensaje.toLowerCase().indexOf( arg.toLowerCase ) > -1 )
+        if( novedad.asunto.toLowerCase().indexOf( arg.toLowerCase() )  > -1 || novedad.escribano.matricula.toString().indexOf( arg ) > -1 || novedad.mensaje.toLowerCase().indexOf( arg.toLowerCase() ) > -1 )
         {
           novedades.push(novedad);
         }
       }
       return novedades;
     }
-    return null;
   }
 
 }
