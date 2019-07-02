@@ -4,7 +4,7 @@ import { PagoService } from 'src/app/services/pago.service';
 import { Pago } from 'src/app/models/pago';
 import { Escribano } from 'src/app/models/escribano';
 import { Usuario } from 'src/app/models/usuario';
-
+import { NgForm } from '@angular/forms';
 
 import * as jspdf from "jspdf";
 
@@ -13,7 +13,7 @@ import * as jspdf from "jspdf";
   templateUrl: './gerente.component.html',
   styleUrls: ['./gerente.component.css']
 })
-export class GerenteComponent implements OnInit {
+export class GerenteComponent implements OnInit {  
   pago: Pago;
   escribano: Escribano;
   pagos: Array<Pago>;

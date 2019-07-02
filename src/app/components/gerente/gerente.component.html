@@ -27,7 +27,7 @@
             <div id="total" class="container tab-pane active my-3"><br>
                 <div class="card text-center mx-auto border-dark p-2 ">
                     <h3 class="text-dark">Todos los pagos</h3>
-                    <h5 class="text-dark">El total es: <span class="text-success font-weight-bold">{{ totalPagos | currency }} </span> </h5>
+                    <h5 class="text-dark">El total es: <span class="text-success font-weight-bold">{{ totalPagos }} </span> </h5>
                 </div>
             </div>
             <!--Separacion-->
@@ -39,14 +39,14 @@
                     <div class="card-body bg-light border-primary-bottom">
                         <h5 class="card-title"><label for="escribano">Elija un escribano</label></h5>
                         <select name="escribano" id="escribano" class="form-control" [(ngModel)]="escribano">
-                                  <option *ngFor="let usuario of usuarios" [ngValue]="usuario.escribano">{{usuario.perfil.apellidos}},{{usuario.perfil.nombres}}</option>
+                                  <option *ngFor="let usuario of usuarios" [ngValue]="usuario.escribano">{{usuario.perfil.apellidos}},{{usuario.perfil.nombres}} - {{ usuario.escribano.matricula }} </option>
                                 </select>
                         <div class="d-flex justify-content-center mt-2">
                             <button type="button " class="btn btn-info" (click)="obtenerTotalPagosEscribano(escribano)">Filtrar</button>
                         </div>
                     </div>
                     <div class="card-footer bg-white">
-                        <p class="text-success font-weight-bold">{{totalPagosEscribano | currency }}</p>
+                        <p class="text-success font-weight-bold">Total de todos sus pagos $ {{ totalPagosEscribano }}</p>
                     </div>
                 </div>
             </div>
@@ -75,44 +75,52 @@
                 <div class="tab-content">
                     <!--Dia-->
                     <div id="dia" class="container tab-pane active my-3">
-                        <div class="card text-center mx-auto border-secondary">
-                            <div class="card-header font-weight-bolder">
-                                <div class="md-form">
-                                    Seleccione una fecha de inicio:
-                                    <input type="date" class="form-control col-6 text-right mx-auto" max="{{fechaActual | date: 'dd/MM/yyyy'}}" min="2008-01-01" [(ngModel)]="fechaInicio" [(ngModel)]="fechaFin">
+                        <form #consultarDia="ngForm" id="formDia">
+                            <div class="card text-center mx-auto border-secondary">
+                                <div class="card-header lead text-dark font-weight-bolder">
+                                    <div class="form-group">
+                                        Seleccione una fecha de inicio:
+                                        <input type="date" class="form-control col-6 text-right mx-auto" [(ngModel)]="fechaInicio" [(ngModel)]="fechaFin" min="2010-01-01" name="fechadia" id="id_fechadia" #v_dia="ngModel" ngModel required fecha-valida>
+                                        <div *ngIf="v_dia.invalid && v_dia.touched">
+                                            <div class="alert-danger" *ngIf="v_dia.errors.required">Seleccione una fecha.</div>
+                                            <div class="alert-danger" *ngIf="v_dia.errors.fechaValida">Supera la fecha actual.</div>
+                                        </div>
+                                    </div>
+                                </div>
+                                <div class="card-body">
+                                    <div>
+                                        <button type="button" [disabled]="!consultarDia.form.valid" class="btn btn-info" (click)="obtenerTotalPagosDosFechas(fechaInicio,fechaFin)">Filtrar por Fecha</button>
+                                    </div>
+                                </div>
+                                <div class="card-footer">
+                                    <p class="text-secondary">Total de pagos en esa fecha<span class="text-success font-weight-bold">{{totalPagosDosFechas | currency }} </span></p>
                                 </div>
                             </div>
-                            <div class="card-body">
-                                <div>
-                                    <button type="button " class="btn btn-info" (click)="obtenerTotalPagosDosFechas(fechaInicio,fechaFin)">Filtrar por Fecha</button>
-                                </div>
-                            </div>
-                            <div class="card-footer">
-                                <p class="text-secondary">Total de pagos en esa fecha<span class="text-success font-weight-bold">{{totalPagosDosFechas | currency }} </span></p>
-                            </div>
-                        </div>
+                        </form>
                     </div>
                     <!---->
                     <!--Mes-->
                     <div id="mes" class="container tab-pane fade my-3">
                         <div class="card text-center mx-auto border-secondary">
-                            <div class="card-header font-weight-bolder">
-                                <div class=" form-group text-center">
-                                    <label>Elija un año:</label>
-                                    <select name="anio" id="anio" class="form-control" [(ngModel)]="anio">
-                                        <option selected>Large Custom Select Menu</option>
+                            <form #consultarMes="ngForm" id="formMes">
+                                <div class="card-header lead text-dark font-weight-bolder">
+                                    <div class=" form-group text-center">
+                                        <label>Elija un año:</label>
+                                        <select name="anio" id="anio" class="form-control" [(ngModel)]="anio" #v_anio="ngModel" ngModel required>
+                                        <option value="" selected >Elija un año</option>
                                         <option value="2016">2016</option>
                                         <option value="2017">2017</option>
                                         <option value="2018">2018</option>
                                         <option value="2019">2019</option>
                                     </select>
-                                </div>
-
-                                <div class=" form-group">
-                                    <label>Elija un mes:</label>
-                                    <select name="mes" id="mes" class="form-control" [(ngModel)]="mes">
-                                        <option selected>Large Custom Select Menu</option>
-                                        <option value="01">Enero</option>
+                                        <div *ngIf="v_anio.invalid && v_anio.touched">
+                                            <div class="alert-danger" *ngIf="v_anio.errors.required">Seleccione un año.</div>
+                                        </div>
+                                    </div>
+                                    <div class=" form-group">
+                                        <label>Elija un mes:</label>
+                                        <select name="mes" id="mes" class="form-control" [(ngModel)]="mes" #v_mes="ngModel" ngModel required>
+                                        <option selected value="01">Enero</option>
                                         <option value="02">Febrero</option>
                                         <option value="03">Marzo</option>
                                         <option value="04">Abril</option>
@@ -125,71 +133,89 @@
                                         <option value="11">Noviembre</option>
                                         <option value="12">Diciembre</option>
                                     </select>
+                                        <div *ngIf="v_mes.invalid && v_mes.touched">
+                                            <div class="alert-danger" *ngIf="v_mes.errors.required">Seleccione un año.</div>
+                                        </div>
+                                    </div>
                                 </div>
-                            </div>
-                            <div class="card-body">
-                                <h5 class="card-title"><label for="escribano">Mes/Año:</label></h5>
-                                <p> {{mes}} <span class="font-weight-bolder">/</span > {{anio}}</p>
+                                <div class="card-body">
+                                    <h5 class="card-title"><label for="escribano">Mes/Año:</label></h5>
+                                    <p> {{mes}} <span class="font-weight-bolder">/</span > {{anio}}</p>
                                 <div>
-                                    <button type="button " class="btn btn-info" (click)="formarFechaMes()">Filtrar por Fecha</button>
+                                    <button type="button" [disabled]="!consultarMes.form.valid" class="btn btn-info" (click)="formarFechaMes()">Filtrar por Fecha</button>
                                 </div>
                             </div>
+                            </form>
                             <div class="card-footer">
                                 <p class="text-secondary">Total de pagos entre dos fechas <span class="text-success font-weight-bold">{{totalPagosDosFechas | currency }} </span></p>
-                            </div>
+                                </div>
                         </div>
                     </div>
                     <!---->
                     <!--Año-->
                     <div id="year" class="container tab-pane fade my-3">
                         <div class="card text-center mx-auto border-secondary">
-                            <div class="card-header font-weight-bolder">
-                                <div class=" form-group text-center">
-                                    <label>Elija un año:</label>
-                                    <select name="anio" id="anio" class="form-control" [(ngModel)]="anio">
-                                        <option selected>Large Custom Select Menu</option>
+                            <form #consultarAnio="ngForm" id="formAnio">
+                                <div class="card-header lead font-weight-bolder">
+                                    <div class="form-group text-center">
+                                        <label>Elija un año:</label>
+                                        <select name="anio" id="anio" class="form-control" [(ngModel)]="anio" #vs_anio="ngModel" ngModel required>
+                                        <option value="" selected>Elija un año</option>
                                         <option value="2016">2016</option>
                                         <option value="2017">2017</option>
                                         <option value="2018">2018</option>
                                         <option value="2019">2019</option>
                                     </select>
+                                    </div>
                                 </div>
-                            </div>
-                            <div class="card-body">
-                                <h5 class="card-title"><label for="escribano">Año:</label></h5>
-                                <p>{{anio}}</p>
-                                <div>
-                                    <button type="button " class="btn btn-info" (click)="formarFechaAnio()">Filtrar por Fecha</button>
+                                <div *ngIf="vs_anio.invalid && vs_anio.touched">
+                                    <div class="alert-danger" *ngIf="vs_anio.errors.required">Seleccione un año.</div>
                                 </div>
-                            </div>
-                            <div class="card-footer">
-                                <p class="text-secondary">Total de pagos entre dos fechas <span class="text-success font-weight-bold">{{ totalPagosDosFechas | currency }} </span></p>
-                            </div>
+                                <div class="card-body">
+                                    <h5 class="card-title"><label for="escribano">Año:</label></h5>
+                                    <p>{{anio}}</p>
+                                    <div>
+                                        <button type="button" [disabled]="!consultarAnio.form.valid" class="btn btn-info" (click)="formarFechaAnio()">Filtrar por Fecha</button>
+                                    </div>
+                                </div>
+                                <div class="card-footer">
+                                    <p class="text-secondary">Total de pagos entre dos fechas <span class="text-success font-weight-bold">{{ totalPagosDosFechas | currency }} </span></p>
+                                </div>
+                            </form>
                         </div>
                     </div>
                     <!---->
                     <!--Personalizado-->
                     <div id="personalizado" class="container tab-pane fade my-3 ">
                         <div class="card text-center mx-auto border-secondary">
-                            <div class="card-header font-weight-bolder">
-                                <div class="md-form">
-                                    Fecha de Inicio:
-                                    <input type="date" class="form-control col-6 mx-auto text-right" max="{{fechaActual | date: 'dd/MM/yyyy'}}" min="2008-01-01" [(ngModel)]="fechaInicio">
+                            <form #consulta="ngForm" id="formAnio">
+                                <div class="card-header lead font-weight-bolder">
+                                    <div class="md-form">
+                                        Fecha de Inicio:
+                                        <input type="date" class="form-control col-6 mx-auto text-right" max="{{fechaActual | date: 'dd/MM/yyyy'}}" min="2008-01-01" [(ngModel)]="fechaInicio" name="inicio" #v_inicio="ngModel" ngModel required>
+                                    </div>
+                                    <div *ngIf="v_inicio.invalid && v_inicio.touched">
+                                        <div class="alert-danger" *ngIf="v_inicio.errors.required">Seleccione una fecha.</div>
+                                    </div>
+                                    <br>
+                                    <div class="md-form">
+                                        Fecha de Fin:
+                                        <input type="date" class="form-control col-6 mx-auto text-right" max="{{fechaActual | date: 'dd/MM/yyyy'}}" min="2008-01-01" [(ngModel)]="fechaFin" name="fin" #v_fin="ngModel" ngModel required fecha-valida>
+                                    </div>
+                                    <div *ngIf="v_fin.invalid && v_fin.touched">
+                                        <div class="alert-danger" *ngIf="v_fin.errors.required">Seleccione una fecha.</div>
+                                        <div class="alert-danger" *ngIf="v_fin.errors.fechaValida">Supera la fecha actual.</div>
+                                    </div>
                                 </div>
-                                <br>
-                                <div class="md-form">
-                                    Fecha de Fin:
-                                    <input type="date" class="form-control col-6 mx-auto text-right" max="{{fechaActual | date: 'dd/MM/yyyy'}}" min="2008-01-01" [(ngModel)]="fechaFin">
+                                <div class="card-body">
+                                    <div>
+                                        <button type="button" [disabled]="!consulta.form.valid" class="btn btn-info" (click)="obtenerTotalPagosDosFechas(fechaInicio,fechaFin)">Filtrar por Fecha</button>
+                                    </div>
                                 </div>
-                            </div>
-                            <div class="card-body">
-                                <div>
-                                    <button type="button " class="btn btn-info" (click)="obtenerTotalPagosDosFechas(fechaInicio,fechaFin)">Filtrar por Fecha</button>
+                                <div class="card-footer">
+                                    <p class="text-secondary">Total de pagos entre dos fechas <span class="text-success font-weight-bold">{{totalPagosDosFechas | currency }} </span></p>
                                 </div>
-                            </div>
-                            <div class="card-footer">
-                                <p class="text-secondary">Total de pagos entre dos fechas <span class="text-success font-weight-bold">{{totalPagosDosFechas | currency }} </span></p>
-                            </div>
+                            </form>
                         </div>
                     </div>
                 </div>
@@ -198,189 +224,6 @@
     </div>
 </div>
 
-
-<div *ngIf="false">
-    <!-- Nav tabs -->
-    <ul class="nav nav-tabs font-weight-bold" role="tablist">
-        <li class="nav-item">
-            <a class="nav-link active" data-toggle="tab" (click)="mostrarHistoricos()" href="#total">Totales</a>
-        </li>
-        <li class="nav-item">
-            <a class="nav-link" data-toggle="tab" href="#escribano">Por Escribano</a>
-        </li>
-        <li class="nav-item">
-            <a class="nav-link" data-toggle="tab" href="#fecha">Por Fecha</a>
-        </li>
-    </ul>
-
-    <!-- Tab panes -->
-    <div class="tab-content">
-        <div id="total" class="container tab-pane active"><br>
-            <h3>Todos</h3>
-            <h2>El total de Pago es: {{totalPagos}}</h2>
-        </div>
-        <div id="escribano" class="container tab-pane fade"><br>
-            <h3>Escribanos</h3>
-            <div class="row form-group">
-                <label>Elija Escribano:</label>
-                <select name="escribano" id="escribano" class="form-control" [(ngModel)]="escribano">
-          <option *ngFor="let usuario of usuarios" [ngValue]="usuario.escribano">{{usuario.perfil.apellidos}},
-            {{usuario.perfil.nombres}}</option>
-        </select>
-            </div>
-
-            <div>
-                <button type="button " class="btn btn-danger" (click)="obtenerTotalPagosEscribano(escribano)">Filtrar</button>
-            </div>
-
-            <h1>{{ totalPagosEscribano}}</h1>
-
-        </div>
-        <div id="fecha" class="container tab-pane fade"><br>
-            <h3>Por Fecha</h3>
-            <!-- Nav tabs -->
-            <ul class="nav nav-tabs" role="tablist">
-                <li class="nav-item">
-                    <a class="nav-link active" data-toggle="tab" href="#dia">Dia</a>
-                </li>
-                <li class="nav-item">
-                    <a class="nav-link" data-toggle="tab" href="#mes">Mes</a>
-                </li>
-                <li class="nav-item">
-                    <a class="nav-link" data-toggle="tab" href="#year">Año</a>
-                </li>
-                <li class="nav-item">
-                    <a class="nav-link" data-toggle="tab" href="#personalizado">Personalizado</a>
-                </li>
-            </ul>
-
-            <!-- Tab panes -->
-            <div class="tab-content">
-                <div id="dia" class="container tab-pane active"><br>
-                    <h3>Dia</h3>
-                    <div class="md-form">
-                        Fecha de Inicio:
-                        <input type="date" max="{{fechaActual | date: 'dd/MM/yyyy'}}" min="2008-01-01" [(ngModel)]="fechaInicio" [(ngModel)]="fechaFin">
-                    </div>
-                    <br>
-
-                    <br>
-                    <h3> fecha Inicio {{fechaInicio | date: 'dd/MM/yyyy'}}</h3>
-                    <h3> fecha Fin {{fechaFin | date: 'dd/MM/yyyy'}}</h3>
-                    <br>
-                    <div>
-                        <button type="button " class="btn btn-danger" (click)="obtenerTotalPagosDosFechas(fechaInicio,fechaFin)">Filtrar por Fecha</button>
-                    </div>
-                    <div>
-                        <h3>total Pagos entre dos fechas {{totalPagosDosFechas}}</h3>
-                    </div>
-                </div>
-
-                <div id="mes" class="container tab-pane fade"><br>
-                    <h3>Mes</h3>
-
-                    <div class="row form-group">
-                        <label>Elija Mes:</label>
-                        <select name="anio" id="anio" class="form-control" [(ngModel)]="anio">
-              <option selected>Large Custom Select Menu</option>
-              <option value="2016">2016</option>
-              <option value="2017">2017</option>
-              <option value="2018">2018</option>
-              <option value="2019">2019</option>
-            </select>
-                    </div>
-
-                    <div class="row form-group">
-                        <label>Elija Mes:</label>
-                        <select name="mes" id="mes" class="form-control" [(ngModel)]="mes">
-                <option selected>Large Custom Select Menu</option>
-                <option value="01">Enero</option>
-                <option value="02">Febrero</option>
-                <option value="03">Marzo</option>
-                <option value="04">Abril</option>
-                <option value="05">Mayo</option>
-                <option value="06">Junio</option>
-                <option value="07">Julio</option>
-                <option value="08">Agosto</option>
-                <option value="09">Septimbre</option>
-                <option value="10">Octubre</option>
-                <option value="11">Noviembre</option>
-                <option value="12">Diciembre</option>
-              </select>
-                    </div>
-
-                    <br>
-                    <h2> {{mes}} / {{anio}}</h2>
-                    <h3> fecha Inicio {{fechaInicio | date: 'dd/MM/yyyy'}}</h3>
-                    <h3> fecha Fin {{fechaFin | date: 'dd/MM/yyyy'}}</h3>
-                    <br>
-
-                    <br>
-                    <div>
-                        <button type="button " class="btn btn-danger" (click)="formarFechaMes()">Filtrar por Fecha</button>
-                    </div>
-                    <div>
-                        <h3>total Pagos entre dos fechas {{totalPagosDosFechas}}</h3>
-                    </div>
-                </div>
-
-                <div id="year" class="container tab-pane fade"><br>
-                    <h3>Año </h3>
-
-                    <div class="row form-group">
-                        <label>Elija Mes:</label>
-                        <select name="anio" id="anio" class="form-control" [(ngModel)]="anio">
-                <option selected>Large Custom Select Menu</option>
-                <option value="2016">2016</option>
-                <option value="2017">2017</option>
-                <option value="2018">2018</option>
-                <option value="2019">2019</option>
-              </select>
-                    </div>
-
-                    <br>
-                    <h2> / {{anio}}</h2>
-                    <h3> fecha Inicio {{fechaInicio | date: 'dd/MM/yyyy'}}</h3>
-                    <h3> fecha Fin {{fechaFin | date: 'dd/MM/yyyy'}}</h3>
-                    <br>
-
-                    <br>
-                    <div>
-                        <button type="button " class="btn btn-danger" (click)="formarFechaAnio()">Filtrar por Fecha</button>
-                    </div>
-                    <div>
-                        <h3>total Pagos entre dos fechas {{totalPagosDosFechas}}</h3>
-                    </div>
-
-
-                </div>
-
-                <div id="personalizado" class="container tab-pane fade"><br>
-                    <h3>Personalizado</h3>
-                    <div class="md-form">
-                        Fecha de Inicio:
-                        <input type="date" max="{{fechaActual | date: 'dd/MM/yyyy'}}" min="2008-01-01" [(ngModel)]="fechaInicio">
-                    </div>
-                    <br>
-                    <div class="md-form">
-                        Fecha de Fin:
-                        <input type="date" max="{{fechaActual | date: 'dd/MM/yyyy'}}" min="2008-01-01" [(ngModel)]="fechaFin">
-                    </div>
-                    <br>
-                    <h3> fecha Inicio {{fechaInicio | date: 'dd/MM/yyyy'}}</h3>
-                    <h3> fecha Fin {{fechaFin | date: 'dd/MM/yyyy'}}</h3>
-                    <br>
-                    <div>
-                        <button type="button " class="btn btn-danger" (click)="obtenerTotalPagosDosFechas(fechaInicio,fechaFin)">Filtrar por Fecha</button>
-                    </div>
-                    <div>
-                        <h3>total Pagos entre dos fechas {{totalPagosDosFechas}}</h3>
-                    </div>
-                </div>
-            </div>
-        </div>
-    </div>
-</div>
 <div id="tabRegistro">
     <div class="row mt-2">
         <div class="col-12">
@@ -390,6 +233,9 @@
                         <tr>
                             <th>
                                 <mfDefaultSorter by="id">Id</mfDefaultSorter>
+                            </th>
+                            <th>
+                                <mfDefaultSorter by="escribano.matricula">Escribano - Matricula</mfDefaultSorter>
                             </th>
                             <th>
                                 <mfDefaultSorter by="importe">Importe</mfDefaultSorter>
@@ -405,6 +251,13 @@
                     <tbody>
                         <tr *ngFor="let item of mf.data">
                             <td>{{item.id}}</td>
+                            <td>
+                                <div *ngFor="let usuario of usuarios">
+                                    <div *ngIf=" usuario.escribano.matricula == item.escribano.matricula ">
+                                        {{ usuario.perfil.nombres }} {{ usuario.perfil.apellidos }} - {{ usuario.escribano.matricula }}
+                                    </div>
+                                </div>
+                            </td>
                             <td>{{item.importe}}</td>
                             <td>{{item.fecha.timestamp * 1000 | date: 'dd/MM/yyyy'}}</td>
                             <td>{{item.estado}}</td>
@@ -423,6 +276,6 @@
     </div>
 </div>
 
-<div>
-    <button type="button " class="btn btn-danger" (click)="generarPDF()">PDF</button>
+<div class="d-flex justify-content-center">
+    <button type="button " class="btn btn-danger btn-lg" (click)="generarPDF()">PDF</button>
 </div>
