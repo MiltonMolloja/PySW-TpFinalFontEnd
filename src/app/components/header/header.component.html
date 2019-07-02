@@ -27,38 +27,40 @@
 </div>-->
 <!-- Fixed navbar -->
 
-    <div class="row navbar navbar-inverse navbar-fixed-top headroom navbar-expand-md">
-        <div class="container">
+<div class="row navbar navbar-inverse navbar-fixed-top headroom navbar-expand-md">
+    <div class="container">
 
-                <div class="navbar-header">
-                    <!-- Button for smallest screens -->
-                    <button type="button" class="navbar-toggle" data-toggle="collapse"
-                        data-target=".navbar-collapse"><span class="icon-bar"></span> <span class="icon-bar"></span>
+        <div class="navbar-header">
+            <!-- Button for smallest screens -->
+            <button type="button" class="navbar-toggle" data-toggle="collapse" data-target=".navbar-collapse"><span class="icon-bar"></span> <span class="icon-bar"></span>
                         <span class="icon-bar"></span> </button>
-                    <a class="navbar-brand" href="#"><img src="assets/images/logoescribano.png" alt="logo colegio"></a>
-                </div>
+            <a class="navbar-brand" href="#"><img src="assets/images/logoescribano.png" alt="logo colegio"></a>
+        </div>
 
-            <div class="navbar-collapse collapse">
-                <ul class="nav navbar-nav pull-right ml-auto">
-                    <li class="active"><a style="font-size: 20px" class="nav-link active" [routerLink]="['/Home']">Home</a></li>
-                    <li ><a style="font-size: 20px" class="nav-link active" [routerLink]="['escribaniasPublicas']">Escribanias</a></li>
-                   <li><a style="font-size: 20px" class="nav-link active" [routerLink]="['about']">Acerca de</a></li>
-                   <!-- <li class="dropdown">
+        <div class="navbar-collapse collapse">
+            <ul class="nav navbar-nav pull-right ml-auto">
+                <li class="active"><a style="font-size: 20px" class="nav-link active" [routerLink]="['/Home']">Home</a></li>
+                <li><a style="font-size: 20px" class="nav-link active" [routerLink]="['escribaniasPublicas']">Escribanias</a></li>
+                <li><a style="font-size: 20px" class="nav-link active" [routerLink]="['about']">Acerca de</a></li>
+                <!-- <li class="dropdown">
                         <a href="#" class="dropdown-toggle" data-toggle="dropdown">More Pages <b class="caret"></b></a>
                         <ul class="dropdown-menu">
                             <li><a href="#">Left Sidebar</a></li>
                             <li class="active"><a href="#">Right Sidebar</a></li>
                         </ul>
                     </li>-->
-                    <li><a style="font-size: 20px" class="nav-link active" [routerLink]="['contact']">Contacto</a></li>
-                    <li class="nav-item" routerLinkActive="active">
-                            <a style="font-size: 15px" class="btn" *ngIf="!loginService.userLoggedIn" [routerLink]="['login']">SIGN IN</a>
-                    </li>
-                    <li class="nav-item" routerLinkActive="active"><a style="font-size: 15px" class="btn" href="#" *ngIf="loginService.userLoggedIn" [routerLink]="['login']" (click)="logout()">
-                    {{loginService.userLogged.username}}  GO OUT </a></li>
-                </ul>
-            </div>
-            <!--/.nav-collapse -->
+                <li><a style="font-size: 20px" class="nav-link active" [routerLink]="['contact']">Contacto</a></li>
+                <li class="nav-item" routerLinkActive="active">
+                    <a style="font-size: 15px" class="btn" *ngIf="!loginService.userLoggedIn" [routerLink]="['login']">SIGN IN</a>
+                </li>
+                <li class="nav-item" routerLinkActive="active">
+                    <a style="font-size: 15px" class="btn" href="#" *ngIf="loginService.userLoggedIn" [routerLink]="['login']" (click)="logout()">
+                        <img src='{{ loginService.userLogged.imagen }}' class="mx-auto img-thumbnail" width="28px" height="28px"> {{loginService.userLogged.username}} GO OUT
+                    </a>
+                </li>
+            </ul>
         </div>
+        <!--/.nav-collapse -->
     </div>
-    <!-- /.navbar -->
+</div>
+<!-- /.navbar -->

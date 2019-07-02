@@ -32,7 +32,11 @@ import { SocioComponent } from './components/socio/socio.component';
 //Para los filtros
 import { FilterUsuarioPipe } from './pipes/filter-usuario.pipe';
 //Para las validaciones
-import { SinCaracterEspecial, Negativo, SinEspacios, ControlarRangoDNI, SoloLetrasYEspacios, FechaValida, ImagenValida } from './validaciones.directive' ;
+import { SinCaracterEspecial, Negativo, SinEspacios, ControlarRangoDNI, SoloLetrasYEspacios, FechaValida, ImagenValida } from './validaciones.directive';
+import { FilterEscribaniaPipe } from './pipes/filter-escribania.pipe';
+import { FilterNovedadPipe } from './pipes/filter-novedad.pipe' ;
+
+import { PnotifyService } from './services/pnotify.service';
 
 @NgModule({
   declarations: [
@@ -60,9 +64,11 @@ import { SinCaracterEspecial, Negativo, SinEspacios, ControlarRangoDNI, SoloLetr
     Negativo,
     SinEspacios,
     ControlarRangoDNI,
-    SoloLetrasYEspacios, 
+    SoloLetrasYEspacios,
     FechaValida,
-    ImagenValida
+    ImagenValida,
+    FilterEscribaniaPipe,
+    FilterNovedadPipe
     //
 
   ],
@@ -77,7 +83,7 @@ import { SinCaracterEspecial, Negativo, SinEspacios, ControlarRangoDNI, SoloLetr
       apiKey: 'AIzaSyB7p6OTrBNHwGzD85w3MilKfbKd3TBTK0k'
     })
   ],
-  providers: [ LoginService ],
+  providers: [ LoginService, PnotifyService ],
   bootstrap: [AppComponent]
 })
 export class AppModule { }

@@ -1,4 +1,4 @@
-<div *ngIf="loginService.userLogged.tipo ==='Administrador'">
+<div *ngIf="loginService.userLogged.tipo==='Administrador'">
     <!--- <div *ngIf="loginService.userLogged.tipo==='Administrador'"> -->
     <!--Ventana Creacion/Modificacion de Escribano -->
     <div class="row mt-3" *ngIf=" ventana == 'escribano'">
@@ -255,7 +255,7 @@
         <div class="col-12">
             <p class="text-center lead text-primary font-weight-bolder display-4">Tabla de Usuarios</p>
             <div class="form-group">
-                <h4 class="text-center font-weight-bold text-info">Buscar en la tabla</h4>
+                <h4 class="text-center font-weight-bold text-info">Filtrar resultados en la tabla</h4>
                 <input type="text" placeholder="Por tipo, dni, nombres, apellidos o sexo" class="form-control font-weight-bold text-dark bg-light col-8 mx-auto rounded text-center" [(ngModel)]="filtroUsuario" ngModel id="filtroUsuario" name="filtroUsuario">
             </div>
             <form>

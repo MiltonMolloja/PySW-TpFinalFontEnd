@@ -7,6 +7,9 @@ import { Usuario } from 'src/app/models/usuario';
 
 import * as jspdf from "jspdf";
 
+
+import { PnotifyService } from './../../services/pnotify.service';
+
 @Component({
   selector: 'app-pago',
   templateUrl: './pago.component.html',
@@ -29,8 +32,9 @@ export class PagoComponent implements OnInit {
   public submitted = false;
 
   fechaString :string;
+  pnotify = undefined;
 
-  constructor(private pagoService: PagoService, public loginService: LoginService) {
+  constructor(private pagoService: PagoService, public loginService: LoginService,  pnotifyService: PnotifyService) {
     this.escribano = new Escribano();
     this.escribanos = new Array<Escribano>();
     this.pago = new Pago();
@@ -47,6 +51,8 @@ export class PagoComponent implements OnInit {
     this.obtenerEscribanosFiltrado();
     this.obtenerUsuariosFiltrado();
     this.mostrarHistoricos();
+    this.pnotify = pnotifyService.getPNotify();
+    this.pnotify.defaults.styling = 'bootstrap4';
 
    }
 
@@ -68,6 +74,10 @@ export class PagoComponent implements OnInit {
     pdf.text("Resumen De Pagos",80,10);
     pdf.fromHTML(id,30,20);
     pdf.save("archivo.pdf")
+    this.pnotify.notice({
+      text: "Se Genero Archivo PDF Correctamente..",
+      type: 'noticer'
+    });
   }
 
 
@@ -174,7 +184,11 @@ export class PagoComponent implements OnInit {
   public borrarPago(id: number) {
     this.pagoService.borrarPago(id).subscribe(
       result => {
-        console.log("borrado correctamente.")
+        console.log("borrado correctamente.");
+        this.pnotify.error({
+          text: "Se Elimino Correctamente..",
+          type: 'danger'
+        });
         //actualizo la tabla de mensajes
         this.mostrarHistoricos();
         return true;
@@ -199,6 +213,10 @@ export class PagoComponent implements OnInit {
       .subscribe(
         result => {
           console.log("agregado correctamente.");
+          this.pnotify.info({
+            text: "Se Guardo Correctamtne",
+            type: 'info'
+          });
           this.mostrarHistoricos();
         },
         error => {
@@ -239,7 +257,11 @@ export class PagoComponent implements OnInit {
    // console.log(this.pago);
     this.pagoService.modificarPago(this.pago).subscribe(
       data => {
-        console.log("modificado correctamente.")
+        console.log("modificado correctamente.");
+        this.pnotify.success({
+          text: "Se Modificado Correctamente..",
+          type: 'success'
+        });
         //actualizo la tabla de mensajes
         this.mostrarHistoricos();
         return true;
@@ -256,7 +278,12 @@ export class PagoComponent implements OnInit {
     this.pago.estado = false;
     this.pagoService.modificarPago(this.pago).subscribe(
       data => {
-        console.log("Borrado Logico correctamente.")
+        console.log("Borrado Logico correctamente.");
+        this.pnotify.error({
+          text: "Se Elimino Correctamente..",
+          type: 'danger'
+        });
+
         //actualizo la tabla de mensajes
         this.mostrarHistoricos();
         return true;
@@ -270,6 +297,7 @@ export class PagoComponent implements OnInit {
   }
 
   public initPago(){
+    this.elegirPago(this.pago);
     this.pago = new Pago();
     this.pago.escribano = new Escribano();
   }

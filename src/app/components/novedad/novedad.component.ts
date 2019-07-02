@@ -9,6 +9,9 @@ import { Usuario } from 'src/app/models/usuario';
 import * as jspdf from "jspdf";
 import { Escribania } from 'src/app/models/escribania';
 
+import { PnotifyService } from './../../services/pnotify.service';
+
+
 @Component({
   selector: 'app-novedad',
   templateUrl: './novedad.component.html',
@@ -29,8 +32,9 @@ export class NovedadComponent implements OnInit {
   public submitted = false;
 
   EscribanoLogeado:Escribano;
+  pnotify = undefined;
 
-  constructor(private novedadService: NovedadService, public loginService: LoginService) {
+  constructor(private novedadService: NovedadService, public loginService: LoginService,pnotifyService: PnotifyService) {
     this.novedad = new Novedad();
     this.novedad.escribano = new Escribano();
     this.novedad.escribano.escribania = new Escribania();
@@ -38,7 +42,7 @@ export class NovedadComponent implements OnInit {
     this.escribano = new Escribano();
     this.escribanos = new Array<Escribano>();
     this.fechaString="";
-    this.loginService.userLogged.username = "socio"
+    //this.loginService.userLogged.username = "socio"
 
     this.getEscribanos();
     //this.getNovedades();
@@ -48,7 +52,8 @@ export class NovedadComponent implements OnInit {
     this.usuarios = new Array<Usuario>();
     this.obtenerUsuarios();
 
-
+    this.pnotify = pnotifyService.getPNotify();
+    this.pnotify.defaults.styling = 'bootstrap4';
 
   }
 
@@ -74,6 +79,11 @@ export class NovedadComponent implements OnInit {
     pdf.text("Resumen",80,10);
     pdf.fromHTML(id,30,20);
     pdf.save("archivo.pdf")
+    this.pnotify.notice({
+      text: "Se Genero Archivo PDF Correctamente..",
+      type: 'noticer'
+    });
+
   }
 
   public obtenerUsuarios() {
@@ -201,6 +211,10 @@ export class NovedadComponent implements OnInit {
       .subscribe(
         result => {
           console.log("agregado novedad correctamente.");
+          this.pnotify.info({
+            text: "Se Guardo Correctamtne",
+            type: 'info'
+          });
           ///this.getNovedades();
           this.obtenerEscribanoLogeado();
         },
@@ -240,7 +254,11 @@ export class NovedadComponent implements OnInit {
     this.novedad.fecha = new Date(this.fechaString);
     this.novedadService.editNovedad(this.novedad).subscribe(
       data => {
-        console.log("modificado novedad correctamente.")
+        console.log("modificado novedad correctamente.");
+        this.pnotify.success({
+          text: "Se Modificado Correctamente..",
+          type: 'success'
+        });
         //actualizo la tabla de novedades
         //this.getNovedades();
         this.obtenerEscribanoLogeado();
@@ -256,9 +274,13 @@ export class NovedadComponent implements OnInit {
   public deleteNovedad(id: number) {
     this.novedadService.deleteNovedad(id).subscribe(
       result => {
-        console.log("borrado novedad correctamente.")
+        console.log("borrado novedad correctamente.");
         //actualizo la tabla de mensajes
         //this.getNovedades();
+        this.pnotify.error({
+          text: "Se Elimino Correctamente..",
+          type: 'danger'
+        });
         this.obtenerEscribanoLogeado();
         return true;
       },
@@ -276,7 +298,11 @@ export class NovedadComponent implements OnInit {
       this.novedad.estado = false;
       this.novedadService.editNovedad(this.novedad).subscribe(
         data => {
-          console.log("Borrado Logico correctamente.")
+          console.log("Borrado Logico correctamente.");
+          this.pnotify.error({
+            text: "Se Elimino Correctamente..",
+            type: 'danger'
+          });
           //actualizo la tabla de novedades
           //this.getNovedades();
           this.obtenerEscribanoLogeado();

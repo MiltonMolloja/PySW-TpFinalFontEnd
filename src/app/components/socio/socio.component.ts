@@ -13,6 +13,9 @@ import { Usuario } from 'src/app/models/usuario';
   styleUrls: ['./socio.component.css']
 })
 export class SocioComponent implements OnInit {
+  //Usado para filtrar la tabla
+  filtroNovedad:string = '';
+  
   novedad: Novedad;
   novedades: Array<Novedad>;
   escribano: Escribano;

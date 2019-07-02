@@ -6,6 +6,8 @@ import { EscribaniaService } from './../../services/escribania.service';
 
 import * as jspdf from "jspdf";
 
+import { PnotifyService } from './../../services/pnotify.service';
+
 
 @Component({
   selector: 'app-escribania',
@@ -13,6 +15,8 @@ import * as jspdf from "jspdf";
   styleUrls: ['./escribania.component.css']
 })
 export class EscribaniaComponent implements OnInit {
+  //Usado para filtrar la tabla
+  filtroEscribania:string = '';
 
   type="file";
   link:any;
@@ -35,13 +39,20 @@ export class EscribaniaComponent implements OnInit {
 
   escribanos: Array<Escribano>;
   borrado: boolean;
+  pnotify = undefined;
 
-  constructor(private escribaniaService: EscribaniaService, public loginService: LoginService) {
+
+  constructor(private escribaniaService: EscribaniaService, public loginService: LoginService, pnotifyService: PnotifyService) {
     this.escribania = new Escribania();
     this.escribanias = new Array<Escribania>();
     this.escribanos = new Array<Escribano>();
     this.borrado= true;
     this.getEscribanias();
+    this.pnotify = pnotifyService.getPNotify();
+    this.pnotify.alert('Notice me, senpai!');
+    this.pnotify.defaults.styling = 'bootstrap4';
+
+
 
   }
 
@@ -51,6 +62,8 @@ export class EscribaniaComponent implements OnInit {
 
   ngOnInit() {
   }
+
+
 
   convertirYCargar()
   {
@@ -73,6 +86,10 @@ export class EscribaniaComponent implements OnInit {
     pdf.text("Resumen de Escribania",80,10);
     pdf.fromHTML(id,30,20);
     pdf.save("archivo.pdf")
+    this.pnotify.notice({
+      text: "Se Genero Archivo PDF Correctamente..",
+      type: 'noticer'
+    });
   }
 
 
@@ -100,9 +117,18 @@ export class EscribaniaComponent implements OnInit {
         result => {
           console.log("Se añadio escribania");
           this.getEscribanias();
+
+    this.pnotify.info({
+      text: "Se Guardo Correctamtne",
+      type: 'info'
+    });
         },
         error => {
           alert("Error en añadir escribania");
+          this.pnotify.alert({
+            text: "No se Guardo Correctamtne",
+            type: 'danger'
+          });
         });
   }
 
@@ -118,7 +144,10 @@ export class EscribaniaComponent implements OnInit {
     this.escribaniaService.editEscribania(this.escribania).subscribe(
       data => {
       console.log("modificado correctamente escribania")
-
+      this.pnotify.success({
+        text: "Se Modificado Correctamente..",
+        type: 'success'
+      });
       //actualizo la tabla de mensajes
       this.getEscribanias();
       return true;
@@ -135,7 +164,11 @@ export class EscribaniaComponent implements OnInit {
     console.log(id);
     this.escribaniaService.deleteEscribania(id).subscribe(
       result => {
-      console.log("borrado correctamente")
+      console.log("borrado correctamente");
+      this.pnotify.error({
+        text: "Se Elimino Correctamente..",
+        type: 'Danger'
+      });
       //actualizo la tabla de mensajes
       this.getEscribanias();
       return true;
@@ -157,6 +190,10 @@ export class EscribaniaComponent implements OnInit {
         data => {
         console.log("Borrado Logico correctamente escribania")
         //actualizo la tabla de mensajes
+        this.pnotify.error({
+          text: "Se Elimino Correctamente..",
+          type: 'Danger'
+        });
         this.getEscribanias();
         },
         error => {
@@ -187,7 +224,12 @@ export class EscribaniaComponent implements OnInit {
           if (this.borrado) {
             this.deleteLogicoEscribania();
           }else{
-            alert("Error Nose puede Borrar - Escribano");
+            ///alert("Error Nose puede Borrar - Escribano");
+            this.pnotify.error({
+              text: "Error Nose puede Borrar - Posee Escribanos",
+              type: 'Danger'
+            });
+
           }
         },
         error => {
