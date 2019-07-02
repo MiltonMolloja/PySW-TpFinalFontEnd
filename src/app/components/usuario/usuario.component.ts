@@ -11,6 +11,9 @@ import { UsuarioService } from './../../services/usuario.service';
 //
 import { NgForm } from '@angular/forms';
 
+import { PnotifyService } from './../../services/pnotify.service';
+
+
 @Component({
   selector: 'app-usuario',
   templateUrl: './usuario.component.html',
@@ -48,7 +51,9 @@ export class UsuarioComponent implements OnInit {
   //Se usa para mostrar Escribano, Perfil y Usuario
   ventana:string = "";
 
-  constructor(public loginService: LoginService,  private usuarioService:UsuarioService, private perfilService:PerfilService, private escribanoService:EscribanoService )
+  pnotify = undefined;
+
+  constructor(public loginService: LoginService,  private usuarioService:UsuarioService, private perfilService:PerfilService, private escribanoService:EscribanoService ,pnotifyService: PnotifyService)
   {
     //
     this.inicializarUsuario();
@@ -61,6 +66,8 @@ export class UsuarioComponent implements OnInit {
     this.obtenerEscribanias();
     this.obtenerPerfiles();
     this.obtenerEscribanos();
+    this.pnotify = pnotifyService.getPNotify();
+    this.pnotify.defaults.styling = 'bootstrap4';
   }
 
   ngOnInit() { }
@@ -243,6 +250,10 @@ export class UsuarioComponent implements OnInit {
         resultado1 =>
         {
           console.log("Escribano enviado.");
+          this.pnotify.info({
+            text: "Se Guardo escribano Correctamtne",
+            type: 'info'
+          });
           this.cargarEscribanosyAsignarAlUsuario();
         },
         error=>
@@ -300,6 +311,10 @@ export class UsuarioComponent implements OnInit {
         resultado2 =>
         {
           console.log("Perfil subido.");
+          this.pnotify.info({
+            text: "Se Guardo perfil Correctamtne",
+            type: 'info'
+          });
           this.cargarPerfilesyAsignarAlUsuario();
         },
         error =>
@@ -361,6 +376,10 @@ export class UsuarioComponent implements OnInit {
         resultado3 =>
         {
           console.log("Usuario subido.");
+          this.pnotify.info({
+            text: "Se Guardo Usuario Correctamtne",
+            type: 'info'
+          });
           this.obtenerUsuarios();
           //se cambia a la siguiente ventana
           this.cambiarVentana("");
@@ -396,6 +415,10 @@ export class UsuarioComponent implements OnInit {
       (
         resultado => {
           console.log("eliminado correctamente escribano.");
+          this.pnotify.error({
+            text: "Se Elimino Escribano Correctamente..",
+            type: 'danger'
+          });
           return true;
       },
       error =>
@@ -411,6 +434,10 @@ export class UsuarioComponent implements OnInit {
     (
       resultado => {
         console.log("eliminado correctamente perfil.");
+        this.pnotify.error({
+          text: "Se Elimino Perfil Correctamente..",
+          type: 'danger'
+        });
         return true;
       },
       error =>
@@ -425,6 +452,10 @@ export class UsuarioComponent implements OnInit {
     (
       resultado => {
         console.log("eliminado correctamente Usuario.");
+        this.pnotify.error({
+          text: "Se Elimino Usuario Correctamente..",
+          type: 'danger'
+        });
         this.obtenerUsuarios();
         this.inicializarUsuario();
         return true;
@@ -494,6 +525,10 @@ export class UsuarioComponent implements OnInit {
           (
             resultado => {
               console.log("eliminado correctamente escribano.");
+              this.pnotify.error({
+                text: "Se Elimino Escribano Correctamente..",
+                type: 'danger'
+              });
               this.ocultarInicio();
               this.activarBotonesDeModificacion();
               this.usuario.escribano = null;
@@ -547,6 +582,10 @@ export class UsuarioComponent implements OnInit {
       (
         resultados => {
           console.log("modificado correctamente escribano.")
+          this.pnotify.success({
+            text: "Se Modificado Escribano Correctamente..",
+            type: 'success'
+          });
           this.cambiarVentana("perfil");
           return true;
           },
@@ -570,6 +609,10 @@ export class UsuarioComponent implements OnInit {
       (
         resultados => {
           console.log("modificado correctamente perfil.")
+          this.pnotify.success({
+            text: "Se Modificado Perfil Correctamente..",
+            type: 'success'
+          });
           this.cambiarVentana("usuario");
           this.usuario.tipo = this.tipoDeDestino; //Asigna el tipo de usuario nuevo
           this.imagen_u = this.usuario.imagen;
@@ -594,6 +637,10 @@ export class UsuarioComponent implements OnInit {
       (
         resultados => {
           console.log("modificado correctamente usuario.")
+          this.pnotify.success({
+            text: "Se Modificado Usuario Correctamente..",
+            type: 'success'
+          });
           this.desactivarBotonesDeModificacion();
           this.respuesta="";
           this.cambiarVentana("");
@@ -615,7 +662,7 @@ export class UsuarioComponent implements OnInit {
   noCambiarUsuario()
   {
     this.cambiarVentana("");
-    this.inicializarUsuario();  
+    this.inicializarUsuario();
     this.mostrarInicio();
     this.tipo = "";
     this.desactivarBotonesDeModificacion();
@@ -629,72 +676,72 @@ export class UsuarioComponent implements OnInit {
       //Aqui preguntamos si el usuario tiene un id indefinido. Es un nuevo usuario
       if( this.usuario.id == undefined )
       {
-        for( let usuario of this.usuarios ) 
+        for( let usuario of this.usuarios )
         {
           if(this.usuario.username == usuario.username)
           {
             encontrado = true ;
-            break; //Si lo encuentra deja de 
+            break; //Si lo encuentra deja de
           }
         }
       }
       else
       {
         //Quiere decir que tiene un id
-        for( let usuario of this.usuarios ) 
+        for( let usuario of this.usuarios )
         {
           if(this.usuario.username == usuario.username && this.usuario.id != usuario.id  )
           {
             encontrado = true ;
-            break; //Si lo encuentra deja de 
+            break; //Si lo encuentra deja de
           }
         }
       }
     return encontrado;
   }//
 
-  //Controlar 
+  //Controlar
   controlarEmail():boolean
   {
     let encontrado:boolean = false;
     if( this.usuario.id == undefined )
     {
-      for( let usuario of this.usuarios ) 
+      for( let usuario of this.usuarios )
       {
         if(this.usuario.email == usuario.email)
         {
           encontrado = true ;
-          break; //Si lo encuentra deja de 
+          break; //Si lo encuentra deja de
         }
       }
     }
     else
     {
       //Quiere decir que tiene un id
-      for( let usuario of this.usuarios ) 
+      for( let usuario of this.usuarios )
       {
         if(this.usuario.email == usuario.email && this.usuario.id != usuario.id  )
         {
           encontrado = true ;
-          break; //Si lo encuentra deja de 
+          break; //Si lo encuentra deja de
         }
-      }      
+      }
     }
     return encontrado;
   }///
-  
+
   //Controlar Matricula
   controlarMatricula(): boolean
   {
     let encontrado:boolean = false;
     if( this.usuario.escribano.matricula == undefined )
     {
-      for( let escribano of this.escribanos ) 
+      for( let escribano of this.escribanos )
       {
         if(this.usuario.escribano.matricula == escribano.matricula  )
         {
           encontrado = true;
-          break; //Si lo encuentra deja de 
+          break; //Si lo encuentra deja de
         }
       }
     }
@@ -718,12 +765,12 @@ export class UsuarioComponent implements OnInit {
     let encontrado:boolean = false;
     if( this.usuario.perfil.id == undefined )
     {
-      for( let perfil of this.perfiles ) 
+      for( let perfil of this.perfiles )
       {
         if(this.usuario.perfil.dni == perfil.dni  )
         {
           encontrado = true ;
-          break; //Si lo encuentra deja de 
+          break; //Si lo encuentra deja de
         }
       }
     }

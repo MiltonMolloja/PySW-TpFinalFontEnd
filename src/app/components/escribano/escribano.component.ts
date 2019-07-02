@@ -7,6 +7,8 @@ import { Escribania } from 'src/app/models/escribania';
 import * as jspdf from "jspdf";
 import { Usuario } from 'src/app/models/usuario';
 
+import { PnotifyService } from './../../services/pnotify.service';
+
 
 @Component({
   selector: 'app-escribano',
@@ -21,8 +23,9 @@ export class EscribanoComponent implements OnInit {
   usuario: Usuario;
   usuarios: Array<Usuario>;
   public submitted = false;
+  pnotify = undefined;
 
-  constructor(private escribanoService: EscribanoService, public loginService: LoginService) {
+  constructor(private escribanoService: EscribanoService, public loginService: LoginService, pnotifyService: PnotifyService) {
     this.escribano = new Escribano();
     this.escribano.escribania = new Escribania();
     this.escribanos = new Array<Escribano>();
@@ -35,6 +38,10 @@ export class EscribanoComponent implements OnInit {
     this.obtenerUsuarios();
     this.obtenerEscribanias();
     this.mostrarHistoricos();
+
+    this.pnotify = pnotifyService.getPNotify();
+    this.pnotify.alert('Notice me, senpai!');
+    this.pnotify.defaults.styling = 'bootstrap4';
    }
 
    logout(){
@@ -84,6 +91,10 @@ export class EscribanoComponent implements OnInit {
       result => {
         console.log("borrado correctamente.")
         //actualizo la tabla de mensajes
+        this.pnotify.error({
+          text: "Se Elimino Correctamente..",
+          type: 'Danger'
+        });
         this.mostrarHistoricos();
         return true;
       },
@@ -104,7 +115,11 @@ export class EscribanoComponent implements OnInit {
       });
     pdf.text("Resumen de Escribanos",80,10);
     pdf.fromHTML(id,30,20);
-    pdf.save("archivo.pdf")
+    pdf.save("archivo.pdf");
+    this.pnotify.notice({
+      text: "Se Genero Archivo PDF Correctamente..",
+      type: 'noticer'
+    });
   }
 
   public enviarEscribano() {
@@ -113,6 +128,10 @@ export class EscribanoComponent implements OnInit {
       .subscribe(
         result => {
           console.log("agregado correctamente.");
+          this.pnotify.info({
+            text: "Se Guardo Correctamtne",
+            type: 'info'
+          });
           this.mostrarHistoricos();
         },
         error => {
@@ -145,6 +164,10 @@ export class EscribanoComponent implements OnInit {
       data => {
         console.log("modificado correctamente.")
         //actualizo la tabla de mensajes
+        this.pnotify.success({
+          text: "Se Modificado Correctamente..",
+          type: 'success'
+        });
         this.mostrarHistoricos();
         return true;
       },
@@ -161,7 +184,12 @@ export class EscribanoComponent implements OnInit {
     console.log( this.escribano);
     this.escribanoService.modificarEscribano(this.escribano).subscribe(
       data => {
-        console.log("Borrado Logico correctamente.")
+        console.log("Borrado Logico correctamente.");
+        this.pnotify.error({
+          text: "Se Elimino Correctamente..",
+          type: 'danger'
+        });
+
         //actualizo la tabla de mensajes
         this.mostrarHistoricos();
         return true;

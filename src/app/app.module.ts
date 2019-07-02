@@ -36,6 +36,8 @@ import { SinCaracterEspecial, Negativo, SinEspacios, ControlarRangoDNI, SoloLetr
 import { FilterEscribaniaPipe } from './pipes/filter-escribania.pipe';
 import { FilterNovedadPipe } from './pipes/filter-novedad.pipe' ;
 
+import { PnotifyService } from './services/pnotify.service';
+
 @NgModule({
   declarations: [
     AppComponent,
@@ -62,7 +64,7 @@ import { FilterNovedadPipe } from './pipes/filter-novedad.pipe' ;
     Negativo,
     SinEspacios,
     ControlarRangoDNI,
-    SoloLetrasYEspacios, 
+    SoloLetrasYEspacios,
     FechaValida,
     ImagenValida,
     FilterEscribaniaPipe,
@@ -81,7 +83,7 @@ import { FilterNovedadPipe } from './pipes/filter-novedad.pipe' ;
       apiKey: 'AIzaSyB7p6OTrBNHwGzD85w3MilKfbKd3TBTK0k'
     })
   ],
-  providers: [ LoginService ],
+  providers: [ LoginService, PnotifyService ],
   bootstrap: [AppComponent]
 })
 export class AppModule { }
