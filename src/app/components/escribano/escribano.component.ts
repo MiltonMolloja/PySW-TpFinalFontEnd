@@ -5,6 +5,7 @@ import { Escribano } from 'src/app/models/escribano';
 import { Escribania } from 'src/app/models/escribania';
 
 import * as jspdf from "jspdf";
+import { Usuario } from 'src/app/models/usuario';
 
 
 @Component({
@@ -17,14 +18,21 @@ export class EscribanoComponent implements OnInit {
   escribanos: Array<Escribano>;
   escribania: Escribania;
   escribanias: Array<Escribania>;
-
+  usuario: Usuario;
+  usuarios: Array<Usuario>;
   public submitted = false;
 
   constructor(private escribanoService: EscribanoService, public loginService: LoginService) {
     this.escribano = new Escribano();
+    this.escribano.escribania = new Escribania();
+    this.escribanos = new Array<Escribano>();
     this.escribania = new Escribania();
     this.escribanias = new Array<Escribania>();
-    this.escribanos = new Array<Escribano>();
+    this.usuario = new Usuario();
+    this.usuario.escribano = new Escribano();
+    this.usuarios = new Array<Usuario>();
+
+    this.obtenerUsuarios();
     this.obtenerEscribanias();
     this.mostrarHistoricos();
    }
@@ -56,8 +64,10 @@ export class EscribanoComponent implements OnInit {
       .subscribe(
         result => {
           this.escribanos  = new Array<Escribano>();
+          this.escribano.escribania = new Escribania();
           result.forEach(element => {
             if (element.estado) {
+              this.escribano.id = element.id;
               this.escribanos.push(element);
             }
           });
@@ -166,6 +176,26 @@ export class EscribanoComponent implements OnInit {
   public initEscribano(){
     this.escribano = new Escribano();
     this.escribano.escribania = new Escribania();
+  }
+
+  public obtenerUsuarios() {
+    this.escribanoService.getUsuarios().subscribe(
+      result => {
+        this.usuario = new Usuario();
+        this.usuario.escribano = new Escribano();
+        result.forEach(element => {
+          //console.log(element.tipo);
+          if (element.tipo==="Socio" && element.estado) {
+            this.usuarios.push(element);
+           // console.log(this.usuarios);
+          }
+        });
+        console.log("this.usuarios");
+        console.log(this.usuarios);
+      },
+      error => {
+        alert("error en la peticion");
+      });
   }
 
 

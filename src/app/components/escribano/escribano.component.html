@@ -25,6 +25,9 @@
             <mfDefaultSorter by="id">Id</mfDefaultSorter>
           </th>
           <th>
+              Nombre
+            </th>
+          <th>
             <mfDefaultSorter by="matricula">Matricula</mfDefaultSorter>
           </th>
           <th>
@@ -44,6 +47,12 @@
       <tbody>
         <tr *ngFor="let item of mf.data">
           <td>{{item.id}}</td>
+          <td>
+              <div *ngFor="let usu of usuarios">
+                  <div *ngIf='item.id===usu.escribano.id'>
+                      {{usu.perfil.apellidos}}, {{usu.perfil.nombres}}</div>
+                </div>
+          </td>
           <td>{{item.matricula}}</td>
           <td>{{item.universidad}}</td>
           <td>{{item.escribania.nombre}}</td>
