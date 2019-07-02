@@ -100,6 +100,7 @@
                             </div>
                         </div>
                     </div>
+                    <br><br>
                     <div class="form-group">
                         <label class="col-sm-12 col-md-4" for="mensaje">Mensaje</label>
                         <input type="text" class="form-control col-sm-12 col-md-8" name="mensaje" [(ngModel)]="novedad.mensaje" #mensaje="ngModel" />
@@ -109,6 +110,7 @@
                             </div>
                         </div>
                     </div>
+                    <br><br>
                     <!--
           <div class="form-group">
             <label class="col-sm-12 col-md-4" for="fecha">Fecha</label>
@@ -121,16 +123,13 @@
             </div>
           </div>
           -->
-                    <div class="modal-footer">
-                        <input type="button" class="btn btn-default" data-dismiss="modal" value="Cancelar">
-                        <input type="submit" class="btn btn-success" value="Agregar" (click)="addNovedad()" [disabled]="!novedadForm.form.valid">
-                        <input type="reset" class="btn btn-success" value="Limpiar">
-                    </div>
+
                 </div>
                 <div class="modal-footer">
                     <input type="button" class="btn btn-default" data-dismiss="modal" (click)="initNovedad()" value="Cancelar">
-                    <input type="submit" class="btn btn-success" value="Agregar" (click)="addNovedad()">
+                    <input type="submit" class="btn btn-success" data-dismiss="modal" value="Agregar" (click)="addNovedad()">
                 </div>
+                <br>
             </form>
         </div>
     </div>
@@ -177,7 +176,7 @@
                     </div>
                     <div class="modal-footer">
                         <input type="button" class="btn btn-default" data-dismiss="modal" value="Cancelar">
-                        <input type="submit" class="btn btn-success" value="Actualizar" (click)="editNovedad()" [disabled]="!novedadForm.form.valid">
+                        <input type="submit" class="btn btn-success" data-dismiss="modal" value="Actualizar" (click)="editNovedad()" [disabled]="!novedadForm.form.valid">
                         <input type="reset" class="btn btn-success" value="Limpiar">
                     </div>
                 </div>
@@ -208,7 +207,7 @@
                 </div>
                 <div class="modal-footer">
                     <input type="button" class="btn btn-default" data-dismiss="modal" value="Cancel">
-                    <input type="submit" class="btn btn-danger" value="Eliminar" (click)="deleteLogicoNovedad()">
+                    <input type="submit" class="btn btn-danger" data-dismiss="modal" value="Eliminar" (click)="deleteLogicoNovedad()">
                 </div>
             </form>
         </div>
@@ -258,7 +257,7 @@
                 </div>
                 <div class="modal-footer">
                     <input type="button" class="btn btn-default" data-dismiss="modal" value="Cancel">
-                    <input type="submit" class="btn btn-danger" value="Confirmar PDF" (click)="generarPDF()">
+                    <input type="submit" class="btn btn-danger" data-dismiss="modal" value="Confirmar PDF" (click)="generarPDF()">
                 </div>
             </form>
         </div>
