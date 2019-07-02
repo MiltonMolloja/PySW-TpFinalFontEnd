@@ -208,7 +208,7 @@ box-shadow: none;
 border-color: #dddddd;
 }
 .modal textarea.form-control {
-resize: vertical;
+resize: horizontal;
 }
 .modal .btn {
 border-radius: 2px;

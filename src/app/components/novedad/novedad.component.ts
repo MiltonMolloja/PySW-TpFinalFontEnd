@@ -28,6 +28,8 @@ export class NovedadComponent implements OnInit {
 
   public submitted = false;
 
+  EscribanoLogeado:Escribano;
+
   constructor(private novedadService: NovedadService, public loginService: LoginService) {
     this.novedad = new Novedad();
     this.novedad.escribano = new Escribano();
@@ -36,12 +38,17 @@ export class NovedadComponent implements OnInit {
     this.escribano = new Escribano();
     this.escribanos = new Array<Escribano>();
     this.fechaString="";
+    this.loginService.userLogged.username = "socio"
+
     this.getEscribanos();
-    this.getNovedades();
+    //this.getNovedades();
+    this.obtenerEscribanoLogeado();
 
     this.usuario = new Usuario();
     this.usuarios = new Array<Usuario>();
     this.obtenerUsuarios();
+
+
 
   }
 
@@ -80,6 +87,54 @@ export class NovedadComponent implements OnInit {
           }
         });
         console.log(this.escribanos);
+      },
+      error => {
+        alert("error en la peticion");
+      });
+  }
+
+  public obtenerEscribanoLogeado() {
+    this.novedadService.getUsuarios().subscribe(
+      result => {
+        this.EscribanoLogeado = new Escribano();
+        //this.loginService.userLogged.username = "socio3"
+        console.log("this.EscribanoLogeado - Nuveo");
+        console.log(this.EscribanoLogeado);
+        console.log(this.loginService.userLogged.username);
+        result.forEach(element => {
+          console.log(element.usename === this.loginService.userLogged.username);
+          console.log(element);
+          if (element.username === this.loginService.userLogged.username) {
+            this.EscribanoLogeado = element.escribano;
+            console.log("this.EscribanoLogeado - Logeado");
+            console.log(this.EscribanoLogeado);
+            this.getNovedadesEscribano(this.EscribanoLogeado);
+          }
+        });
+      },
+      error => {
+        alert("error en la peticion");
+      });
+  }
+
+  public getNovedadesEscribano(escribano: Escribano) {
+    this.novedadService.getNovedades().subscribe(
+
+      result => {
+        this.novedades = new Array<Novedad>();
+        //this.novedades = result;
+        //console.log(this.novedad);
+        result.forEach(element => {
+          console.log(this.EscribanoLogeado);
+          console.log("this.EscribanoLogeado  +++++++++++++++++++");
+          if (element.estado && element.escribano.id == this.EscribanoLogeado.id) {
+            this.novedad = new Novedad();
+            this.novedad = element;
+            this.novedad.fecha =  new Date(element.fecha.timestamp * 1000  + 86400000);
+            this.novedades.push(this.novedad);
+            //this.novedades.push(element);
+          }
+        });
       },
       error => {
         alert("error en la peticion");
@@ -138,13 +193,16 @@ export class NovedadComponent implements OnInit {
   public addNovedad() {
     this.novedad.fecha = new Date();
     this.novedad.estado = true;
+    this.obtenerEscribanoLogeado();
+    this.novedad.escribano  = this.EscribanoLogeado;
     console.log("this.novedad");
     console.log(this.novedad);
     this.novedadService.addNovedad(this.novedad)
       .subscribe(
         result => {
           console.log("agregado novedad correctamente.");
-          this.getNovedades();
+          ///this.getNovedades();
+          this.obtenerEscribanoLogeado();
         },
         error => {
           alert("Error en añadir novedad.");
@@ -184,7 +242,8 @@ export class NovedadComponent implements OnInit {
       data => {
         console.log("modificado novedad correctamente.")
         //actualizo la tabla de novedades
-        this.getNovedades();
+        //this.getNovedades();
+        this.obtenerEscribanoLogeado();
         return true;
       },
       error => {
@@ -199,7 +258,8 @@ export class NovedadComponent implements OnInit {
       result => {
         console.log("borrado novedad correctamente.")
         //actualizo la tabla de mensajes
-        this.getNovedades();
+        //this.getNovedades();
+        this.obtenerEscribanoLogeado();
         return true;
       },
       error => {
@@ -218,7 +278,8 @@ export class NovedadComponent implements OnInit {
         data => {
           console.log("Borrado Logico correctamente.")
           //actualizo la tabla de novedades
-          this.getNovedades();
+          //this.getNovedades();
+          this.obtenerEscribanoLogeado();
           return true;
         },
         error => {
@@ -227,5 +288,4 @@ export class NovedadComponent implements OnInit {
           return false;
         });
     }
-
 }

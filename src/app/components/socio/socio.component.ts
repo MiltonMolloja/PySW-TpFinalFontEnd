@@ -89,12 +89,12 @@ export class SocioComponent implements OnInit {
         result.forEach(element => {
           console.log(element.usename === this.loginService.userLogged.username);
           console.log(element);
-          if (element.username === this.loginService.userLogged.username) {
+          //if (element.username === this.loginService.userLogged.username) {
             this.EscribanoLogeado = element.escribano;
             console.log("this.EscribanoLogeado - Logeado");
             console.log(this.EscribanoLogeado);
             this.getNovedades(this.EscribanoLogeado);
-          }
+          ///}
         });
       },
       error => {
@@ -123,7 +123,7 @@ export class SocioComponent implements OnInit {
         result.forEach(element => {
           console.log(this.EscribanoLogeado);
           console.log("this.EscribanoLogeado  +++++++++++++++++++");
-          if (element.estado && element.escribano.id == this.EscribanoLogeado.id) {
+          if (element.estado) {
             this.novedad = new Novedad();
             this.novedad = element;
             this.novedad.fecha =  new Date(element.fecha.timestamp * 1000  + 86400000);
