@@ -25,13 +25,12 @@
                             <label class="font-weight-bold" for="matricula">Numero de Matricula</label>
                             <input type="number" [(ngModel)]="usuario.escribano.matricula" ngModel placeholder="Ingrese..." class="form-control rounded font-weight-bold text-center" name="matricula" id="id_matricula" #v_matricula="ngModel" min="1" max="20000" maxlength="5" required
                                 negativo>
+                            <button type="button" class="btn btn-secondary" (click)="matricularepetida()">Consultar Matricula</button>
                             <div class="mensaje-de-error" *ngIf="v_matricula.touched && v_matricula.invalid">
                                 <div class="text-danger font-weight-bolder text-center" *ngIf="v_matricula.errors.required">Matricula requerida.</div>
                                 <div class="text-danger font-weight-bolder text-center" *ngIf="v_matricula.errors.negativo">Debe ser mayor a 0.</div>
                             </div>
-                            <div class="mensaje-de-error text-danger font-weight-bolder text-center" *ngIf="controlarMatricula();">
-                                Matricula repetida.
-                            </div>
+                            <!-- <div class="mensaje-de-error text-danger font-weight-bolder text-center" *ngIf="controlarMatricula();">-->
                         </div>
                         <div class="form-group">
                             <label class="font-weight-bold" for="universidad">Universidad de Egreso</label>

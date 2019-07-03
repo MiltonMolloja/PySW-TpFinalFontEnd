@@ -20,6 +20,8 @@ import { PnotifyService } from './../../services/pnotify.service';
   styleUrls: ['./usuario.component.css']
 })
 export class UsuarioComponent implements OnInit {
+  //Controlar valores repetidos
+  matriculaRepetida:boolean = false;
   //Para el filtrado de usuario
   filtroUsuario:string = '';
   //archivo
@@ -756,6 +758,7 @@ export class UsuarioComponent implements OnInit {
         }
       }
     }
+  
     return encontrado;
   }///
 
@@ -794,5 +797,41 @@ export class UsuarioComponent implements OnInit {
     return this.usuario.email == this.comp_email && this.usuario.password == this.comp_password;
   }
 
+  //Consultar matricula
+  matricularepetida()
+  {
+    //Si si el escribano tiene matricula null quiere decir que lo esta creando
+    if(this.usuario.escribano.id == null )
+    {
+      //Entonces se manda -1 como id
+      this.escribanoService.validarMatricula(this.usuario.escribano.matricula,-1).subscribe
+      (
+        resultados =>
+        {
+          console.log(resultados);
+        },
+        error =>
+        {
+          console.log("Error.........");
+        }
+      );   
+    }
+    else
+    {
+      //Si tiene id quiere decir que ya tiene una matricula cargada y la manda
+      this.escribanoService.validarMatricula(this.usuario.escribano.matricula,this.usuario.escribano.id).subscribe
+      (
+        resultados =>
+        {
+          console.log(resultados);
+        },
+        error =>
+        {
+          console.log("Error.........");
+        }
+      );   
+    }
+
+  }////
 
 }

@@ -71,4 +71,18 @@ export class EscribanoService {
     body, httpOption);
   }
 
+  validarMatricula(matricula:number, id:number)
+  {
+    let idYMatricula:Array<number> = [id, matricula]
+    const httpOption = {
+      headers: new HttpHeaders({
+        'Content-Type': 'application/json'
+      })
+    };
+
+    let body = JSON.stringify(idYMatricula);
+    //envio en el body el moneda transformado en un JSON
+    return this._http.post('http://localhost/PySW-TpFinal/public/index.php/escribano/validacionMatricula',body, httpOption);
+  }
+
 }
