@@ -55,4 +55,10 @@ export class EscribaniasPublicaComponent implements OnInit {
     this.lng = escribania.longitud;
   }
 
+  restaurarValores()
+  {
+    this.lat = -24.185777;
+    this.lng = -65.311159;
+  }
+
 }
