@@ -4,6 +4,7 @@ import { Injectable } from '@angular/core';
 import {HttpClient, HttpHeaders} from '@angular/common/http';
 import {Observable} from 'rxjs';
 import { Escribano } from '../models/escribano';
+import { Usuario } from '../models/usuario';
 
 
 @Injectable({
@@ -25,7 +26,7 @@ export class EscribanoService {
   getUsuarios(): Observable<any> {
     return this._http.get('http://localhost/PySW-TpFinal/public/index.php/usuario/');
   }
-  
+
   borrarEscribano(id: number){
     //utilizo el metodo delete de http que es el configurado en el deleteAction de Symfony
     return this._http.delete(('http://localhost/PySW-TpFinal/public/index.php/escribano/'+id));
@@ -54,6 +55,19 @@ export class EscribanoService {
     let body = JSON.stringify(escribano);
     //envio en el body el moneda transformado en un JSON
     return this._http.post('http://localhost/PySW-TpFinal/public/index.php/escribano/'+escribano.id+'/edit',
+    body, httpOption);
+  }
+
+  modificarUsuario(usuario:Usuario){
+    const httpOption = {
+      headers: new HttpHeaders({
+        'Content-Type': 'application/json'
+      })
+    };
+
+    let body = JSON.stringify(usuario);
+    //envio en el body el moneda transformado en un JSON
+    return this._http.post('http://localhost/PySW-TpFinal/public/index.php/escribano/'+usuario.id+'/edit',
     body, httpOption);
   }
 

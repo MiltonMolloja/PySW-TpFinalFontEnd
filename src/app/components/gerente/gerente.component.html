@@ -1,5 +1,5 @@
 <!--Aqui va el titulo y la cabecera-->
-<div class="row" *ngIf="loginService.userLogged.tipo==='Gerente'">
+<div class="row" *ngIf="loginService.userLogged.tipo==='Gerente'; else restringido">
     <div class="col-12">
         <!---  <div *ngIf="loginService.userLogged.tipo==='Gerente'">  -->
         <h1 class="text-center font-weight-bolder display-4 text-secondary">Resumenes para Gerente</h1>
@@ -333,3 +333,7 @@
 
 
 <!--Modal para generar pdf-->
+
+<ng-template #restringido>
+  <img class="img-fluid mx-auto d-block" src="./../../../assets/images/restringido.jpg" alt="Chania" width="460" height="345">
+</ng-template>

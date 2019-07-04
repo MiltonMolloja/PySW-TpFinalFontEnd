@@ -1,12 +1,4 @@
 <div class="row">
-    <div class="col-12">
-        <h1 class="text-center font-weight-bolder">Google Maps - San Salvador de Jujuy </h1>
-        <agm-map [latitude]="lat" [longitude]="lng" [zoom]="zoom">
-            <agm-marker [latitude]="lat" [longitude]="lng"></agm-marker>
-        </agm-map>
-    </div>
-</div>
-<div class="row">
     <div class="col-12 col-sm-10 col-md-8 col-lg-6 mx-auto">
         <div class="card border-dark my-3">
             <div class="card-header bg-white font-weight-bold text-center text-info">Filtrar los resultados:</div>
@@ -19,10 +11,12 @@
 
 <div class="row">
     <div class="col-12">
-        <h4 class="text-center font-weight-bold mt-2">Escribanias de Jujuy</h4>
+        <h4 class="text-center font-weight-bold mt-2">Escribanias de San Salvador de Jujuy</h4>
         <div class="card-columns mt-3">
-            <div *ngFor="let escribania of escribanias | filterEscribania: filtroEscribania " class="card">
-                <img [src]="escribania.foto" class="card-img-top" width="120px" height="120px" alt="...">
+            <div *ngFor="let escribania of escribanias | filterEscribania: filtroEscribania " class="card border-secondary">
+                <div class="card-header border-bottom-secondary ">
+                    <img [src]="escribania.foto" class="card-img-top p-2 border-dark" width="120px" height="120px" alt="...">
+                </div>
                 <div class="card-body text-center">
                     <h5 class="card-title"> {{ escribania.nombre }} </h5>
                     <p class="card-text"> {{ escribania.direccion }} </p>
@@ -31,10 +25,39 @@
                 </div>
                 <div class="card-footer">
                     <div class="d-flex justify-content-center">
-                        <button type="button" class="btn btn-outline-success" (click)="actualizarMapa( escribania );">Ir a GoogleMaps</button>
+                        <button type="button" class="btn btn-outline-success" (click)="actualizarMapa( escribania );" data-toggle="modal" data-target="#ModalGoogleMaps">Ir a GoogleMaps</button>
                     </div>
                 </div>
             </div>
         </div>
     </div>
 </div>
+
+<div class="row">
+    <div class="col-12">
+        <!--Modal de Google Maps-->
+        <div class="modal fade" id="ModalGoogleMaps">
+            <div class="modal-dialog modal-xl">
+                <div class="modal-content">
+
+                    <div class="modal-header">
+                        <h4 class="modal-title text-center">Google Maps - San Salvador de Jujuy</h4>
+                        <button type="button" class="close" data-dismiss="modal">&times;</button>
+                    </div>
+
+                    <div class="modal-body">
+                        <agm-map [latitude]="lat" [longitude]="lng" [zoom]="zoom">
+                            <agm-marker [latitude]="lat" [longitude]="lng"></agm-marker>
+                        </agm-map>
+                    </div>
+                    <div class="modal-footer">
+                        <div class="mx-auto">
+                            <button type="button" class="btn btn-outline-danger btn-lg" data-dismiss="modal">Cerrar</button>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+<!--Comentarios sobre google maps-->

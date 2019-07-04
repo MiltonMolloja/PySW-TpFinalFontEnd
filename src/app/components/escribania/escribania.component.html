@@ -1,5 +1,5 @@
 <!--<div *ngIf="loginService.userLogged.tipo==='Administrativo'">-->
-<div *ngIf="loginService.userLogged.tipo==='Administrativo'">
+<div *ngIf="loginService.userLogged.tipo==='Administrativo'; else restringido">
     <div class="row mb-auto">
         <div class="col-12 col-sm-10 col-md-8 col-lg-6 mx-auto">
             <div class="card border-dark my-5">
@@ -529,3 +529,7 @@
   </div>
 
   -->
+
+  <ng-template #restringido>
+    <img class="img-fluid mx-auto d-block" src="./../../../assets/images/restringido.jpg" alt="Chania" width="460" height="345">
+  </ng-template>

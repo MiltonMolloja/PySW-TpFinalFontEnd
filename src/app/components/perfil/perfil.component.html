@@ -1,4 +1,4 @@
-<div *ngIf="loginService.userLogged.tipo==='Administrador'" >
+<div *ngIf="loginService.userLogged.tipo==='Administrador'; else restringido" >
     <!--  <div *ngIf="loginService.userLogged.tipo==='Administrador'">  -->
   <br><br><br>
   <div class="table-title">
@@ -111,3 +111,7 @@
     </div>
   </div>
 
+
+  <ng-template #restringido>
+    <img class="img-fluid mx-auto d-block" src="./../../../assets/images/restringido.jpg" alt="Chania" width="460" height="345">
+  </ng-template>

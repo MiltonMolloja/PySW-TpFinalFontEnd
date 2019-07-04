@@ -1,7 +1,7 @@
 <!--***********************************************************************************-->
 <br>
   <!--<div *ngIf="loginService.userLogged.tipo==='Administrativo'">-->
-  <div *ngIf="loginService.userLogged.tipo==='Administrativo'">
+  <div *ngIf="loginService.userLogged.tipo==='Administrativo'; else restringido">
 
     <div class="table-title">
       <div class="row">
@@ -9,8 +9,6 @@
           <h2>Registro de <b>Escribano</b></h2>
         </div>
         <div class="col-sm-6">
-          <a (click)="initEscribano()" href="#addEmployeeModal" class="btn btn-success" data-toggle="modal"><i class="material-icons">&#xE147;</i>
-            <span>Agregar Escribano</span></a>
           <a href="#PDFEmployeeModal" class="btn btn-danger" data-toggle="modal"><i
               class="material-icons">&#xE15C;</i>
             <span>Generar Archivo PDF</span></a>
@@ -241,3 +239,7 @@
       </div>
     </div>
   </div>
+
+  <ng-template #restringido>
+    <img class="img-fluid mx-auto d-block" src="./../../../assets/images/restringido.jpg" alt="Chania" width="460" height="345">
+  </ng-template>

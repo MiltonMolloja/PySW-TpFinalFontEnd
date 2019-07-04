@@ -8,6 +8,7 @@ import * as jspdf from "jspdf";
 import { Usuario } from 'src/app/models/usuario';
 
 import { PnotifyService } from './../../services/pnotify.service';
+import { Perfil } from 'src/app/models/perfil';
 
 
 @Component({
@@ -33,6 +34,7 @@ export class EscribanoComponent implements OnInit {
     this.escribanias = new Array<Escribania>();
     this.usuario = new Usuario();
     this.usuario.escribano = new Escribano();
+    this.usuario.perfil = new Perfil();
     this.usuarios = new Array<Usuario>();
 
     this.obtenerUsuarios();
@@ -180,8 +182,13 @@ export class EscribanoComponent implements OnInit {
 
   public borrarLogicoEscribano() {
     this.escribano.estado = false;
-    this.escribano.matricula = 9999;
+    //this.escribano.matricula = 9999;
+    let escribanoBorrado = this.escribano;
     console.log( this.escribano);
+    this.borrarEscrianoDeUsuario(escribanoBorrado);
+    console.log("escribanoBorrado");
+    console.log(escribanoBorrado);
+
     this.escribanoService.modificarEscribano(this.escribano).subscribe(
       data => {
         console.log("Borrado Logico correctamente.");
@@ -201,9 +208,67 @@ export class EscribanoComponent implements OnInit {
       });
   }
 
+  public borrarEscrianoDeUsuario(escribano:Escribano){
+    this.escribanoService.getUsuarios().subscribe(
+      result => {
+        console.log(result);
+        this.usuario = new Usuario();
+        this.usuario.escribano = new Escribano();
+        this.usuario.perfil = new Perfil();
+        result.forEach(element => {
+            console.log(element);
+            console.log(escribano.id);
+            if (element.escribano  != null){
+            if ( element.escribano.id  == escribano.id) {
+              this.usuario = element;
+              this.usuario.escribano.estado= false;
+              this.usuario.escribano.matricula= 9999;
+              console.log(" this usuario carfaod");
+              console.log(this.usuario);
+
+           // console.log(this.usuarios);
+          }
+        }
+        });
+        console.log("this.actualizarUsuario();");
+        console.log(this.usuario);
+        //this.actualizarUsuario();
+      },
+      error => {
+        alert("error en la peticion");
+      });
+  }
+
+  public actualizarUsuario() {
+    //seteo nuevamente la fecha actual para el msj modificado
+    console.log(" -    console.log(usuario); ");
+    console.log(this.usuario);
+    this.escribanoService.modificarUsuario(this.usuario).subscribe(
+      data => {
+        console.log("modificado correctamente.")
+        //actualizo la tabla de mensajes
+        this.pnotify.success({
+          text: "Se Modificado Correctamente..",
+          type: 'success'
+        });
+        this.mostrarHistoricos();
+        return true;
+      },
+      error => {
+        console.error("Error updating!");
+        console.log(error);
+        return false;
+      });
+  }
+
+
+
   public initEscribano(){
     this.escribano = new Escribano();
     this.escribano.escribania = new Escribania();
+    this.usuario = new Usuario();
+    this.usuario.escribano = new Escribano();
+    this.usuario.perfil = new Perfil();
   }
 
   public obtenerUsuarios() {
