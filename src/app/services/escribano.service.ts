@@ -32,8 +32,6 @@ export class EscribanoService {
   }
 
   public sendEscribano(escribano:Escribano){
-    //console.log("Send M" + moneda);
-
     const httpOption = {
       headers: new HttpHeaders({
         'Content-Type': 'application/json'
@@ -52,7 +50,6 @@ export class EscribanoService {
     };
 
     let body = JSON.stringify(escribano);
-    //envio en el body el moneda transformado en un JSON
     return this._http.post('http://localhost/PySW-TpFinal/public/index.php/escribano/'+escribano.id+'/edit',
     body, httpOption);
   }
@@ -66,14 +63,13 @@ export class EscribanoService {
     };
 
     let body = JSON.stringify(escribano);
-    //envio en el body el moneda transformado en un JSON
     return this._http.post('http://localhost/PySW-TpFinal/public/index.php/escribano/'+escribano.id+'/borrar',
     body, httpOption);
   }
 
   validarMatricula(matricula:number, id:number)
   {
-    let idYMatricula:Array<number> = [id, matricula]
+    let idYMatricula:Array<number> = [id, matricula];
     const httpOption = {
       headers: new HttpHeaders({
         'Content-Type': 'application/json'
@@ -81,7 +77,6 @@ export class EscribanoService {
     };
 
     let body = JSON.stringify(idYMatricula);
-    //envio en el body el moneda transformado en un JSON
     return this._http.post('http://localhost/PySW-TpFinal/public/index.php/escribano/validacionMatricula',body, httpOption);
   }
 

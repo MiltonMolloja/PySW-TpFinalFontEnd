@@ -40,7 +40,6 @@ export class PerfilService {
     };
 
     let body = JSON.stringify(perfil);
-    //envio en el body el moneda transformado en un JSON
     return this._http.post('http://localhost/PySW-TpFinal/public/index.php/perfil/'+perfil.id+'/edit',
     body, httpOption);
   }
@@ -53,9 +52,21 @@ export class PerfilService {
     };
 
     let body = JSON.stringify(perfil);
-    //envio en el body el moneda transformado en un JSON
     return this._http.post('http://localhost/PySW-TpFinal/public/index.php/perfil/'+perfil.id+'/borrado',
     body, httpOption);
+  }
+
+  validarDni(dni:number, id:number)
+  {
+    let idYDni:Array<number> = [ id, dni ];
+    const httpOption = {
+      headers: new HttpHeaders({
+        'Content-Type': 'application/json'
+      })
+    };
+
+    let body = JSON.stringify(idYDni);
+    return this._http.post('http://localhost/PySW-TpFinal/public/index.php/perfil/validacionDocumento',body, httpOption); 
   }
 
 

@@ -36,7 +36,6 @@ export class UsuarioService {
     };
 
     let body = JSON.stringify(usuario);
-    //envio en el body el moneda transformado en un JSON
     return this._http.post('http://localhost/PySW-TpFinal/public/index.php/usuario/'+usuario.id+'/edit',
     body, httpOption);
   }
@@ -49,10 +48,34 @@ export class UsuarioService {
     };
 
     let body = JSON.stringify(usuario);
-    //envio en el body el moneda transformado en un JSON
     return this._http.post('http://localhost/PySW-TpFinal/public/index.php/usuario/'+usuario.id+'/borrado',
     body, httpOption);
   }
 
+  validarUsername(username:string, id:number)
+  {
+    let idYUsername:Array<any> = [id, username];
+    const httpOption = {
+      headers: new HttpHeaders({
+        'Content-Type': 'application/json'
+      })
+    };
+
+    let body = JSON.stringify(idYUsername);
+    return this._http.post('http://localhost/PySW-TpFinal/public/index.php/usuario/validacionUsername',body, httpOption);
+  }
+
+  validarCorreo(correo:string, id:number)
+  {
+    let idYCorreo:Array<any> = [id, correo];
+    const httpOption = {
+      headers: new HttpHeaders({
+        'Content-Type': 'application/json'
+      })
+    };
+
+    let body = JSON.stringify(idYCorreo);
+    return this._http.post('http://localhost/PySW-TpFinal/public/index.php/usuario/validacionCorreo',body, httpOption);
+  }
 
 }

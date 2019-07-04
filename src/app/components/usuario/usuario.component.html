@@ -88,12 +88,12 @@
                         </div>
                         <div class="form-group">
                             <label class="font-weight-bold" for="dni">DNI</label>
-                            <input type="number" [(ngModel)]="usuario.perfil.dni" ngModel placeholder="Ingrese..." class="form-control rounded font-weight-bold text-center" name="dni" id="id_dni" #v_dni="ngModel" required dni-valido>
+                            <input type="number" [(ngModel)]="usuario.perfil.dni" ngModel placeholder="Ingrese..." class="form-control rounded font-weight-bold text-center" (keyup)="controlarDNI();" name="dni" id="id_dni" #v_dni="ngModel" required dni-valido>
                             <div class="mensaje-de-error" *ngIf="v_dni.touched && v_dni.invalid">
                                 <div class="text-danger font-weight-bolder text-center" *ngIf="v_dni.errors.required">DNI requerido.</div>
-                                <div class="text-danger font-weight-bolder text-center" *ngIf="v_dni.errors.dniValido "> Debe tener un rango entre 1000000 y 100000000 </div>
+                                <div class="text-danger font-weight-bolder text-center" *ngIf="v_dni.errors.dniValido "> Debe tener un rango entre 10000000 y 100000000 </div>
                             </div>
-                            <div class="mensaje-de-error text-danger font-weight-bolder text-center" *ngIf="controlarDNI();">
+                            <div class="mensaje-de-error text-danger font-weight-bolder text-center" *ngIf="dniRepetido">
                                 DNI repetido.
                             </div>
                         </div>
@@ -160,14 +160,15 @@
                         </div>
                         <div class="form-group">
                             <label class="font-weight-bold" for="username">Nombre de Usuario</label>
-                            <input type="text" [(ngModel)]="usuario.username" ngModel placeholder="Ingrese..." class="form-control rounded font-weight-bold text-center" name="username" id="id_username" #v_username="ngModel" required sin-espacios sin-caracter-especial minlength="5">
+                            <input type="text" [(ngModel)]="usuario.username" ngModel placeholder="Ingrese..." class="form-control rounded font-weight-bold text-center" (keyup)="controlarUsername();" name="username" id="id_username" #v_username="ngModel" required sin-espacios sin-caracter-especial
+                                minlength="5">
                             <div class="mensaje-de-error" *ngIf="v_username.touched && v_username.invalid">
                                 <div class="text-danger font-weight-bolder text-center" *ngIf="v_username.errors.required">Nombre de usuario requerido.</div>
                                 <div class="text-danger font-weight-bolder text-center" *ngIf="v_username.errors.sinEspacios">No ingrese espacios.</div>
                                 <div class="text-danger font-weight-bolder text-center" *ngIf="v_username.errors.sinCaracterEspecial">No ingrese caracteres raros.</div>
-                                <div class="text-danger font-weight-bolder text-center" *ngIf="v_username.errors.sinCaracterEspecial">Debe tener 5 o mas caracteres.</div>
+                                <div class="text-danger font-weight-bolder text-center" *ngIf="v_username.errors.minlength">Debe tener 5 o mas caracteres.</div>
                             </div>
-                            <div class="mensaje-de-error text-danger font-weight-bolder text-center" *ngIf="controlarUsername()">
+                            <div class="mensaje-de-error text-danger font-weight-bolder text-center" *ngIf="usernameRepetido">
                                 Nombre de usuario repetido.
                             </div>
                         </div>
@@ -194,13 +195,13 @@
 
                         <div class="form-group">
                             <label class="font-weight-bold" for="email">Email</label>
-                            <input type="text" [(ngModel)]="usuario.email" ngModel placeholder="Ingrese..." class="form-control rounded font-weight-bold text-center" name="email" id="id_email" #v_email="ngModel" required sin-espacios email>
+                            <input type="text" [(ngModel)]="usuario.email" ngModel placeholder="Ingrese..." class="form-control rounded font-weight-bold text-center" name="email" (keyup)="controlarEmail();" id="id_email" #v_email="ngModel" required sin-espacios email>
                             <div class="mensaje-de-error" *ngIf="v_email.touched && v_email.invalid">
                                 <div class="text-danger font-weight-bolder text-center" *ngIf="v_email.errors.required">Email requerido.</div>
                                 <div class="text-danger font-weight-bolder text-center" *ngIf="v_email.errors.sinEspacios">No ingrese espacios en blanco.</div>
                                 <div class="text-danger font-weight-bolder text-center" *ngIf="v_email.errors.email">Email invalido.</div>
                             </div>
-                            <div class="mensaje-de-error text-danger font-weight-bolder text-center" *ngIf="controlarEmail();">
+                            <div class="mensaje-de-error text-danger font-weight-bolder text-center" *ngIf="correoRepetido">
                                 Email del usuario repetido.
                             </div>
                         </div>
@@ -291,6 +292,9 @@
                                 <th>
                                     <mfDefaultSorter by="perfil.fechaNac">F.N.</mfDefaultSorter>
                                 </th>
+                                <th>
+                                    <mfDefaultSorter by="escribano.matricula">Matricula</mfDefaultSorter>
+                                </th>
                                 <th></th>
                                 <th></th>
                             </tr>
@@ -306,6 +310,7 @@
                                 <td> {{ user.perfil.apellidos }} </td>
                                 <td> {{ user.perfil.dni }} </td>
                                 <td> {{ user.perfil.fechaNac | date: 'dd/MM/yyyy' }} </td>
+                                <td><span *ngIf="user.escribano !== null ">{{ user.escribano.matricula}}</span></td>
                                 <td> <button type="button" class="btn btn-danger btn-sm" data-toggle="modal" data-target="#Eliminacion" (click)="prepararBorrado( user );">Eliminar</button> </td>
                                 <td> <button type="button" class="btn btn-warning btn-sm" data-toggle="modal" data-target="#Modificacion" (click)="prepararModificado( user );">Modificar</button> </td>
                             </tr>

@@ -22,6 +22,9 @@ import { PnotifyService } from './../../services/pnotify.service';
 export class UsuarioComponent implements OnInit {
   //Controlar valores repetidos
   matriculaRepetida:boolean = false;
+  dniRepetido:boolean = false;
+  usernameRepetido:boolean = false;
+  correoRepetido:boolean = false;
   //Para el filtrado de usuario
   filtroUsuario:string = '';
   //archivo
@@ -304,7 +307,7 @@ export class UsuarioComponent implements OnInit {
    crearPerfil( form:NgForm )
    {
     //Se pregunta si el formulario es valido
-    if( form.valid == true && !this.controlarDNI()  )
+    if( form.valid == true && !this.dniRepetido  )
     {
       this.usuario.perfil.estado = true ;
       this.usuario.perfil.fechaNac  = new Date( this.fechatemp );
@@ -370,7 +373,7 @@ export class UsuarioComponent implements OnInit {
    crearUsuario( form:NgForm )
    {
     //Se pregunta si el formulario es valido
-    if( form.valid == true && this.coincidencia() && !this.controlarUsername()  && !this.controlarEmail() )
+    if( form.valid == true && this.coincidencia() && !this.usernameRepetido && !this.correoRepetido )
     {
       this.usuario.estado = true ;
       this.usuarioService.sendUsuario(this.usuario).subscribe
@@ -604,7 +607,7 @@ export class UsuarioComponent implements OnInit {
   modificarPerfil( form:NgForm )
   {
     //Se pregunta si el formulario es valido
-    if( form.valid == true && !this.controlarDNI() )
+    if( form.valid == true && !this.dniRepetido )
     {
       this.usuario.perfil.fechaNac = new Date( this.fechatemp );
       this.perfilService.modificarPerfil(this.usuario.perfil).subscribe
@@ -633,7 +636,7 @@ export class UsuarioComponent implements OnInit {
   modificarUsuario( form:NgForm )
   {
     //Se pregunta si el formulario es valido
-    if( form.valid == true && this.coincidencia() && !this.controlarUsername()  && !this.controlarEmail() )
+    if( form.valid == true && this.coincidencia() && !this.usernameRepetido && !this.correoRepetido )
     {
       this.usuarioService.modificarUsuario(this.usuario).subscribe
       (
@@ -669,11 +672,13 @@ export class UsuarioComponent implements OnInit {
     this.tipo = "";
     this.desactivarBotonesDeModificacion();
     this.respuesta="";
+    this.obtenerUsuarios()
   }
 
   //Controla que el nombre de usuario no se repita
-  controlarUsername():boolean
+  controlarUsername()
   {
+    /*
     let encontrado:boolean = false;
       //Aqui preguntamos si el usuario tiene un id indefinido. Es un nuevo usuario
       if( this.usuario.id == undefined )
@@ -700,11 +705,71 @@ export class UsuarioComponent implements OnInit {
         }
       }
     return encontrado;
+    */
+   if(this.usuario.username.length >= 5 )
+   {
+     console.log("Entro 1.");
+     //Si el id es undefined se trata de un usario que se esta creando
+      if(  this.usuario.id == undefined )
+      {
+        console.log("Entro 2.")
+        //Se esta creando 
+        this.usuarioService.validarUsername(this.usuario.username, -1).subscribe
+        (
+          resultado =>
+          {
+            console.log("Entro 3.");
+            if( resultado == true )
+            {
+              this.usernameRepetido = true;
+            }
+            else
+            {
+              this.usernameRepetido = false;
+            }
+          },
+          error =>
+          {
+            console.log("Error al consultar username.");
+            this.usernameRepetido = false;
+          }
+        );
+      }
+      else
+      {
+        //Se trata de un usaurio ya creado
+        this.usuarioService.validarUsername(this.usuario.username, this.usuario.id).subscribe
+        (
+          resultado =>
+          {
+            if( resultado == true )
+            {
+              this.usernameRepetido = true;
+            }
+            else
+            {
+              this.usernameRepetido = false;
+            }
+          },
+          error =>
+          {
+            console.log("Error al consultar username.");
+            this.usernameRepetido = false;
+          }
+        );
+      }
+   }
+   else
+   {
+     this.usernameRepetido = false;
+   }   
+
   }//
 
   //Controlar
-  controlarEmail():boolean
+  controlarEmail()
   {
+    /*
     let encontrado:boolean = false;
     if( this.usuario.id == undefined )
     {
@@ -730,6 +795,62 @@ export class UsuarioComponent implements OnInit {
       }
     }
     return encontrado;
+    */
+   if(this.usuario.email != '' )
+   {
+     //Se pregunta si el id es undefined
+      if( this.usuario.id == undefined )
+      {
+        //Se esta creando
+        this.usuarioService.validarCorreo(this.usuario.email, -1).subscribe
+        (
+          resultado =>
+          {
+            if( resultado == true )
+            {
+              this.correoRepetido = true;
+            }
+            else
+            {
+              this.correoRepetido = false;
+            }
+          },
+          error =>
+          {
+            console.log("Error al consultar correo.");
+            this.usernameRepetido = false;
+          }
+        );
+      }
+      else
+      {
+        //Se esta editando un usuario ya creado
+        this.usuarioService.validarCorreo(this.usuario.email, this.usuario.id ).subscribe
+        (
+          resultado =>
+          {
+            if( resultado == true )
+            {
+              this.correoRepetido  = true;
+            }
+            else
+            {
+              this.correoRepetido  = false;
+            }
+          },
+          error =>
+          {
+            console.log("Error al consultar correo.");
+            this.usernameRepetido = false;
+          }
+        );
+      }
+   }
+  else
+  {
+    this.correoRepetido = false;
+  } 
+
   }///
 
   //Controlar Matricula
@@ -789,6 +910,7 @@ export class UsuarioComponent implements OnInit {
       }
       else
       {
+        //Cuando se trata de un perfil que ya existe
         this.escribanoService.validarMatricula(this.usuario.escribano.matricula, this.usuario.escribano.id ).subscribe
         (
           resultado =>
@@ -819,8 +941,9 @@ export class UsuarioComponent implements OnInit {
   }///
 
   //Controla que el dni no se repita
- controlarDNI():boolean
+ controlarDNI()
   {
+    /*
     let encontrado:boolean = false;
     if( this.usuario.perfil.id == undefined )
     {
@@ -845,6 +968,61 @@ export class UsuarioComponent implements OnInit {
       }
     }
     return encontrado;
+    */
+    if(this.usuario.perfil.dni >= 10000000 && this.usuario.perfil.dni <= 100000000  )
+    {
+      //Se pregunta si el id que tiene el perfil es indefinido
+      if( this.usuario.perfil.id == undefined )
+      {
+          //Se esta creando el perfil
+          this.perfilService.validarDni(this.usuario.perfil.dni, -1).subscribe
+          (
+            resultado =>
+            {
+                if( resultado == true )
+                {
+                  this.dniRepetido = true;
+                }
+                else
+                {
+                  this.dniRepetido = false;
+                }
+            },
+            error =>
+            {
+              console.log("Error al consultar el dni...");
+              this.dniRepetido = true;
+            }  
+          );
+      }
+      else
+      {
+        //Se trata de un perfil ya existente
+        this.perfilService.validarDni(this.usuario.perfil.dni, this.usuario.perfil.id).subscribe
+        (
+          resultado =>
+          {
+            if( resultado == true )
+            {
+              this.dniRepetido = true;
+            }
+            else
+            {
+              this.dniRepetido = false;
+            }
+          },
+          error =>
+          {
+            console.log("Error al consultar matricula...");
+            this.dniRepetido = true;
+          }
+        );
+      }
+    }
+    else
+    {
+      this.dniRepetido = false;
+    }
   }///
 
   //Revisa que concidan los emails y contraseña de control
@@ -853,41 +1031,5 @@ export class UsuarioComponent implements OnInit {
     return this.usuario.email == this.comp_email && this.usuario.password == this.comp_password;
   }
 
-  //Consultar matricula
-  matricularepetida()
-  {
-    //Si si el escribano tiene matricula null quiere decir que lo esta creando
-    if(this.usuario.escribano.id == null )
-    {
-      //Entonces se manda -1 como id
-      this.escribanoService.validarMatricula(this.usuario.escribano.matricula,-1).subscribe
-      (
-        resultados =>
-        {
-          console.log(resultados);
-        },
-        error =>
-        {
-          console.log("Error.........");
-        }
-      );   
-    }
-    else
-    {
-      //Si tiene id quiere decir que ya tiene una matricula cargada y la manda
-      this.escribanoService.validarMatricula(this.usuario.escribano.matricula,this.usuario.escribano.id).subscribe
-      (
-        resultados =>
-        {
-          console.log(resultados);
-        },
-        error =>
-        {
-          console.log("Error.........");
-        }
-      );   
-    }
-
-  }////
 
 }
