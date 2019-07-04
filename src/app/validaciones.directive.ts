@@ -76,7 +76,7 @@ export class SinEspacios {}
 export function controlarRangoDNI( c:AbstractControl )
 {
     if ( c.value == null ) return null;
-    if ( c.value <= 10000000 || c.value >= 100000000  )
+    if ( c.value < 10000000 || c.value > 100000000  )
     {
         return {dniValido: true};
     }
