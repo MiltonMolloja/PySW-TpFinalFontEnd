@@ -221,8 +221,8 @@ export class EscribanoComponent implements OnInit {
             if (element.escribano  != null){
             if ( element.escribano.id  == escribano.id) {
               this.usuario = element;
-              this.usuario.escribano.estado= false;
-              this.usuario.escribano.matricula= 9999;
+              this.usuario.escribano= null;
+              //this.usuario.escribano.matricula= 9999;
               console.log(" this usuario carfaod");
               console.log(this.usuario);
 
@@ -232,7 +232,7 @@ export class EscribanoComponent implements OnInit {
         });
         console.log("this.actualizarUsuario();");
         console.log(this.usuario);
-        //this.actualizarUsuario();
+        this.modificarUsuarioV2();
       },
       error => {
         alert("error en la peticion");
@@ -290,6 +290,31 @@ export class EscribanoComponent implements OnInit {
         alert("error en la peticion");
       });
   }
+
+  //Modificar el usuario
+  modificarUsuarioV2()
+  {
+    //Se pregunta si el formulario es valido
+    if( 0==0 )
+    {
+      this.escribanoService.modificarUsuarioV2(this.usuario).subscribe
+      (
+        resultados => {
+          console.log("modificado correctamente usuario.")
+          this.pnotify.success({
+            text: "Se Modificado Usuario Correctamente..",
+            type: 'success'
+          });
+             return true;
+          },
+          error => {
+          console.error("error al modificar usuario.");
+          console.log(error);
+          return false;
+          }
+      );
+    }
+  }///
 
 
 }

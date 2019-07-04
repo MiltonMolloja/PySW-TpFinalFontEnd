@@ -67,7 +67,7 @@ export class EscribanoService {
 
     let body = JSON.stringify(usuario);
     //envio en el body el moneda transformado en un JSON
-    return this._http.post('http://localhost/PySW-TpFinal/public/index.php/escribano/'+usuario.id+'/edit',
+    return this._http.post('http://localhost/PySW-TpFinal/public/index.php/escribano/'+usuario.id+'/editv2',
     body, httpOption);
   }
 
@@ -82,6 +82,19 @@ export class EscribanoService {
     let body = JSON.stringify(escribano);
     //envio en el body el moneda transformado en un JSON
     return this._http.post('http://localhost/PySW-TpFinal/public/index.php/escribano/'+escribano.id+'/borrar',
+    body, httpOption);
+  }
+
+  modificarUsuarioV2(usuario){
+    const httpOption = {
+      headers: new HttpHeaders({
+        'Content-Type': 'application/json'
+      })
+    };
+
+    let body = JSON.stringify(usuario);
+    //envio en el body el moneda transformado en un JSON
+    return this._http.post('http://localhost/PySW-TpFinal/public/index.php/usuario/'+usuario.id+'/edit',
     body, httpOption);
   }
 
