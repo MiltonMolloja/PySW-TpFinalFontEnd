@@ -105,6 +105,11 @@ export class UsuarioComponent implements OnInit {
     this.comp_email = "" ;
     //this.tipo = "";
     this.fechatemp = "";
+    //Las variables que se usan para controlar campos repetidos
+    this.matriculaRepetida = false;
+    this.dniRepetido = false;
+    this.usernameRepetido = false;
+    this.correoRepetido = false;
   }/////
 
   //Ocultar ventanas de inicio

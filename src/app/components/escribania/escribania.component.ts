@@ -49,7 +49,6 @@ export class EscribaniaComponent implements OnInit {
     this.borrado= true;
     this.getEscribanias();
     this.pnotify = pnotifyService.getPNotify();
-    this.pnotify.alert('Notice me, senpai!');
     this.pnotify.defaults.styling = 'bootstrap4';
 
 

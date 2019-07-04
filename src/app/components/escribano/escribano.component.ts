@@ -40,7 +40,6 @@ export class EscribanoComponent implements OnInit {
     this.mostrarHistoricos();
 
     this.pnotify = pnotifyService.getPNotify();
-    this.pnotify.alert('Notice me, senpai!');
     this.pnotify.defaults.styling = 'bootstrap4';
    }
 
