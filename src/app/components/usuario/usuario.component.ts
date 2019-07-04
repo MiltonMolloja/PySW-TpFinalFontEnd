@@ -244,7 +244,7 @@ export class UsuarioComponent implements OnInit {
   crearEscribano( form:NgForm )
   {
     //Se pregunta si el formulario es valido
-    if( form.valid == true && !this.controlarMatricula() )
+    if( form.valid == true && !this.matriculaRepetida )
     {
       this.usuario.escribano.estado = true;
       this.escribanoService.sendEscribano(this.usuario.escribano).subscribe
@@ -578,7 +578,7 @@ export class UsuarioComponent implements OnInit {
   modificarEscribano( form:NgForm )
   {
     //Se pregunta si el formulario es valido
-    if( form.valid == true && !this.controlarMatricula()  )
+    if( form.valid == true && !this.matriculaRepetida )
     {
       this.escribanoService.modificarEscribano(this.usuario.escribano).subscribe
       (
@@ -733,8 +733,9 @@ export class UsuarioComponent implements OnInit {
   }///
 
   //Controlar Matricula
-  controlarMatricula(): boolean
+  controlarMatricula()
   {
+    /*
     let encontrado:boolean = false;
     if( this.usuario.escribano.matricula == undefined )
     {
@@ -758,12 +759,67 @@ export class UsuarioComponent implements OnInit {
         }
       }
     }
-  
     return encontrado;
+    */
+   if( this.usuario.escribano.matricula > 0 )
+   {
+    
+     //Cuando esta creando
+      if( this.usuario.escribano.id == undefined )
+      {
+        this.escribanoService.validarMatricula(this.usuario.escribano.matricula, -1 ).subscribe
+        (
+          resultado =>
+          {
+              if( resultado == true )
+              {
+                this.matriculaRepetida = true;
+              }
+              else
+              {
+                this.matriculaRepetida = false;
+              }
+          },
+          error =>
+          {
+            console.log("Error al consultar matricula...");
+            this.matriculaRepetida = true;
+          }  
+        );
+      }
+      else
+      {
+        this.escribanoService.validarMatricula(this.usuario.escribano.matricula, this.usuario.escribano.id ).subscribe
+        (
+          resultado =>
+          {
+            if( resultado == true )
+            {
+              this.matriculaRepetida = true;
+            }
+            else
+            {
+              this.matriculaRepetida = false;
+            }
+          },
+          error =>
+          {
+            console.log("Error al consultar matricula...");
+            this.matriculaRepetida = true;
+          }
+        );
+      } 
+    }
+    else
+    {
+      //Si no se ingreso nada debe mantenerse en falso.
+      this.matriculaRepetida = false;
+    }
+    
   }///
 
   //Controla que el dni no se repita
-  controlarDNI():boolean
+ controlarDNI():boolean
   {
     let encontrado:boolean = false;
     if( this.usuario.perfil.id == undefined )
