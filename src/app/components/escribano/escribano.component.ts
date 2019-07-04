@@ -222,6 +222,7 @@ export class EscribanoComponent implements OnInit {
             if ( element.escribano.id  == escribano.id) {
               this.usuario = element;
               this.usuario.escribano= null;
+              this.usuario.estado= false;
               //this.usuario.escribano.matricula= 9999;
               console.log(" this usuario carfaod");
               console.log(this.usuario);
